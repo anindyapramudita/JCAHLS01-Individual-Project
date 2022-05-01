@@ -5,8 +5,11 @@ import { API_URL } from "../helper";
 import Axios from "axios";
 import { useDispatch } from "react-redux"
 import { loginAction } from "../Redux/Actions/usersAction";
+import { useNavigate, Link } from 'react-router-dom';
+
 
 const LoginPage = (props) => {
+    let navigate = useNavigate();
 
     const [openRegister, setOpenRegister] = React.useState(false)
     const [userDatabase, setUserDatabase] = React.useState([])
@@ -43,13 +46,14 @@ const LoginPage = (props) => {
                 if (passwordLogin === userDatabase[index].password) {
                     setPasswordValidity(true)
                     console.log(`login success! username / email : ${[usernameLogin]}, password: ${passwordLogin}`)
-                    // Axios.get(`${API_URL}/users?username=${usernameLogin}&password=${passwordLogin}`)
-                    //     .then((response) => {
-                    //         localStorage.setItem("tokenIdUser", response.data[0].id)
-                    //         dispatch(loginAction(response.data[0]));
-                    //     }).catch((error) => {
-                    //         console.log(error);
-                    //     })
+                    Axios.get(`${API_URL}/users?username=${usernameLogin}&password=${passwordLogin}`)
+                        .then((response) => {
+                            localStorage.setItem("tokenIdUser", response.data[0].id)
+                            dispatch(loginAction(response.data[0]));
+                            navigate('/');
+                        }).catch((error) => {
+                            console.log(error);
+                        })
                 } else {
                     setPasswordValidity(false)
                     setValidityInfo("Username and password doesn't match")
@@ -60,13 +64,14 @@ const LoginPage = (props) => {
                     if (passwordLogin === userDatabase[index].password) {
                         setPasswordValidity(true)
                         console.log(`login success! username / email : ${[usernameLogin]}, password: ${passwordLogin}`)
-                        // Axios.get(`${API_URL}/users?email=${usernameLogin}&password=${passwordLogin}`)
-                        //     .then((response) => {
-                        //         localStorage.setItem("tokenIdUser", response.data[0].id)
-                        //         dispatch(loginAction(response.data[0]));
-                        //     }).catch((error) => {
-                        //         console.log(error);
-                        //     })
+                        Axios.get(`${API_URL}/users?email=${usernameLogin}&password=${passwordLogin}`)
+                            .then((response) => {
+                                localStorage.setItem("tokenIdUser", response.data[0].id)
+                                dispatch(loginAction(response.data[0]));
+                                navigate('/');
+                            }).catch((error) => {
+                                console.log(error);
+                            })
                     } else if (index < 0) {
                         setPasswordValidity(false)
                         setValidityInfo("Email and password doesn't match")
