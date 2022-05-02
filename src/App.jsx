@@ -8,6 +8,7 @@ import Axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginAction } from './Redux/Actions/usersAction';
 import ProfilePage from './Pages/ProfilePage';
+import SigninPage from './Pages/SigninPage';
 
 function App() {
 
@@ -21,9 +22,9 @@ function App() {
   })
 
 
-  React.useEffect(() => {
-    keepLogin();
-  }, [])
+  // React.useEffect(() => {
+  //   keepLogin();
+  // }, [])
 
   const keepLogin = () => {
     let token = localStorage.getItem("tokenIdUser")
@@ -77,7 +78,7 @@ function App() {
           </>
           :
           <>
-            <Route path='/login' element={<LoginPage />} />
+            <Route path='/login' element={<SigninPage />} />
           </>
         }
 

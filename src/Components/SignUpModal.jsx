@@ -66,7 +66,6 @@ const SignUpModal = (props) => {
             setEmailValidity(false)
             setEmailInfo("Please fill in a valid email address")
         }
-
     }
 
     const handleCheckPassword = (password) => {

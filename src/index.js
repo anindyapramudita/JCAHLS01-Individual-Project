@@ -8,12 +8,32 @@ import { Provider } from 'react-redux';
 import { globalStore } from './Redux/Reducers';
 import { createStore } from 'redux';
 import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+
+const theme = createTheme({
+  palette: {
+    type: 'light',
+    primary: {
+      main: '#1F8598',
+      light: '#4B9DAC',
+      dark: '#155D6A'
+    },
+    secondary: {
+      main: '#F4A896',
+      light: '#F6B9AB',
+      dark: '#AA7569'
+    }
+  }
+});
 
 
 ReactDOM.render(
   <Provider store={createStore(globalStore)}>
     <BrowserRouter>
-      <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </BrowserRouter>,
   </Provider>,
   document.getElementById('root')

@@ -1,0 +1,309 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "fullName": "admin",
+            "username": "admin",
+            "email": "admin@Mail.com",
+            "password": "12345Abc!",
+            "status": "loggedOut",
+            "profilePicture": "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",
+            "userFollowed": [],
+            "posts": [
+                {
+                    "id": null,
+                    "image": [],
+                    "caption": "",
+                    "usedLiked": [],
+                    "userCommented": [
+                        {
+                            "username": "",
+                            "comment": "",
+                            "dateCreated": ""
+                        }
+                    ],
+                    "dateCreated": ""
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "fullName": "Anindya Pramudita",
+            "username": "anindyap",
+            "email": "anindyapramudita2111@gmail.com",
+            "password": "12345Abc!",
+            "status": "loggedOut",
+            "profilePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9NVSdpvDZZgTnhp4u4aQzo4iSZPP5PCIrHQ&usqp=CAU",
+            "userFollowed": [
+                3,
+                4,
+                5,
+                6,
+                7
+            ],
+            "posts": [
+                {
+                    "id": null,
+                    "image": [],
+                    "caption": "",
+                    "usedLiked": [],
+                    "userCommented": [
+                        {
+                            "username": "",
+                            "comment": "",
+                            "dateCreated": ""
+                        }
+                    ],
+                    "dateCreated": ""
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "fullName": "Mitchell Pritchett",
+            "username": "mitchellpritchett",
+            "email": "mitchellpritchett@gmail.com",
+            "password": "12345Abc!",
+            "status": "loggedOut",
+            "profilePicture": "https://d1i5hut471lhig.cloudfront.net/f058bdaa885dd27c6320fdb913c77803e7e6ee14.jpg",
+            "userFollowed": [],
+            "posts": [
+                {
+                    "id": null,
+                    "image": [],
+                    "caption": "",
+                    "usedLiked": [],
+                    "userCommented": [
+                        {
+                            "username": "",
+                            "comment": "",
+                            "dateCreated": ""
+                        }
+                    ],
+                    "dateCreated": ""
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "fullName": "Claire Dunphy",
+            "username": "clairedunphy",
+            "email": "clairedunphy@gmail.com",
+            "password": "12345Abc!",
+            "status": "loggedOut",
+            "profilePicture": "https://d1i5hut471lhig.cloudfront.net/ff6a7ea98e2b78251ee759b3f02d4a2f02f9c223.jpg",
+            "userFollowed": [],
+            "posts": [
+                {
+                    "id": null,
+                    "image": [],
+                    "caption": "",
+                    "usedLiked": [],
+                    "userCommented": [
+                        {
+                            "username": "",
+                            "comment": "",
+                            "dateCreated": ""
+                        }
+                    ],
+                    "dateCreated": ""
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "fullName": "Jay Pritchett",
+            "username": "jaypritchett",
+            "email": "jaypritchett@gmail.com",
+            "password": "12345Abc!",
+            "status": "loggedOut",
+            "profilePicture": "https://cdn3.whatculture.com/images/2021/03/bfe3597f01c655a3-600x338.jpg",
+            "userFollowed": [],
+            "posts": [
+                {
+                    "id": null,
+                    "image": [],
+                    "caption": "",
+                    "usedLiked": [],
+                    "userCommented": [
+                        {
+                            "username": "",
+                            "comment": "",
+                            "dateCreated": ""
+                        }
+                    ],
+                    "dateCreated": ""
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "fullName": "Phil Dunphy",
+            "username": "phildunphy",
+            "email": "phildunphy@gmail.com",
+            "password": "12345Abc!",
+            "status": "loggedOut",
+            "profilePicture": "https://pyxis.nymag.com/v1/imgs/1a5/a8b/1a2353ae4dfaf73880973701a654c5fdb8-ty-burrell-modern-family.rsquare.w330.jpg",
+            "userFollowed": [],
+            "posts": [
+                {
+                    "id": 1,
+                    "image": [
+                        "https://static0.thethingsimages.com/wordpress/wp-content/uploads/2017/02/phil.jpg"
+                    ],
+                    "caption": "Mi nombre es Felipe. Yo voy a la escuela! 👍",
+                    "usedLiked": [],
+                    "userCommented": [
+                        {
+                            "username": "",
+                            "comment": "",
+                            "dateCreated": ""
+                        }
+                    ],
+                    "dateCreated": "20220501"
+                },
+                {
+                    "id": 2,
+                    "image": [
+                        "https://static0.thethingsimages.com/wordpress/wp-content/uploads/2017/02/phil.jpg"
+                    ],
+                    "caption": "Mi nombre es Felipe. Yo voy a la escuela! 👍",
+                    "usedLiked": [],
+                    "userCommented": [
+                        {
+                            "username": "",
+                            "comment": "",
+                            "dateCreated": ""
+                        }
+                    ],
+                    "dateCreated": "20220502"
+                },
+                {
+                    "id": 3,
+                    "image": [
+                        "https://static0.thethingsimages.com/wordpress/wp-content/uploads/2017/02/phil.jpg"
+                    ],
+                    "caption": "Mi nombre es Felipe. Yo voy a la escuela! 👍",
+                    "usedLiked": [],
+                    "userCommented": [
+                        {
+                            "username": "",
+                            "comment": "",
+                            "dateCreated": ""
+                        }
+                    ],
+                    "dateCreated": "20220503"
+                },
+                {
+                    "id": 4,
+                    "image": [
+                        "https://static0.thethingsimages.com/wordpress/wp-content/uploads/2017/02/phil.jpg"
+                    ],
+                    "caption": "Mi nombre es Felipe. Yo voy a la escuela! 👍",
+                    "usedLiked": [],
+                    "userCommented": [
+                        {
+                            "username": "",
+                            "comment": "",
+                            "dateCreated": ""
+                        }
+                    ],
+                    "dateCreated": "20220504"
+                },
+                {
+                    "id": 5,
+                    "image": [
+                        "https://static0.thethingsimages.com/wordpress/wp-content/uploads/2017/02/phil.jpg"
+                    ],
+                    "caption": "Mi nombre es Felipe. Yo voy a la escuela! 👍",
+                    "usedLiked": [],
+                    "userCommented": [
+                        {
+                            "username": "",
+                            "comment": "",
+                            "dateCreated": ""
+                        }
+                    ],
+                    "dateCreated": "20220505"
+                },
+                {
+                    "id": 6,
+                    "image": [
+                        "https://static0.thethingsimages.com/wordpress/wp-content/uploads/2017/02/phil.jpg"
+                    ],
+                    "caption": "Mi nombre es Felipe. Yo voy a la escuela! 👍",
+                    "usedLiked": [],
+                    "userCommented": [
+                        {
+                            "username": "",
+                            "comment": "",
+                            "dateCreated": ""
+                        }
+                    ],
+                    "dateCreated": "20220506"
+                },
+                {
+                    "id": 7,
+                    "image": [
+                        "https://static0.thethingsimages.com/wordpress/wp-content/uploads/2017/02/phil.jpg"
+                    ],
+                    "caption": "Mi nombre es Felipe. Yo voy a la escuela! 👍",
+                    "usedLiked": [],
+                    "userCommented": [
+                        {
+                            "username": "",
+                            "comment": "",
+                            "dateCreated": ""
+                        }
+                    ],
+                    "dateCreated": "20220507"
+                },
+                {
+                    "id": 8,
+                    "image": [
+                        "https://static0.thethingsimages.com/wordpress/wp-content/uploads/2017/02/phil.jpg"
+                    ],
+                    "caption": "Mi nombre es Felipe. Yo voy a la escuela! 👍",
+                    "usedLiked": [],
+                    "userCommented": [
+                        {
+                            "username": "",
+                            "comment": "",
+                            "dateCreated": ""
+                        }
+                    ],
+                    "dateCreated": "20220508"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "fullName": "Gloria Delgado-Pritchett",
+            "username": "gloria",
+            "email": "gloriadelgado@gmail.com",
+            "password": "12345Abc!",
+            "status": "loggedOut",
+            "profilePicture": "https://cdn1.edgedatg.com/aws/v2/abc/ModernFamily/person/737258/f86f8c0abc1970276d2b1c33e419ef9a/528x528-Q90_f86f8c0abc1970276d2b1c33e419ef9a.jpg",
+            "userFollowed": [],
+            "posts": [
+                {
+                    "id": null,
+                    "image": [],
+                    "caption": "",
+                    "usedLiked": [],
+                    "userCommented": [
+                        {
+                            "username": "",
+                            "comment": "",
+                            "dateCreated": ""
+                        }
+                    ],
+                    "dateCreated": ""
+                }
+            ]
+        }
+    ],
+    "potat": {
+        "message": "dita is indeed potat"
+    }
+}

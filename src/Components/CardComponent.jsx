@@ -18,14 +18,14 @@ const CardComponent = (props) => {
         }
     })
 
-    // const getDatabase = () => {
-    //     Axios.get(`${API_URL}/users`)
-    //         .then((response) => {
-    //             setDatabase(response.data)
-    //         }).catch((error) => {
-    //             console.log(error)
-    //         })
-    // }
+    const getDatabase = () => {
+        Axios.get(`${API_URL}/users`)
+            .then((response) => {
+                setDatabase(response.data)
+            }).catch((error) => {
+                console.log(error)
+            })
+    }
 
     // React.useEffect(() => {
     //     getDatabase()
@@ -49,61 +49,61 @@ const CardComponent = (props) => {
 
     // }
 
-    const getCard = async () => {
-        try {
+    // const getCard = async () => {
+    //     try {
 
-            let posts = []
+    //         let posts = []
 
-            for (let i = 0; i < userFollowed.length; i++) {
-                let response = await Axios.get(`${API_URL}/users/${userFollowed[i]}`)
-                let userData = response.data
-                console.log(response.data)
-                for (let j = 0; j < userData.posts.length; j++) {
-                    if (userData.posts[j].id) {
-                        return <Card sx={{ maxWidth: 345 }}>
-                            <CardHeader
-                                avatar src={userData.profilePicture}
-                            />
-                        </Card>
-                    }
-                }
-            }
+    //         for (let i = 0; i < userFollowed.length; i++) {
+    //             let response = await Axios.get(`${API_URL}/users/${userFollowed[i]}`)
+    //             let userData = response.data
+    //             console.log(response.data)
+    //             for (let j = 0; j < userData.posts.length; j++) {
+    //                 if (userData.posts[j].id) {
+    //                     return <Card sx={{ maxWidth: 345 }}>
+    //                         <CardHeader
+    //                             avatar src={userData.profilePicture}
+    //                         />
+    //                     </Card>
+    //                 }
+    //             }
+    //         }
 
-            <Card sx={{ maxWidth: 345 }}>
-                <CardHeader
-                    avatar={
-                        <Avatar src={profPic} />
-                    }
-                    title={username}
-                />
-                <CardMedia
-                    component="img"
-                    height="250"
-                    image={profPic}
-                    alt={username}
-                />
-                <CardContent>
-                    <Typography variant="body2" color="text.secondary">
-                        This impressive paella is a perfect party dish and a fun meal to cook
-                        together with your guests. Add 1 cup of frozen peas along with the mussels,
-                        if you like.
-                    </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
-                        <FavoriteIcon />
-                    </IconButton>
-                    <IconButton aria-label="share">
-                        <ShareIcon />
-                    </IconButton>
-                </CardActions>
-            </Card>
+    //         <Card sx={{ maxWidth: 345 }}>
+    //             <CardHeader
+    //                 avatar={
+    //                     <Avatar src={profPic} />
+    //                 }
+    //                 title={username}
+    //             />
+    //             <CardMedia
+    //                 component="img"
+    //                 height="250"
+    //                 image={profPic}
+    //                 alt={username}
+    //             />
+    //             <CardContent>
+    //                 <Typography variant="body2" color="text.secondary">
+    //                     This impressive paella is a perfect party dish and a fun meal to cook
+    //                     together with your guests. Add 1 cup of frozen peas along with the mussels,
+    //                     if you like.
+    //                 </Typography>
+    //             </CardContent>
+    //             <CardActions disableSpacing>
+    //                 <IconButton aria-label="add to favorites">
+    //                     <FavoriteIcon />
+    //                 </IconButton>
+    //                 <IconButton aria-label="share">
+    //                     <ShareIcon />
+    //                 </IconButton>
+    //             </CardActions>
+    //         </Card>
 
 
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
     return <div className='col-12 m-auto m-3'>
 

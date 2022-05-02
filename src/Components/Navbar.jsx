@@ -3,7 +3,6 @@ import { HomeRounded } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAction } from '../Redux/Actions/usersAction';
-import { MenuComponent } from './Menu';
 import { Avatar } from '@mui/material';
 import { AvatarDropdown } from './AvatarDropdown';
 
