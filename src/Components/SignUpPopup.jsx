@@ -45,7 +45,8 @@ export default function SignUpPopup(props) {
 
 
     const handleCheckUsername = (username) => {
-        setUserDatabase(Object.values(userData))
+        setUserDatabase(userData)
+        // setUserDatabase(Object.values(userData))
         let index = userDatabase.findIndex((value, index) => value.username == username)
         if (username == "") {
             setUserValidity("null")
@@ -87,6 +88,9 @@ export default function SignUpPopup(props) {
         let checkUpperCase = "";
         let checkSymbol = "";
 
+        let symbols = `~!@#$%^&*()_-+={[}]|\:;"'<,>.?/`
+        let arraySymbols = symbols.split("")
+
         temp.forEach((value) => {
             if (value / 2) {
                 checkNumber = true;
@@ -100,13 +104,21 @@ export default function SignUpPopup(props) {
         })
 
         temp.forEach((value) => {
-            if (value.toUpperCase() == value) {
-                checkUpperCase = true;
+            if (value.toLowerCase() !== value.toUpperCase()) {
+                if (value.toLowerCase() == value) {
+                    checkLowerCase = true;
+                }
             }
         })
 
-        let symbols = `~!@#$%^&*()_-+={[}]|\:;"'<,>.?/`
-        let arraySymbols = symbols.split("")
+        temp.forEach((value) => {
+            if (value.toLowerCase() !== value.toUpperCase()) {
+                if (value.toUpperCase() == value) {
+                    checkUpperCase = true;
+                }
+            }
+        })
+
 
         for (let i = 0; i < temp.length; i++) {
             for (let k = 0; k < arraySymbols.length; k++) {
@@ -120,34 +132,37 @@ export default function SignUpPopup(props) {
             setPasswordValidity("null")
         }
 
-        if (checkLowerCase == true) {
-            if (checkUpperCase == true) {
-                if (checkNumber == true) {
-                    if (checkSymbol == true) {
-                        if (temp.length >= 8) {
-                            setPasswordInfo("Your password is strong!")
-                            setPasswordValidity(true)
-                            setPasswordConf(password)
-                        } else {
-                            setPasswordValidity(false)
-                            setPasswordInfo("Password must at least contain 8 characters")
-                        }
-                    } else {
-                        setPasswordValidity(false)
-                        setPasswordInfo("Password must include a symbol")
-                    }
-                } else {
-                    setPasswordValidity(false)
-                    setPasswordInfo("Password must include a number")
-                }
-            } else {
-                setPasswordValidity(false)
-                setPasswordInfo("Password must include an uppercase")
-            }
-        } else {
+        if (checkLowerCase !== true) {
             setPasswordValidity(false)
-            setPasswordInfo("Password must include an lowercase")
+            setPasswordInfo("Password must include a lowercase")
         }
+
+        if (checkUpperCase !== true) {
+            setPasswordValidity(false)
+            setPasswordInfo("Password must include an uppercase")
+        }
+
+        if (checkNumber !== true) {
+            setPasswordValidity(false)
+            setPasswordInfo("Password must include a number")
+        }
+
+        if (checkSymbol !== true) {
+            setPasswordValidity(false)
+            setPasswordInfo("Password must include a symbol")
+        }
+
+        if (temp.length < 8) {
+            setPasswordValidity(false)
+            setPasswordInfo("Password must at least contain 8 characters")
+        }
+
+        if (checkLowerCase && checkUpperCase && checkNumber && checkSymbol && temp.length >= 8) {
+            setPasswordInfo("Your password is strong!")
+            setPasswordValidity(true)
+            setPasswordConf(password)
+        }
+
     }
 
     const handleRecheckPassword = (passwordConfirmation) => {

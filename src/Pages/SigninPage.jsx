@@ -15,13 +15,19 @@ import { InputAdornment, IconButton, FormControl, InputLabel, OutlinedInput, For
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 import Axios from "axios";
 import { API_URL } from '../helper';
-import SignUpModal from '../Components/SignUpModal';
 import SignUpPopup from '../Components/SignUpPopup';
+import CameraIcon from '@mui/icons-material/Camera';
+import { useDispatch } from 'react-redux';
+import { loginAction } from '../Redux/Actions/usersAction';
+import { useNavigate } from 'react-router-dom';
 
 const theme = createTheme();
 
 
 const SignInPage = () => {
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [userDatabase, setUserDatabase] = React.useState()
     const [usernameLogin, setUsernameLogin] = React.useState("")
@@ -57,14 +63,14 @@ const SignInPage = () => {
                     setPasswordValidity(true)
                     setValidityInfo("")
                     console.log(`login success! username / email : ${[usernameLogin]}, password: ${passwordLogin}`)
-                    // Axios.get(`${API_URL}/users?username=${usernameLogin}&password=${passwordLogin}`)
-                    //     .then((response) => {
-                    //         localStorage.setItem("tokenIdUser", response.data[0].id)
-                    //         dispatch(loginAction(response.data[0]));
-                    //         navigate('/');
-                    // }).catch((error) => {
-                    //     console.log(error);
-                    // })
+                    Axios.get(`${API_URL}/users?username=${usernameLogin}&password=${passwordLogin}`)
+                        .then((response) => {
+                            localStorage.setItem("tokenIdUser", response.data[0].id)
+                            dispatch(loginAction(response.data[0]));
+                            navigate('/');
+                        }).catch((error) => {
+                            console.log(error);
+                        })
                 } else {
                     setPasswordValidity(false)
                     setValidityInfo("Username and password doesn't match")
@@ -76,14 +82,14 @@ const SignInPage = () => {
                         setPasswordValidity(true)
                         setValidityInfo("")
                         console.log(`login success! username / email : ${[usernameLogin]}, password: ${passwordLogin}`)
-                        // Axios.get(`${API_URL}/users?email=${usernameLogin}&password=${passwordLogin}`)
-                        //     .then((response) => {
-                        //         localStorage.setItem("tokenIdUser", response.data[0].id)
-                        //         dispatch(loginAction(response.data[0]));
-                        //         navigate('/');
-                        //     }).catch((error) => {
-                        //         console.log(error);
-                        //     })
+                        Axios.get(`${API_URL}/users?email=${usernameLogin}&password=${passwordLogin}`)
+                            .then((response) => {
+                                localStorage.setItem("tokenIdUser", response.data[0].id)
+                                dispatch(loginAction(response.data[0]));
+                                navigate('/');
+                            }).catch((error) => {
+                                console.log(error);
+                            })
                     } else {
                         setPasswordValidity(false)
                         setValidityInfo("Email and password doesn't match")
@@ -125,9 +131,9 @@ const SignInPage = () => {
                             alignItems: 'center',
                         }}
                     >
-                        {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                            <LockOutlinedIcon />
-                        </Avatar> */}
+                        <Avatar sx={{ my: 5, bgcolor: 'secondary.main' }}>
+                            <CameraIcon />
+                        </Avatar>
                         <Typography component="h1" variant="h4">
                             Welcome Back!
                         </Typography>

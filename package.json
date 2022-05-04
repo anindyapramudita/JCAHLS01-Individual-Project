@@ -24,7 +24,7 @@
     "web-vitals": "2.1.4"
   },
   "scripts": {
-    "start": "npm run start:server && react-scripts start",
+    "start": "react-scripts start",
     "start:server": "json-server -p 5000 ./json-server/db.json",
     "build": "react-scripts build",
     "test": "react-scripts test",

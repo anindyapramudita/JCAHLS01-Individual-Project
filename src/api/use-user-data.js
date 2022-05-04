@@ -3,7 +3,7 @@ import { API_URL } from "../helper";
 import Axios from "axios";
 
 export const useUserData = () => {
-    const [data, setData] = useState({});
+    const [data, setData] = useState([]);
 
     useEffect(() => {
         Axios.get(`${API_URL}/users`)
@@ -14,9 +14,9 @@ export const useUserData = () => {
             })
     }, [])
 
-    return {
+    return [
         ...data
-    }
+    ]
 };
 
 

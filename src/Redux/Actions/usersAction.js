@@ -1,5 +1,5 @@
 export const loginAction = (data) => {
-    console.log(`data dari UI:`, data)
+    // console.log(`data dari UI:`, data)
     return {
         type: "LOGIN_SUCCESS",
         payload: data
