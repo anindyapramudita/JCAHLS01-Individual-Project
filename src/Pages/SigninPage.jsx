@@ -44,7 +44,12 @@ const SignInPage = () => {
     }, [])
 
     const getUserData = () => {
-        Axios.get(`${API_URL}/users`)
+        Axios.get(`${API_URL}/users`, {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+            }
+        })
             .then((response) => {
                 setUserDatabase(response.data)
             }).catch((error) => {

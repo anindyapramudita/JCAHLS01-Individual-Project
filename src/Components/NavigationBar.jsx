@@ -20,6 +20,8 @@ import { Divider } from '@mui/material';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { Grid } from '@mui/material';
+import { Paper, InputBase } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 
 const pages = ['Products', 'Pricing', 'Blog'];
@@ -59,11 +61,34 @@ export const NavigationBar = () => {
     return (
         <AppBar position="sticky" style={{ background: 'white', boxShadow: "none" }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Container maxWidth="xl">
+                <Container >
                     <Toolbar disableGutters sx={{ height: 75 }}>
                         <IconButton onClick={() => navigate('/')}>
                             <CameraIcon sx={{ color: 'primary.main', background: 'transparent', display: 'flex' }} />
                         </IconButton>
+
+                        {/* <Paper
+                            component="form"
+                            sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
+                        >
+                            <InputBase
+                                sx={{ ml: 1, flex: 1 }}
+                                placeholder="Search"
+                                inputProps={{ 'aria-label': 'search google maps' }}
+                            />
+                            <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
+                                <SearchIcon />
+                            </IconButton>
+                            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                        </Paper> */}
+
+
+
+
+
+
+
+
 
                         <Box sx={{ ml: 2, flexGrow: 1, display: 'flex' }}>
                             <Typography
@@ -99,7 +124,7 @@ export const NavigationBar = () => {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                <MenuItem onClick={() => navigate(`/profile/${username}`)}>
+                                <MenuItem onClick={() => navigate(`/profile?username=${username}`)}>
                                     <AccountCircleOutlinedIcon sx={{ mr: 1 }} />
                                     <Typography textAlign="center">My Profile</Typography>
                                 </MenuItem>

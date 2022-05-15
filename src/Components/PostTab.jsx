@@ -8,7 +8,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import { useSelector } from 'react-redux';
 import { useUserPosts } from '../api/use-user-posts';
-import { ImageList, ImageListItem, Grid } from '@mui/material';
+import { ImageList, ImageListItem, Grid, Container } from '@mui/material';
 import UserPosts from './UserPosts';
 import UserLikedPosts from './UserLikedPosts';
 
@@ -64,19 +64,22 @@ export default function PostTab() {
 
 
     return (
-        <Box sx={{ width: '100%' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                    <Tab icon={<PhotoLibraryIcon />} iconPosition="start" label="Posts" {...a11yProps(0)} sx={{ minWidth: "50%" }} />
-                    <Tab icon={<FavoriteIcon />} iconPosition="start" label="Liked" {...a11yProps(1)} sx={{ minWidth: "50%" }} />
-                </Tabs>
+        <Container>
+
+            <Box sx={{ width: '100%' }}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
+                        <Tab icon={<PhotoLibraryIcon />} iconPosition="start" label="Posts" {...a11yProps(0)} sx={{ minWidth: "50%" }} />
+                        <Tab icon={<FavoriteIcon />} iconPosition="start" label="Liked" {...a11yProps(1)} sx={{ minWidth: "50%" }} />
+                    </Tabs>
+                </Box>
+                <TabPanel value={value} index={0}>
+                    <UserPosts />
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                    <UserLikedPosts />
+                </TabPanel>
             </Box>
-            <TabPanel value={value} index={0}>
-                <UserPosts />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-                <UserLikedPosts />
-            </TabPanel>
-        </Box>
+        </Container>
     );
 }

@@ -1,738 +1,427 @@
 {
-    "users": [
+  "users": [
+    {
+      "id": 1,
+      "fullName": "admin",
+      "username": "admin",
+      "email": "admin@Mail.com",
+      "password": "12345Abc!",
+      "status": "loggedOut",
+      "bio": "This is the admin's account",
+      "profilePicture": "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",
+      "userFollowed": []
+    },
+    {
+      "id": 2,
+      "fullName": "Anindya Pramudita",
+      "username": "anindyap",
+      "email": "anindyapramudita2111@gmail.com",
+      "password": "12345Abc!",
+      "status": "loggedOut",
+      "bio": "Here for the unlimited doggo content, obviously.",
+      "profilePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9NVSdpvDZZgTnhp4u4aQzo4iSZPP5PCIrHQ&usqp=CAU",
+      "userFollowed": [
+        "mitchellpritchett",
+        "clairedunphy",
+        "jaypritchett",
+        "phildunphy",
+        "gloria"
+      ]
+    },
+    {
+      "id": 3,
+      "fullName": "Mitchell Pritchett",
+      "username": "mitchellpritchett",
+      "email": "mitchellpritchett@gmail.com",
+      "password": "12345Abc!",
+      "status": "loggedOut",
+      "bio": "the best environmental lawyer there is",
+      "profilePicture": "https://d1i5hut471lhig.cloudfront.net/f058bdaa885dd27c6320fdb913c77803e7e6ee14.jpg",
+      "userFollowed": [
+        "anindyap",
+        "clairedunphy",
+        "jaypritchett",
+        "gloria",
+        "phildunphy"
+      ]
+    },
+    {
+      "id": 4,
+      "fullName": "Claire Dunphy",
+      "username": "clairedunphy",
+      "email": "clairedunphy@gmail.com",
+      "password": "12345Abc!",
+      "status": "loggedOut",
+      "bio": "a CEO, a mother, a boss.",
+      "profilePicture": "https://d1i5hut471lhig.cloudfront.net/ff6a7ea98e2b78251ee759b3f02d4a2f02f9c223.jpg",
+      "userFollowed": [
+        "anindyap",
+        "jaypritchett",
+        "gloria",
+        "phildunphy"
+      ]
+    },
+    {
+      "id": 5,
+      "fullName": "Jay Pritchett",
+      "username": "jaypritchett",
+      "email": "jaypritchett@gmail.com",
+      "password": "12345Abc!",
+      "status": "loggedOut",
+      "bio": "Best business in Expo Internationale du Closet",
+      "profilePicture": "https://cdn3.whatculture.com/images/2021/03/bfe3597f01c655a3-600x338.jpg",
+      "userFollowed": [
+        "anindyap",
+        "gloria",
+        "mitchellpritchett",
+        "clairedunphy"
+      ]
+    },
+    {
+      "id": 6,
+      "fullName": "Phil Dunphy",
+      "username": "phildunphy",
+      "email": "phildunphy@gmail.com",
+      "password": "12345Abc!",
+      "status": "loggedOut",
+      "bio": "Follow for more Phil's-osophies. You're welcome.",
+      "profilePicture": "https://pyxis.nymag.com/v1/imgs/1a5/a8b/1a2353ae4dfaf73880973701a654c5fdb8-ty-burrell-modern-family.rsquare.w330.jpg",
+      "userFollowed": [
+        "anindyap",
+        "clairedunphy",
+        "gloria",
+        "jaypritchett",
+        "mitchellpritchett"
+      ]
+    },
+    {
+      "id": 7,
+      "fullName": "Gloria Delgado-Pritchett",
+      "username": "gloria",
+      "email": "gloriadelgado@gmail.com",
+      "password": "12345Abc!",
+      "status": "loggedOut",
+      "bio": "Hola everybody!",
+      "profilePicture": "https://cdn1.edgedatg.com/aws/v2/abc/ModernFamily/person/737258/f86f8c0abc1970276d2b1c33e419ef9a/528x528-Q90_f86f8c0abc1970276d2b1c33e419ef9a.jpg",
+      "userFollowed": [
+        "anindyap",
+        "jaypritchett",
+        "phildunphy"
+      ]
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "username": "phildunphy",
+      "image": [
+        "https://www.hollywoodintoto.com/wp-content/uploads/2021/10/modern-family-best-sitcom-ever-2.jpg"
+      ],
+      "caption": "Mi nombre es Felipe. Yo voy a la escuela! 👍",
+      "userLiked": [
+        "anindyap",
+        "gloria",
+        "mitchellpritchett"
+      ],
+      "comments": [
         {
-            "id": 1,
-            "fullName": "admin",
-            "username": "admin",
-            "email": "admin@Mail.com",
-            "password": "12345Abc!",
-            "status": "loggedOut",
-            "profilePicture": "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",
-            "userFollowed": [],
-            "posts": [
-                {
-                    "id": null,
-                    "image": [],
-                    "caption": "",
-                    "userLiked": [],
-                    "comments": [
-                        {
-                            "username": "",
-                            "comment": "",
-                            "dateCreated": ""
-                        }
-                    ],
-                    "dateCreated": ""
-                }
-            ]
-        },
-        {
-            "id": 2,
-            "fullName": "Anindya Pramudita",
-            "username": "anindyap",
-            "email": "anindyapramudita2111@gmail.com",
-            "password": "12345Abc!",
-            "status": "loggedOut",
-            "profilePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9NVSdpvDZZgTnhp4u4aQzo4iSZPP5PCIrHQ&usqp=CAU",
-            "userFollowed": [
-                "mitchellpritchett",
-                "clairedunphy",
-                "jaypritchett",
-                "phildunphy",
-                "gloria"
-            ],
-            "posts": [
-                {
-                    "id": null,
-                    "image": [],
-                    "caption": "",
-                    "userLiked": [],
-                    "comments": [
-                        {
-                            "username": "",
-                            "comment": "",
-                            "dateCreated": ""
-                        }
-                    ],
-                    "dateCreated": ""
-                }
-            ]
-        },
-        {
-            "id": 3,
-            "fullName": "Mitchell Pritchett",
-            "username": "mitchellpritchett",
-            "email": "mitchellpritchett@gmail.com",
-            "password": "12345Abc!",
-            "status": "loggedOut",
-            "profilePicture": "https://d1i5hut471lhig.cloudfront.net/f058bdaa885dd27c6320fdb913c77803e7e6ee14.jpg",
-            "userFollowed": [
-                "anindyap",
-                "clairedunphy",
-                "jaypritchett",
-                "gloria",
-                "phildunphy"
-            ],
-            "posts": [
-                {
-                    "id": null,
-                    "image": [],
-                    "caption": "",
-                    "userLiked": [],
-                    "comments": [
-                        {
-                            "username": "",
-                            "comment": "",
-                            "dateCreated": ""
-                        }
-                    ],
-                    "dateCreated": ""
-                }
-            ]
-        },
-        {
-            "id": 4,
-            "fullName": "Claire Dunphy",
-            "username": "clairedunphy",
-            "email": "clairedunphy@gmail.com",
-            "password": "12345Abc!",
-            "status": "loggedOut",
-            "profilePicture": "https://d1i5hut471lhig.cloudfront.net/ff6a7ea98e2b78251ee759b3f02d4a2f02f9c223.jpg",
-            "userFollowed": [
-                "anindyap",
-                "jaypritchett",
-                "gloria",
-                "phildunphy"
-            ],
-            "posts": [
-                {
-                    "id": null,
-                    "image": [],
-                    "caption": "",
-                    "userLiked": [],
-                    "comments": [
-                        {
-                            "username": "",
-                            "comment": "",
-                            "dateCreated": ""
-                        }
-                    ],
-                    "dateCreated": ""
-                }
-            ]
-        },
-        {
-            "id": 5,
-            "fullName": "Jay Pritchett",
-            "username": "jaypritchett",
-            "email": "jaypritchett@gmail.com",
-            "password": "12345Abc!",
-            "status": "loggedOut",
-            "profilePicture": "https://cdn3.whatculture.com/images/2021/03/bfe3597f01c655a3-600x338.jpg",
-            "userFollowed": [
-                "anindyap",
-                "gloria",
-                "mitchellpritchett",
-                "clairedunphy"
-            ],
-            "posts": [
-                {
-                    "id": null,
-                    "image": [],
-                    "caption": "",
-                    "userLiked": [],
-                    "comments": [
-                        {
-                            "username": "",
-                            "comment": "",
-                            "dateCreated": ""
-                        }
-                    ],
-                    "dateCreated": ""
-                }
-            ]
-        },
-        {
-            "id": 6,
-            "fullName": "Phil Dunphy",
-            "username": "phildunphy",
-            "email": "phildunphy@gmail.com",
-            "password": "12345Abc!",
-            "status": "loggedOut",
-            "profilePicture": "https://pyxis.nymag.com/v1/imgs/1a5/a8b/1a2353ae4dfaf73880973701a654c5fdb8-ty-burrell-modern-family.rsquare.w330.jpg",
-            "userFollowed": [
-                "anindyap",
-                "clairedunphy",
-                "gloria",
-                "jaypritchett",
-                "mitchellpritchett"
-            ],
-            "posts": [
-                {
-                    "id": 1,
-                    "image": [
-                        "https://www.hollywoodintoto.com/wp-content/uploads/2021/10/modern-family-best-sitcom-ever-2.jpg"
-                    ],
-                    "caption": "Mi nombre es Felipe. Yo voy a la escuela! 👍",
-                    "userLiked": [
-                        2
-                    ],
-                    "comments": [
-                        {
-                            "username": "",
-                            "comment": "",
-                            "dateCreated": ""
-                        }
-                    ],
-                    "dateCreated": "20220501"
-                },
-                {
-                    "id": 2,
-                    "image": [
-                        "https://i.pinimg.com/originals/d1/24/2e/d1242ec98106d3cffb676619b8a147b7.jpg"
-                    ],
-                    "caption": "Here to share some phil's-osophies",
-                    "userLiked": [
-                        2
-                    ],
-                    "comments": [
-                        {
-                            "username": "",
-                            "comment": "",
-                            "dateCreated": ""
-                        }
-                    ],
-                    "dateCreated": "20220502"
-                },
-                {
-                    "id": 3,
-                    "image": [
-                        "https://tv-fanatic-res.cloudinary.com/iu/s--UkQwvnyZ--/f_auto,q_auto/v1455075426/declutter-modern-family"
-                    ],
-                    "caption": "Rocking this awesome hat 👒",
-                    "userLiked": [
-                        2
-                    ],
-                    "comments": [
-                        {
-                            "username": "",
-                            "comment": "",
-                            "dateCreated": ""
-                        }
-                    ],
-                    "dateCreated": "20220503"
-                },
-                {
-                    "id": 4,
-                    "image": [
-                        "https://cdn.fame10.com/eyJidWNrZXQiOiJwdWItc3RvcmFnZSIsImtleSI6ImZhbWUxMC93cC1jb250ZW50L3VwbG9hZHMvMjAxNS8xMS9UaGUtQnV0bGVycy1Fc2NhcGUtTW9kZXJuLUZhbWlseTEuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxMDAwLCJoZWlnaHQiOjU2MywiZml0IjoiY292ZXIiLCJiYWNrZ3JvdW5kIjp7InIiOjAsImciOjAsImIiOjAsImFscGhhIjoxfSwicG9zaXRpb24iOiJ0b3AifX19"
-                    ],
-                    "caption": "Magic is the best",
-                    "userLiked": [],
-                    "comments": [
-                        {
-                            "username": "",
-                            "comment": "",
-                            "dateCreated": ""
-                        }
-                    ],
-                    "dateCreated": "20220504"
-                },
-                {
-                    "id": 5,
-                    "image": [
-                        "https://m.media-amazon.com/images/M/MV5BMDkzMjUzNDYtYjNkMS00ZjdjLWJlMjAtNzRjMDlkNmFhMGEwXkEyXkFqcGdeQXVyMzQ2MDI5NjU@._V1_.jpg"
-                    ],
-                    "caption": "Best day ever",
-                    "userLiked": [
-                        2
-                    ],
-                    "comments": [
-                        {
-                            "username": "",
-                            "comment": "",
-                            "dateCreated": ""
-                        }
-                    ],
-                    "dateCreated": "20220505"
-                },
-                {
-                    "id": 6,
-                    "image": [
-                        "https://m.media-amazon.com/images/M/MV5BMTMyMTQ5Njk5NV5BMl5BanBnXkFtZTcwOTI2NjM5Ng@@._V1_.jpg"
-                    ],
-                    "caption": "Go bullfrogs! Grrrr!",
-                    "userLiked": [],
-                    "comments": [
-                        {
-                            "username": "",
-                            "comment": "",
-                            "dateCreated": ""
-                        }
-                    ],
-                    "dateCreated": "20220506"
-                },
-                {
-                    "id": 7,
-                    "image": [
-                        "https://pyxis.nymag.com/v1/imgs/a34/b56/592ba262ba223cc692508e07b7595bb7de-07-modern-family.2x.h473.w710.jpg"
-                    ],
-                    "caption": "Just golfing",
-                    "userLiked": [
-                        2
-                    ],
-                    "comments": [
-                        {
-                            "username": "",
-                            "comment": "",
-                            "dateCreated": ""
-                        }
-                    ],
-                    "dateCreated": "20220507"
-                },
-                {
-                    "id": 8,
-                    "image": [
-                        "https://www.looper.com/img/gallery/the-best-phil-dunphy-moments-on-modern-family/l-intro-1599752994.jpg"
-                    ],
-                    "caption": "Sharing some knowledge",
-                    "userLiked": [
-                        2
-                    ],
-                    "comments": [
-                        {
-                            "username": "",
-                            "comment": "",
-                            "dateCreated": ""
-                        }
-                    ],
-                    "dateCreated": "20220507"
-                },
-                {
-                    "id": 9,
-                    "image": [
-                        "https://www.oregonlive.com/resizer/oMbKVzr2bMZiwnluq0x5ahqyHb4=/1280x0/smart/advancelocal-adapter-image-uploads.s3.amazonaws.com/image.oregonlive.com/home/olive-media/width2048/img/ent_impact_tvfilm/photo/tuburrell-emmysjpg-6cabbd22c2e14441.jpg"
-                    ],
-                    "caption": "Finally winning the SCARB",
-                    "userLiked": [],
-                    "comments": [
-                        {
-                            "username": "",
-                            "comment": "",
-                            "dateCreated": ""
-                        }
-                    ],
-                    "dateCreated": "20220507"
-                },
-                {
-                    "id": 10,
-                    "image": [
-                        "https://static0.srcdn.com/wordpress/wp-content/uploads/2020/09/clive-bixby-waiting-for-julianna-moden-family.jpg?q=50&fit=crop&w=740&h=370&dpr=1.5"
-                    ],
-                    "caption": "Just here for business",
-                    "userLiked": [
-                        2
-                    ],
-                    "comments": [
-                        {
-                            "username": "",
-                            "comment": "",
-                            "dateCreated": ""
-                        }
-                    ],
-                    "dateCreated": "20220507"
-                },
-                {
-                    "id": 11,
-                    "image": [
-                        "https://www.cheatsheet.com/wp-content/uploads/2021/05/Phil-Dunphy-.jpg"
-                    ],
-                    "caption": "5 more years",
-                    "userLiked": [],
-                    "comments": [
-                        {
-                            "username": "",
-                            "comment": "",
-                            "dateCreated": ""
-                        }
-                    ],
-                    "dateCreated": "20220507"
-                },
-                {
-                    "id": 12,
-                    "image": [
-                        "https://www.gannett-cdn.com/presto/2020/04/07/USAT/ef3bb4b7-6217-4965-8dc6-9c63c20fe0d2-155053_3503.jpg"
-                    ],
-                    "caption": "So grown up now",
-                    "userLiked": [
-                        "anindyap",
-                        "clairedunphy",
-                        "gloria",
-                        "mitchellpritchett"
-                    ],
-                    "comments": [
-                        {
-                            "username": "",
-                            "comment": "",
-                            "dateCreated": ""
-                        }
-                    ],
-                    "dateCreated": "20220508"
-                },
-                {
-                    "id": 13,
-                    "image": [
-                        "https://www.usmagazine.com/wp-content/uploads/2020/02/Modern-Family-Last-Day-of-Filming-Slide-6.jpg?quality=86&strip=all"
-                    ],
-                    "caption": "Best family picture",
-                    "userLiked": [
-                        "anindyap",
-                        "clairedunphy"
-                    ],
-                    "comments": [
-                        {
-                            "username": "",
-                            "comment": "",
-                            "dateCreated": ""
-                        }
-                    ],
-                    "dateCreated": "20220508"
-                }
-            ]
-        },
-        {
-            "id": 7,
-            "fullName": "Gloria Delgado-Pritchett",
-            "username": "gloria",
-            "email": "gloriadelgado@gmail.com",
-            "password": "12345Abc!",
-            "status": "loggedOut",
-            "profilePicture": "https://cdn1.edgedatg.com/aws/v2/abc/ModernFamily/person/737258/f86f8c0abc1970276d2b1c33e419ef9a/528x528-Q90_f86f8c0abc1970276d2b1c33e419ef9a.jpg",
-            "userFollowed": [
-                "anindyap",
-                "jaypritchett",
-                "phildunphy"
-            ],
-            "posts": [
-                {
-                    "id": null,
-                    "image": [],
-                    "caption": "",
-                    "userLiked": [],
-                    "comments": [
-                        {
-                            "username": "",
-                            "comment": "",
-                            "dateCreated": ""
-                        }
-                    ],
-                    "dateCreated": ""
-                }
-            ]
+          "username": "",
+          "comment": "",
+          "dateCreated": ""
         }
-    ],
-    "posts": [
+      ],
+      "dateCreated": "April 6, 2022"
+    },
+    {
+      "id": 2,
+      "username": "jaypritchett",
+      "image": [
+        "https://img.thedailybeast.com/image/upload/c_crop,d_placeholder_euli9k,h_675,w_1200,x_0,y_0/dpr_2.0/c_limit,w_740/fl_lossy,q_auto/v1493051370/articles/2012/01/24/does-sofia-vergara-yell-too-much/sofia-vergara-gloria-modern-family-fernandez_ppad8s"
+      ],
+      "caption": "My girls",
+      "userLiked": [
+        "clairedunphy",
+        "mitchellpritchett"
+      ],
+      "comments": [
         {
-            "id": 1,
-            "username": "phildunphy",
-            "image": [
-                "https://www.hollywoodintoto.com/wp-content/uploads/2021/10/modern-family-best-sitcom-ever-2.jpg"
-            ],
-            "caption": "Mi nombre es Felipe. Yo voy a la escuela! 👍",
-            "userLiked": [
-                "anindyap",
-                "gloria",
-                "mitchellpritchett"
-            ],
-            "comments": [
-                {
-                    "username": "",
-                    "comment": "",
-                    "dateCreated": ""
-                }
-            ],
-            "dateCreated": "April 6, 2022"
-        },
-        {
-            "id": 2,
-            "username": "jaypritchett",
-            "image": [
-                "https://img.thedailybeast.com/image/upload/c_crop,d_placeholder_euli9k,h_675,w_1200,x_0,y_0/dpr_2.0/c_limit,w_740/fl_lossy,q_auto/v1493051370/articles/2012/01/24/does-sofia-vergara-yell-too-much/sofia-vergara-gloria-modern-family-fernandez_ppad8s"
-            ],
-            "caption": "My girls",
-            "userLiked": [
-                "clairedunphy",
-                "mitchellpritchett"
-            ],
-            "comments": [
-                {
-                    "username": "gloria",
-                    "comment": "Why are you doing this Jay?!?!",
-                    "dateCreated": "April 9, 2022"
-                }
-            ],
-            "dateCreated": "April 7, 2022"
-        },
-        {
-            "id": 3,
-            "username": "phildunphy",
-            "image": [
-                "https://tv-fanatic-res.cloudinary.com/iu/s--UkQwvnyZ--/f_auto,q_auto/v1455075426/declutter-modern-family"
-            ],
-            "caption": "Rocking this awesome hat 👒",
-            "userLiked": [
-                "anindyap",
-                "gloria"
-            ],
-            "comments": [
-                {
-                    "username": "",
-                    "comment": "",
-                    "dateCreated": ""
-                }
-            ],
-            "dateCreated": "April 10, 2022"
-        },
-        {
-            "id": 4,
-            "username": "phildunphy",
-            "image": [
-                "https://cdn.fame10.com/eyJidWNrZXQiOiJwdWItc3RvcmFnZSIsImtleSI6ImZhbWUxMC93cC1jb250ZW50L3VwbG9hZHMvMjAxNS8xMS9UaGUtQnV0bGVycy1Fc2NhcGUtTW9kZXJuLUZhbWlseTEuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxMDAwLCJoZWlnaHQiOjU2MywiZml0IjoiY292ZXIiLCJiYWNrZ3JvdW5kIjp7InIiOjAsImciOjAsImIiOjAsImFscGhhIjoxfSwicG9zaXRpb24iOiJ0b3AifX19"
-            ],
-            "caption": "Magic is the best",
-            "userLiked": [],
-            "comments": [
-                {
-                    "username": "",
-                    "comment": "",
-                    "dateCreated": ""
-                }
-            ],
-            "dateCreated": "April 15, 2022"
-        },
-        {
-            "id": 5,
-            "username": "phildunphy",
-            "image": [
-                "https://m.media-amazon.com/images/M/MV5BMDkzMjUzNDYtYjNkMS00ZjdjLWJlMjAtNzRjMDlkNmFhMGEwXkEyXkFqcGdeQXVyMzQ2MDI5NjU@._V1_.jpg"
-            ],
-            "caption": "Best day ever",
-            "userLiked": [
-                "anindyap",
-                "mitchellpritchett"
-            ],
-            "comments": [
-                {
-                    "username": "",
-                    "comment": "",
-                    "dateCreated": ""
-                }
-            ],
-            "dateCreated": "April 16, 2022"
-        },
-        {
-            "id": 6,
-            "username": "phildunphy",
-            "image": [
-                "https://m.media-amazon.com/images/M/MV5BMTMyMTQ5Njk5NV5BMl5BanBnXkFtZTcwOTI2NjM5Ng@@._V1_.jpg"
-            ],
-            "caption": "Go bullfrogs! Grrrr!",
-            "userLiked": [
-                "gloria"
-            ],
-            "comments": [
-                {
-                    "username": "",
-                    "comment": "",
-                    "dateCreated": ""
-                }
-            ],
-            "dateCreated": "April 17, 2022"
-        },
-        {
-            "id": 7,
-            "username": "phildunphy",
-            "image": [
-                "https://pyxis.nymag.com/v1/imgs/a34/b56/592ba262ba223cc692508e07b7595bb7de-07-modern-family.2x.h473.w710.jpg"
-            ],
-            "caption": "Just golfing",
-            "userLiked": [
-                "anindyap",
-                "mitchellpritchett"
-            ],
-            "comments": [
-                {
-                    "username": "",
-                    "comment": "",
-                    "dateCreated": ""
-                }
-            ],
-            "dateCreated": "April 18, 2022"
-        },
-        {
-            "id": 8,
-            "username": "phildunphy",
-            "image": [
-                "https://www.looper.com/img/gallery/the-best-phil-dunphy-moments-on-modern-family/l-intro-1599752994.jpg"
-            ],
-            "caption": "Sharing some knowledge",
-            "userLiked": [
-                "anindyap",
-                "gloria"
-            ],
-            "comments": [
-                {
-                    "username": "",
-                    "comment": "",
-                    "dateCreated": ""
-                }
-            ],
-            "dateCreated": "April 20, 2022"
-        },
-        {
-            "id": 9,
-            "username": "phildunphy",
-            "image": [
-                "https://www.oregonlive.com/resizer/oMbKVzr2bMZiwnluq0x5ahqyHb4=/1280x0/smart/advancelocal-adapter-image-uploads.s3.amazonaws.com/image.oregonlive.com/home/olive-media/width2048/img/ent_impact_tvfilm/photo/tuburrell-emmysjpg-6cabbd22c2e14441.jpg"
-            ],
-            "caption": "Finally winning the SCARB",
-            "userLiked": [
-                "gloria",
-                "anindyap"
-            ],
-            "comments": [
-                {
-                    "username": "",
-                    "comment": "",
-                    "dateCreated": ""
-                }
-            ],
-            "dateCreated": "April 25, 2022"
-        },
-        {
-            "id": 10,
-            "username": "phildunphy",
-            "image": [
-                "https://static0.srcdn.com/wordpress/wp-content/uploads/2020/09/clive-bixby-waiting-for-julianna-moden-family.jpg?q=50&fit=crop&w=740&h=370&dpr=1.5"
-            ],
-            "caption": "Just here for business",
-            "userLiked": [
-                "gloria"
-            ],
-            "comments": [
-                {
-                    "username": "",
-                    "comment": "",
-                    "dateCreated": ""
-                }
-            ],
-            "dateCreated": "April 27, 2022"
-        },
-        {
-            "id": 11,
-            "username": "phildunphy",
-            "image": [
-                "https://www.cheatsheet.com/wp-content/uploads/2021/05/Phil-Dunphy-.jpg"
-            ],
-            "caption": "5 more years",
-            "userLiked": [
-                "clairedunphy"
-            ],
-            "comments": [
-                {
-                    "username": "",
-                    "comment": "",
-                    "dateCreated": ""
-                }
-            ],
-            "dateCreated": "April 28, 2022"
-        },
-        {
-            "id": 12,
-            "username": "phildunphy",
-            "image": [
-                "https://www.gannett-cdn.com/presto/2020/04/07/USAT/ef3bb4b7-6217-4965-8dc6-9c63c20fe0d2-155053_3503.jpg"
-            ],
-            "caption": "So grown up now",
-            "userLiked": [
-                "anindyap",
-                "clairedunphy",
-                "gloria",
-                "mitchellpritchett"
-            ],
-            "comments": [
-                {
-                    "username": "",
-                    "comment": "",
-                    "dateCreated": ""
-                }
-            ],
-            "dateCreated": "May 01, 2022"
-        },
-        {
-            "id": 13,
-            "username": "anindyap",
-            "image": [
-                "https://www.smartcompany.com.au/wp-content/uploads/2019/10/Hey-Tiger-x-Tofu.jpg"
-            ],
-            "caption": "Hey Tiger 😉",
-            "userLiked": [
-                "phildunphy",
-                "clairedunphy",
-                "gloria",
-                "mitchellpritchett",
-                "jaypritchett"
-            ],
-            "comments": [
-                {
-                    "username": "",
-                    "comment": "",
-                    "dateCreated": ""
-                }
-            ],
-            "dateCreated": "May 02, 2022"
-        },
-        {
-            "id": 14,
-            "username": "phildunphy",
-            "image": [
-                "https://i.pinimg.com/originals/d1/24/2e/d1242ec98106d3cffb676619b8a147b7.jpg"
-            ],
-            "caption": "Here to share some phil's-osophies",
-            "userLiked": [
-                "gloria",
-                "mitchellpritchett"
-            ],
-            "comments": [
-                {
-                    "username": "clairedunphy",
-                    "comment": "Really Phil? Why?",
-                    "dateCreated": "May 04, 2022"
-                }
-            ],
-            "dateCreated": "May 03, 2022"
-        },
-        {
-            "id": 15,
-            "username": "phildunphy",
-            "image": [
-                "https://www.usmagazine.com/wp-content/uploads/2020/02/Modern-Family-Last-Day-of-Filming-Slide-6.jpg?quality=86&strip=all"
-            ],
-            "caption": "Best family picture",
-            "userLiked": [
-                "anindyap",
-                "clairedunphy",
-                "gloria",
-                "mitchellpritchett"
-            ],
-            "comments": [
-                {
-                    "username": "",
-                    "comment": "",
-                    "dateCreated": ""
-                }
-            ],
-            "dateCreated": "May 04, 2022"
+          "username": "gloria",
+          "comment": "Why are you doing this Jay?!?!",
+          "dateCreated": "April 9, 2022"
         }
-    ]
+      ],
+      "dateCreated": "April 7, 2022"
+    },
+    {
+      "id": 3,
+      "username": "phildunphy",
+      "image": [
+        "https://tv-fanatic-res.cloudinary.com/iu/s--UkQwvnyZ--/f_auto,q_auto/v1455075426/declutter-modern-family"
+      ],
+      "caption": "Rocking this awesome hat 👒",
+      "userLiked": [
+        "anindyap",
+        "gloria"
+      ],
+      "comments": [
+        {
+          "username": "",
+          "comment": "",
+          "dateCreated": ""
+        }
+      ],
+      "dateCreated": "April 10, 2022"
+    },
+    {
+      "id": 4,
+      "username": "phildunphy",
+      "image": [
+        "https://cdn.fame10.com/eyJidWNrZXQiOiJwdWItc3RvcmFnZSIsImtleSI6ImZhbWUxMC93cC1jb250ZW50L3VwbG9hZHMvMjAxNS8xMS9UaGUtQnV0bGVycy1Fc2NhcGUtTW9kZXJuLUZhbWlseTEuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxMDAwLCJoZWlnaHQiOjU2MywiZml0IjoiY292ZXIiLCJiYWNrZ3JvdW5kIjp7InIiOjAsImciOjAsImIiOjAsImFscGhhIjoxfSwicG9zaXRpb24iOiJ0b3AifX19"
+      ],
+      "caption": "Magic is the best",
+      "userLiked": [],
+      "comments": [
+        {
+          "username": "",
+          "comment": "",
+          "dateCreated": ""
+        }
+      ],
+      "dateCreated": "April 15, 2022"
+    },
+    {
+      "id": 5,
+      "username": "phildunphy",
+      "image": [
+        "https://m.media-amazon.com/images/M/MV5BMDkzMjUzNDYtYjNkMS00ZjdjLWJlMjAtNzRjMDlkNmFhMGEwXkEyXkFqcGdeQXVyMzQ2MDI5NjU@._V1_.jpg"
+      ],
+      "caption": "Best day ever",
+      "userLiked": [
+        "anindyap",
+        "mitchellpritchett"
+      ],
+      "comments": [
+        {
+          "username": "",
+          "comment": "",
+          "dateCreated": ""
+        }
+      ],
+      "dateCreated": "April 16, 2022"
+    },
+    {
+      "id": 6,
+      "username": "phildunphy",
+      "image": [
+        "https://m.media-amazon.com/images/M/MV5BMTMyMTQ5Njk5NV5BMl5BanBnXkFtZTcwOTI2NjM5Ng@@._V1_.jpg"
+      ],
+      "caption": "Go bullfrogs! Grrrr!",
+      "userLiked": [
+        "gloria"
+      ],
+      "comments": [
+        {
+          "username": "",
+          "comment": "",
+          "dateCreated": ""
+        }
+      ],
+      "dateCreated": "April 17, 2022"
+    },
+    {
+      "id": 7,
+      "username": "phildunphy",
+      "image": [
+        "https://pyxis.nymag.com/v1/imgs/a34/b56/592ba262ba223cc692508e07b7595bb7de-07-modern-family.2x.h473.w710.jpg"
+      ],
+      "caption": "Just golfing",
+      "userLiked": [
+        "anindyap",
+        "mitchellpritchett"
+      ],
+      "comments": [
+        {
+          "username": "",
+          "comment": "",
+          "dateCreated": ""
+        }
+      ],
+      "dateCreated": "April 18, 2022"
+    },
+    {
+      "id": 8,
+      "username": "phildunphy",
+      "image": [
+        "https://www.looper.com/img/gallery/the-best-phil-dunphy-moments-on-modern-family/l-intro-1599752994.jpg"
+      ],
+      "caption": "Sharing some knowledge",
+      "userLiked": [
+        "anindyap",
+        "gloria"
+      ],
+      "comments": [
+        {
+          "username": "",
+          "comment": "",
+          "dateCreated": ""
+        }
+      ],
+      "dateCreated": "April 20, 2022"
+    },
+    {
+      "id": 9,
+      "username": "phildunphy",
+      "image": [
+        "https://www.oregonlive.com/resizer/oMbKVzr2bMZiwnluq0x5ahqyHb4=/1280x0/smart/advancelocal-adapter-image-uploads.s3.amazonaws.com/image.oregonlive.com/home/olive-media/width2048/img/ent_impact_tvfilm/photo/tuburrell-emmysjpg-6cabbd22c2e14441.jpg"
+      ],
+      "caption": "Finally winning the SCARB",
+      "userLiked": [
+        "gloria",
+        "anindyap"
+      ],
+      "comments": [
+        {
+          "username": "",
+          "comment": "",
+          "dateCreated": ""
+        }
+      ],
+      "dateCreated": "April 25, 2022"
+    },
+    {
+      "id": 10,
+      "username": "phildunphy",
+      "image": [
+        "https://static0.srcdn.com/wordpress/wp-content/uploads/2020/09/clive-bixby-waiting-for-julianna-moden-family.jpg?q=50&fit=crop&w=740&h=370&dpr=1.5"
+      ],
+      "caption": "Just here for business",
+      "userLiked": [
+        "gloria"
+      ],
+      "comments": [
+        {
+          "username": "",
+          "comment": "",
+          "dateCreated": ""
+        }
+      ],
+      "dateCreated": "April 27, 2022"
+    },
+    {
+      "id": 11,
+      "username": "phildunphy",
+      "image": [
+        "https://www.cheatsheet.com/wp-content/uploads/2021/05/Phil-Dunphy-.jpg"
+      ],
+      "caption": "5 more years",
+      "userLiked": [
+        "clairedunphy"
+      ],
+      "comments": [
+        {
+          "username": "anindyap",
+          "comment": "halo",
+          "dateCreated": "May 5, 2022"
+        }
+      ],
+      "dateCreated": "April 28, 2022"
+    },
+    {
+      "id": 12,
+      "username": "phildunphy",
+      "image": [
+        "https://www.gannett-cdn.com/presto/2020/04/07/USAT/ef3bb4b7-6217-4965-8dc6-9c63c20fe0d2-155053_3503.jpg"
+      ],
+      "caption": "So grown up now",
+      "userLiked": [
+        "anindyap",
+        "clairedunphy",
+        "gloria",
+        "mitchellpritchett"
+      ],
+      "comments": [
+        {
+          "username": "anindyap",
+          "comment": "Wooow",
+          "dateCreated": "May 5, 2022"
+        }
+      ],
+      "dateCreated": "May 1, 2022"
+    },
+    {
+      "id": 13,
+      "username": "anindyap",
+      "image": [
+        "https://www.smartcompany.com.au/wp-content/uploads/2019/10/Hey-Tiger-x-Tofu.jpg"
+      ],
+      "caption": "Hey Tiger 😉",
+      "userLiked": [
+        "phildunphy",
+        "clairedunphy",
+        "gloria",
+        "mitchellpritchett",
+        "jaypritchett"
+      ],
+      "comments": [
+        {
+          "username": "anindyap",
+          "comment": "dsasd",
+          "dateCreated": "May 8, 2022"
+        }
+      ],
+      "dateCreated": "May 2, 2022"
+    },
+    {
+      "id": 14,
+      "username": "phildunphy",
+      "image": [
+        "https://i.pinimg.com/originals/d1/24/2e/d1242ec98106d3cffb676619b8a147b7.jpg"
+      ],
+      "caption": "Here to share some phil's-osophies",
+      "userLiked": [
+        "gloria",
+        "mitchellpritchett"
+      ],
+      "comments": [
+        {
+          "username": "clairedunphy",
+          "comment": "Really Phil? Why?",
+          "dateCreated": "May 4, 2022"
+        },
+        {
+          "username": "anindyap",
+          "comment": "cool~",
+          "dateCreated": "May 6, 2022"
+        }
+      ],
+      "dateCreated": "May 3, 2022"
+    },
+    {
+      "id": 15,
+      "username": "phildunphy",
+      "image": [
+        "https://www.usmagazine.com/wp-content/uploads/2020/02/Modern-Family-Last-Day-of-Filming-Slide-6.jpg?quality=86&strip=all"
+      ],
+      "caption": "Best family picture",
+      "userLiked": [
+        "clairedunphy",
+        "gloria",
+        "mitchellpritchett",
+        "anindyap"
+      ],
+      "comments": [
+        {
+          "username": "anindyap",
+          "comment": "So cute!",
+          "dateCreated": "May 5, 2022"
+        },
+        {
+          "username": "anindyap",
+          "comment": "halo",
+          "dateCreated": "May 8, 2022"
+        }
+      ],
+      "dateCreated": "May 4, 2022"
+    }
+  ]
 }

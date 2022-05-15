@@ -4,7 +4,8 @@ import CardComponent from '../Components/CardComponent';
 import { useUserData } from '../api/use-user-data';
 import { useUserPosts } from '../api/use-user-posts';
 import CreateButton from '../Components/CreateButton';
-
+import SideDrawer from '../Components/SideDrawer';
+import { Box } from '@mui/material';
 
 const Homepage = (props) => {
 
