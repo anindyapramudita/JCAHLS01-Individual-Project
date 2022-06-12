@@ -9,6 +9,7 @@ import { loginAction } from './Redux/Actions/usersAction';
 import ProfilePage from './Pages/ProfilePage';
 import SigninPage from './Pages/SigninPage';
 import SettingsPage from './Pages/SettingsPage';
+import SinglePostPage from './Pages/SinglePostPage';
 
 function App() {
 
@@ -38,7 +39,6 @@ function App() {
           console.log(error)
         })
     }
-
   }
 
 
@@ -63,9 +63,11 @@ function App() {
         {username ?
           <>
             <Route path='/' element={<Homepage />} />
-            <Route path={`/profile/${username}`} element={<ProfilePage />} />
+            {/* <Route path={`/profile/${username}`} element={<ProfilePage />} /> */}
+            <Route path='/profile' element={<ProfilePage />} />
             <Route path='/settings' element={<SettingsPage />} />
             <Route path='/login' element={<Navigate replace to='/' />} />
+            <Route path='/post' element={<SinglePostPage />} />
           </>
           :
           <>

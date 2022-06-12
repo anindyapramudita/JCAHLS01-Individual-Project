@@ -6,6 +6,8 @@ import { useUserPosts } from '../api/use-user-posts';
 import { Box } from '@mui/material';
 import { API_URL } from '../helper';
 import Axios from 'axios';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserPosts() {
     const { id, username } = useSelector((state) => {
@@ -17,6 +19,9 @@ export default function UserPosts() {
 
 
     const { posts } = useUserPosts(id);
+    const { search } = useLocation()
+
+    const navigate = useNavigate()
 
     const [userPosts, setUserPosts] = React.useState();
 
@@ -25,7 +30,7 @@ export default function UserPosts() {
     }, [])
 
     const getUserPosts = () => {
-        Axios.get(`${API_URL}/posts?username_like=${username}`)
+        Axios.get(`${API_URL}/posts${search}`)
             .then((response) => {
                 setUserPosts(response.data)
             }).catch((error) => {
@@ -33,31 +38,8 @@ export default function UserPosts() {
             })
     }
 
-    //     return (
-    //         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-    //             {posts && posts[0].id ?
-    //                 <ImageList sx={{ width: { xs: 350, sm: 550, md: 850, lg: 1000, xl: 1500 }, height: { xs: 350, sm: 550, md: 850, lg: 1000, xl: 1500 } }} cols={3} rowHeight={164}>
-    //                     {posts.map((item) => (
-    //                         <ImageListItem key={item.image} sx={{ m: 1 }}>
-    //                             <img
-    //                                 src={`${item.image}?w=350&h=350&fit=crop&auto=format`}
-    //                                 srcSet={`${item.image}?w=350&h=350&fit=crop&auto=format&dpr=2 2x`}
-    //                                 // src={`${item.image}`}
-    //                                 // srcSet={`${item.image}`}
-    //                                 // style={{ width: "20vw" }}
-    //                                 loading="lazy"
-    //                             />
-    //                         </ImageListItem>
-    //                     ))}
-    //                 </ImageList>
-    //                 :
-    //                 null}
-    //         </Box>
-    //     );
-    // }
-
     return (
-        <Box fullwidth sx={{ overflowY: 'scroll', mx: { sm: 2, lg: 10, xl: 20 } }}>
+        <Box fullwidth sx={{ overflowY: 'auto' }}>
             {userPosts ?
                 <ImageList variant="masonry" cols={3} gap={8}>
                     {userPosts.map((item) => (
@@ -65,10 +47,8 @@ export default function UserPosts() {
                             <img
                                 src={`${item.image}`}
                                 srcSet={`${item.image}`}
-                                // src={`${item.image}?w=248&fit=crop&auto=format`}
-                                // srcSet={`${item.image}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                                //   alt={item.title}
                                 loading="lazy"
+                                onClick={() => navigate(`/post?id=${item.id}`)}
                             />
                         </ImageListItem>
                     ))}

@@ -98,12 +98,6 @@ export default function SignUpPopup(props) {
         })
 
         temp.forEach((value) => {
-            if (value.toLowerCase() == value) {
-                checkLowerCase = true;
-            }
-        })
-
-        temp.forEach((value) => {
             if (value.toLowerCase() !== value.toUpperCase()) {
                 if (value.toLowerCase() == value) {
                     checkLowerCase = true;
@@ -188,7 +182,7 @@ export default function SignUpPopup(props) {
             >
                 <Fade in={isOpen}>
                     <Box sx={style}>
-                        <Typography id="transition-modal-title" variant="h4" component="h1" textAlign="center" sx={{ mb: 3 }}>
+                        <Typography id="transition-modal-title" variant="h4" component="h1" textAlign="center" sx={{ mb: 2 }}>
                             Nice to meet you!
                         </Typography>
                         <Grid container
@@ -200,7 +194,7 @@ export default function SignUpPopup(props) {
                             <Avatar
                                 flexItem
                                 src="https://external-preview.redd.it/-By7bUqncmznnA4tdfBQbiYBinN_7joIqL7Y64R7hMo.png?format=pjpg&auto=webp&s=3e0a96ba6c590f008b8d88da4b719bd9e60fd363"
-                                sx={{ width: 100, height: 100, mb: 3 }}
+                                sx={{ width: 80, height: 80, mb: 1 }}
                             />
                         </Grid>
                         <TextField
@@ -290,7 +284,7 @@ export default function SignUpPopup(props) {
                             type="button"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{ mt: 2, mb: 2 }}
                             color="primary"
                         >
                             Sign Up!

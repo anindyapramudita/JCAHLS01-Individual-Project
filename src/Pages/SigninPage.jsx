@@ -12,7 +12,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { InputAdornment, IconButton, FormControl, InputLabel, OutlinedInput, FormHelperText } from '@mui/material';
-import { VisibilityOff, Visibility } from '@mui/icons-material';
+import { VisibilityOff, Visibility, IndeterminateCheckBox } from '@mui/icons-material';
 import Axios from "axios";
 import { API_URL } from '../helper';
 import SignUpPopup from '../Components/SignUpPopup';
@@ -43,8 +43,22 @@ const SignInPage = () => {
         getUserData();
     }, [])
 
+    // const getUserData = () => {
+    //     Axios.get(`${API_URL}/users`, {
+    //         headers: {
+    //             'Access-Control-Allow-Origin': '*',
+    //             'Content-Type': 'application/json',
+    //         }
+    //     })
+    //         .then((response) => {
+    //             setUserDatabase(response.data)
+    //         }).catch((error) => {
+    //             console.log(error)
+    //         })
+    // }
     const getUserData = () => {
-        Axios.get(`${API_URL}/users`)
+        // Axios.get(`${API_URL}/users/`)
+        Axios.get(`${API_URL}/user/`)
             .then((response) => {
                 setUserDatabase(response.data)
             }).catch((error) => {
@@ -59,22 +73,27 @@ const SignInPage = () => {
         } else {
             let index = userDatabase.findIndex((value) => value.username == usernameLogin)
             if (index >= 0) {
-                if (passwordLogin === userDatabase[index].password) {
-                    setPasswordValidity(true)
-                    setValidityInfo("")
-                    console.log(`login success! username / email : ${[usernameLogin]}, password: ${passwordLogin}`)
-                    Axios.get(`${API_URL}/users?username=${usernameLogin}&password=${passwordLogin}`)
-                        .then((response) => {
-                            localStorage.setItem("tokenIdUser", response.data[0].id)
-                            dispatch(loginAction(response.data[0]));
-                            navigate('/');
-                        }).catch((error) => {
-                            console.log(error);
-                        })
-                } else {
-                    setPasswordValidity(false)
-                    setValidityInfo("Username and password doesn't match")
-                }
+                // if (passwordLogin === userDatabase[index].password) {
+                setPasswordValidity(true)
+                setValidityInfo("")
+                // console.log(`login success! username / email : ${[usernameLogin]}, password: ${passwordLogin}`)
+                // Axios.get(`${API_URL}/users?username=${usernameLogin}&password=${passwordLogin}`)
+                Axios.post(`${API_URL}/user/login`, {
+                    username: usernameLogin,
+                    password: passwordLogin
+                })
+                    .then((response) => {
+                        // localStorage.setItem("tokenIdUser", response.data[0].id)
+                        localStorage.setItem("tokenIdUser", response.data.token)
+                        dispatch(loginAction(response.data[0]));
+                        navigate('/');
+                    }).catch((error) => {
+                        console.log(error);
+                        setPasswordValidity(false)
+                        setValidityInfo("Username and password doesn't match")
+                    })
+                // } else {
+                // }
             } else if (index < 0) {
                 index = userDatabase.findIndex((value) => value.email == usernameLogin)
                 if (index >= 0) {
@@ -82,9 +101,14 @@ const SignInPage = () => {
                         setPasswordValidity(true)
                         setValidityInfo("")
                         console.log(`login success! username / email : ${[usernameLogin]}, password: ${passwordLogin}`)
-                        Axios.get(`${API_URL}/users?email=${usernameLogin}&password=${passwordLogin}`)
+                        // Axios.get(`${API_URL}/users?email=${usernameLogin}&password=${passwordLogin}`)
+                        Axios.post(`${API_URL}/user/login`, {
+                            email: usernameLogin,
+                            password: passwordLogin
+                        })
                             .then((response) => {
-                                localStorage.setItem("tokenIdUser", response.data[0].id)
+                                // localStorage.setItem("tokenIdUser", response.data[0].id)
+                                localStorage.setItem("tokenIdUser", response.data.token)
                                 dispatch(loginAction(response.data[0]));
                                 navigate('/');
                             }).catch((error) => {

@@ -5,6 +5,7 @@ const INITIAL_STATE = {
     email: "",
     password: "",
     status: "loggedIn",
+    bio: "",
     profilePicture: "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",
     userFollowed: [],
     posts: [
@@ -34,6 +35,11 @@ export const usersReducer = (state = INITIAL_STATE, action) => {
             };
         case "LOGOUT":
             return INITIAL_STATE;
+        case "PROFILE_UPDATED":
+            return {
+                ...state,
+                ...action.payload
+            }
         default:
             return state;
     }

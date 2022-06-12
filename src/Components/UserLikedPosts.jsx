@@ -7,6 +7,8 @@ import { Box } from '@mui/material';
 import Axios from 'axios';
 import { API_URL } from '../helper';
 import { useUserData } from '../api/use-user-data';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserLikedPosts() {
     const { id, username } = useSelector((state) => {
@@ -16,24 +18,32 @@ export default function UserLikedPosts() {
         }
     })
 
+    const { search } = useLocation()
     const { posts } = useUserPosts(id);
+    const navigate = useNavigate();
     const [likedPosts, setLikedPosts] = React.useState();
 
     React.useEffect(() => {
         getLikedPosts();
     }, [])
 
+
     const getLikedPosts = () => {
-        Axios.get(`${API_URL}/posts?userLiked_like=${username}`)
+        Axios.get(`${API_URL}/users${search}`)
             .then((response) => {
-                setLikedPosts(response.data)
+                Axios.get(`${API_URL}/posts?userLiked_like=${response.data[0].username}`)
+                    .then((response) => {
+                        setLikedPosts(response.data)
+                    }).catch((error) => {
+                        console.log(error)
+                    })
             }).catch((error) => {
-                console.log(error);
+                console.log(error)
             })
     }
 
     return (
-        <Box fullwidth sx={{ overflowY: 'scroll', mx: { sm: 2, lg: 10, xl: 20 } }}>
+        <Box fullwidth sx={{ overflowY: 'auto' }}>
             {likedPosts ?
                 <ImageList variant="masonry" cols={3} gap={8}>
                     {likedPosts.map((item) => (
@@ -41,6 +51,7 @@ export default function UserLikedPosts() {
                             <img
                                 src={`${item.image}`}
                                 srcSet={`${item.image}`}
+                                onClick={() => navigate(`/post?id=${item.id}`)}
                                 // src={`${item.image}?w=248&fit=crop&auto=format`}
                                 // srcSet={`${item.image}?w=248&fit=crop&auto=format&dpr=2 2x`}
                                 //   alt={item.title}

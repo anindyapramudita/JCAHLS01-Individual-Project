@@ -1,24 +1,31 @@
 import React from "react";
-import { Avatar, Box, Button, Typography } from "@mui/material";
+import { Avatar, Box, Button, Typography, Container, Link } from "@mui/material";
 import { useSelector } from "react-redux";
 import SettingsIcon from '@mui/icons-material/Settings';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { useUserPosts } from '../api/use-user-posts';
 import { useUserData } from '../api/use-user-data';
 import Axios from "axios";
 import { API_URL } from "../helper";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { PersonAdd } from "@mui/icons-material";
 
 const ProfileInfo = (props) => {
+    const [userUsername, setUserUsername] = React.useState();
+    const [userDetail, setUserDetail] = React.useState();
+    const [postsDetail, setPostsDetail] = React.useState();
     const [userFollowing, setUserFollowing] = React.useState();
     const [userFollowers, setUserFollowers] = React.useState();
 
-    const { id, profPic, fullname, username } = useSelector((state) => {
+    const { search } = useLocation()
+
+    const { id, profPic, fullname, username, bio } = useSelector((state) => {
         return {
             id: state.usersReducer.id,
             profPic: state.usersReducer.profilePicture,
             fullname: state.usersReducer.fullName,
-            username: state.usersReducer.username
+            username: state.usersReducer.username,
+            bio: state.usersReducer.bio
         }
     })
 
@@ -27,43 +34,65 @@ const ProfileInfo = (props) => {
     const navigate = useNavigate();
 
     React.useEffect(() => {
-        getFollowers();
+        getUserDetail();
+        getPostsDetail();
         getFollowing();
     }, [])
 
+    const getUserDetail = () => {
+        Axios.get(`${API_URL}/users${search}`)
+            .then((response) => {
+                setUserDetail(response.data[0])
+                setUserUsername(response.data[0].username)
+                console.log('user data:', response.data[0])
+            }).catch((error) => {
+                console.log(error);
+            })
+    }
+
+    const getPostsDetail = () => {
+        Axios.get(`${API_URL}/posts${search}`)
+            .then((response) => {
+                setPostsDetail(response.data)
+                console.log('posts data:', response.data)
+            }).catch((error) => {
+                console.log(error);
+            })
+    }
+
     const getPosts = () => {
-        if (posts[0].id) {
-            return posts.length
+        if (postsDetail[0]) {
+            return postsDetail.length
         } else {
-            return posts.length - 1
+            return 0
         }
     }
 
     const getFollowing = () => {
-        Axios.get(`${API_URL}/users/${id}`)
+        Axios.get(`${API_URL}/users${search}`)
             .then((response) => {
-                setUserFollowing(response.data.userFollowed.length)
+                setUserFollowing(response.data[0].userFollowed.length)
+                Axios.get(`${API_URL}/users?userFollowed_like=${response.data[0].username}`)
+                    .then((response) => {
+                        setUserFollowers(response.data.length)
+                    }).catch((error) => {
+                        console.log(error)
+                    })
             }).catch((error) => {
                 console.log(error)
             })
     }
 
-    const getFollowers = () => {
-        Axios.get(`${API_URL}/users?userFollowed_like=${username}`)
-            .then((response) => {
-                setUserFollowers(response.data.length)
-            }).catch((error) => {
-                console.log(error)
-            })
+    const handleFollowing = () => {
+
     }
 
 
-
-    return <Box>
+    return <Container>
         <Box >
             <Box sx={{ mt: 5, mb: 3, display: 'flex', justifyContent: 'center' }}>
                 <Avatar
-                    src={profPic}
+                    src={userDetail ? userDetail.profilePicture : null}
                     sx={{ width: 120, height: 120 }}
                 />
             </Box>
@@ -73,7 +102,7 @@ const ProfileInfo = (props) => {
                 component="div"
                 sx={{ display: 'flex', justifyContent: 'center' }}
             >
-                {fullname}
+                {userDetail ? userDetail.fullName : null}
             </Typography>
 
             <Typography
@@ -82,7 +111,7 @@ const ProfileInfo = (props) => {
                 color='grey.600'
                 sx={{ display: 'flex', justifyContent: 'center' }}
             >
-                @{username}
+                @{userDetail ? userDetail.username : null}
             </Typography>
 
             <Box
@@ -93,7 +122,7 @@ const ProfileInfo = (props) => {
                     color='grey.500'
                     sx={{ textAlign: 'center' }}
                 >
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio facere exercitationem placeat esse id? Aliquam sequi labore accusamus. Lorem ipsum dol.
+                    {bio}
                 </Typography>
 
             </Box>
@@ -102,16 +131,30 @@ const ProfileInfo = (props) => {
                     display: 'flex',
                     justifyContent: 'center',
                 }} >
-                <Button
-                    type="button"
-                    variant="outlined"
-                    color="primary"
-                    sx={{ my: 3, width: 200 }}
-                    startIcon={<SettingsIcon />}
-                    onClick={() => navigate('/settings')}
-                >
-                    Edit Profile
-                </Button>
+                {userUsername == username ?
+                    <Button
+                        type="button"
+                        variant="outlined"
+                        color="primary"
+                        sx={{ my: 3, width: 200 }}
+                        startIcon={<SettingsIcon />}
+                        onClick={() => navigate('/settings')}
+                    >
+                        Edit Profile
+                    </Button>
+                    :
+                    <Button
+                        type="button"
+                        variant="contained"
+                        color="primary"
+                        sx={{ my: 3, width: 200 }}
+                        startIcon={<PersonAdd />}
+                    >
+                        Follow
+                    </Button>
+
+                }
+
             </Box>
         </Box>
 
@@ -122,7 +165,7 @@ const ProfileInfo = (props) => {
                     component="h1"
                     sx={{ textAlign: 'center' }}
                 >
-                    {posts && id ? getPosts() : null}
+                    {postsDetail ? getPosts() : null}
                 </Typography>
                 <Typography
                     variant="body2"
@@ -133,11 +176,12 @@ const ProfileInfo = (props) => {
                     Posts
                 </Typography>
             </Box>
-            <Box>
+            <Link underline='none' color='inherit' component='button'>
                 <Typography
                     variant="body1"
                     component="h1"
                     sx={{ textAlign: 'center' }}
+                    onClick={handleFollowing}
                 >
                     {userFollowing}
                 </Typography>
@@ -149,8 +193,8 @@ const ProfileInfo = (props) => {
                 >
                     Following
                 </Typography>
-            </Box>
-            <Box>
+            </Link>
+            <Link underline='none' color='inherit' component='button'>
                 <Typography
                     variant="body1"
                     component="h1"
@@ -166,9 +210,9 @@ const ProfileInfo = (props) => {
                 >
                     Followers
                 </Typography>
-            </Box>
+            </Link>
         </Box>
-    </Box>
+    </Container>
 }
 
 export default ProfileInfo;
