@@ -6,7 +6,7 @@ export const useUserData = () => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        Axios.get(`${API_URL}/users`)
+        Axios.get(`${API_URL}/user`)
             .then((response) => {
                 setData(response.data)
             }).catch((error) => {

@@ -8,6 +8,10 @@ import Typography from '@mui/material/Typography';
 import { Avatar, Grid, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, FormHelperText } from '@mui/material';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 import { useUserData } from '../api/use-user-data';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginAction } from '../Redux/Actions/usersAction';
+import { API_URL } from '../helper';
 
 const style = {
     position: 'absolute',
@@ -23,6 +27,8 @@ const style = {
 
 export default function SignUpPopup(props) {
     const { isOpen, setOpen, toggle } = props;
+
+    const dispatch = useDispatch();
 
     const [userDatabase, setUserDatabase] = React.useState()
     const [userValidity, setUserValidity] = React.useState("null")
@@ -53,6 +59,7 @@ export default function SignUpPopup(props) {
             setUserInfo()
         } else if (index < 0) {
             setUserValidity(true)
+            setUsernameValue(username)
             setUserInfo("Nice! This username is available")
         } else if (index >= 0) {
             setUserValidity(false)
@@ -70,6 +77,7 @@ export default function SignUpPopup(props) {
             console.log(index)
             if (index < 0) {
                 setEmailValidity(true)
+                setEmailValue(newEmail)
             } else if (index >= 0) {
                 setEmailValidity(false)
                 setEmailInfo("That email is already registered")
@@ -155,6 +163,7 @@ export default function SignUpPopup(props) {
             setPasswordInfo("Your password is strong!")
             setPasswordValidity(true)
             setPasswordConf(password)
+            setPassValue(password)
         }
 
     }
@@ -164,6 +173,21 @@ export default function SignUpPopup(props) {
             setPasswordConfValidity(true)
         } else if (passwordConfirmation !== passwordConf) {
             setPasswordConfValidity(false)
+        }
+    }
+
+    const handleRegister = async () => {
+        if (userValidity && emailValidity && passwordValidity && passwordConfValidity && fullnameValue) {
+            let res = await axios.post(`${API_URL}/user/register`, {
+                fullName: fullnameValue,
+                username: usernameValue,
+                email: emailValue,
+                password: passValue
+            })
+
+            dispatch(loginAction(res.data))
+            localStorage.setItem("tokenIdUser", res.data.token)
+
         }
     }
 
@@ -286,6 +310,7 @@ export default function SignUpPopup(props) {
                             variant="contained"
                             sx={{ mt: 2, mb: 2 }}
                             color="primary"
+                            onClick={handleRegister}
                         >
                             Sign Up!
                         </Button>

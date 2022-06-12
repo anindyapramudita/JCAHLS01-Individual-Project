@@ -85,7 +85,7 @@ const SignInPage = () => {
                     .then((response) => {
                         // localStorage.setItem("tokenIdUser", response.data[0].id)
                         localStorage.setItem("tokenIdUser", response.data.token)
-                        dispatch(loginAction(response.data[0]));
+                        dispatch(loginAction(response.data));
                         navigate('/');
                     }).catch((error) => {
                         console.log(error);
@@ -97,27 +97,27 @@ const SignInPage = () => {
             } else if (index < 0) {
                 index = userDatabase.findIndex((value) => value.email == usernameLogin)
                 if (index >= 0) {
-                    if (passwordLogin === userDatabase[index].password) {
-                        setPasswordValidity(true)
-                        setValidityInfo("")
-                        console.log(`login success! username / email : ${[usernameLogin]}, password: ${passwordLogin}`)
-                        // Axios.get(`${API_URL}/users?email=${usernameLogin}&password=${passwordLogin}`)
-                        Axios.post(`${API_URL}/user/login`, {
-                            email: usernameLogin,
-                            password: passwordLogin
+                    // if (passwordLogin === userDatabase[index].password) {
+                    setPasswordValidity(true)
+                    setValidityInfo("")
+                    console.log(`login success! username / email : ${[usernameLogin]}, password: ${passwordLogin}`)
+                    // Axios.get(`${API_URL}/users?email=${usernameLogin}&password=${passwordLogin}`)
+                    Axios.post(`${API_URL}/user/login`, {
+                        email: usernameLogin,
+                        password: passwordLogin
+                    })
+                        .then((response) => {
+                            // localStorage.setItem("tokenIdUser", response.data[0].id)
+                            localStorage.setItem("tokenIdUser", response.data.token)
+                            dispatch(loginAction(response.data));
+                            navigate('/');
+                        }).catch((error) => {
+                            console.log(error);
+                            setPasswordValidity(false)
+                            setValidityInfo("Email and password doesn't match")
                         })
-                            .then((response) => {
-                                // localStorage.setItem("tokenIdUser", response.data[0].id)
-                                localStorage.setItem("tokenIdUser", response.data.token)
-                                dispatch(loginAction(response.data[0]));
-                                navigate('/');
-                            }).catch((error) => {
-                                console.log(error);
-                            })
-                    } else {
-                        setPasswordValidity(false)
-                        setValidityInfo("Email and password doesn't match")
-                    }
+                    // } else {
+                    // }
                 } else if (index < 0) {
                     setPasswordValidity(false)
                     setValidityInfo("Username / Email is invalid")

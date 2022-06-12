@@ -27,18 +27,33 @@ function App() {
     keepLogin();
   }, [])
 
-  const keepLogin = () => {
-    let token = localStorage.getItem("tokenIdUser")
+  const keepLogin = async () => {
+    try {
+      let token = localStorage.getItem("tokenIdUser")
 
-    if (token) {
-      Axios.get(`${API_URL}/users?id=${token}`)
-        .then((response) => {
-          localStorage.setItem("tokenIdUser", response.data[0].id)
-          dispatch(loginAction(response.data[0]))
-        }).catch((error) => {
-          console.log(error)
-        })
+      let res = await Axios.get(`${API_URL}/user/keep`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      // console.log("ini data login: ", res.data)
+      if (res.data.idUser) {
+        console.log("ini data loginnya:", res.data)
+        localStorage.setItem("tokenIdUser", res.data.token)
+        dispatch(loginAction(res.data))
+      }
+    } catch (error) {
+      console.log(error)
     }
+    // if (token) {
+    //   Axios.get(`${API_URL}/users?id=${token}`)
+    //     .then((response) => {
+    //       localStorage.setItem("tokenIdUser", response.data[0].id)
+    //       dispatch(loginAction(response.data[0]))
+    //     }).catch((error) => {
+    //       console.log(error)
+    //     })
+    // }
   }
 
 
