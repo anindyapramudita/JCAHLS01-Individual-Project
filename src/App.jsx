@@ -10,6 +10,8 @@ import ProfilePage from './Pages/ProfilePage';
 import SigninPage from './Pages/SigninPage';
 import SettingsPage from './Pages/SettingsPage';
 import SinglePostPage from './Pages/SinglePostPage';
+import VerificationPage from './Pages/VerificationPage';
+import ResetPasswordPage from './Pages/ResetPasswordPage';
 
 function App() {
 
@@ -36,9 +38,7 @@ function App() {
           'Authorization': `Bearer ${token}`
         }
       })
-      // console.log("ini data login: ", res.data)
       if (res.data.idUser) {
-        console.log("ini data loginnya:", res.data)
         localStorage.setItem("tokenIdUser", res.data.token)
         dispatch(loginAction(res.data))
       }
@@ -74,7 +74,7 @@ function App() {
               <Navigate replace to="/login" />) :
               (<ProfilePage />)} 
         /> */}
-
+        <Route path='/verification/:token' element={<VerificationPage />} />
         {username ?
           <>
             <Route path='/' element={<Homepage />} />
@@ -90,6 +90,7 @@ function App() {
             <Route path='/' element={<Navigate replace to='/login' />} />
             <Route path='/profile' element={<Navigate replace to='/login' />} />
             <Route path='/settings' element={<Navigate replace to='/login' />} />
+            <Route path='/reset/:token' element={<ResetPasswordPage />} />
           </>
         }
 

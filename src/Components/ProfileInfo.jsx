@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Box, Button, Typography, Container, Link } from "@mui/material";
+import { Avatar, Box, Button, Typography, Container, Link, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useUserPosts } from '../api/use-user-posts';
@@ -9,6 +9,7 @@ import { API_URL } from "../helper";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { PersonAdd } from "@mui/icons-material";
+import VerifiedIcon from '@mui/icons-material/Verified';
 
 const ProfileInfo = (props) => {
     const [userUsername, setUserUsername] = React.useState();
@@ -16,42 +17,51 @@ const ProfileInfo = (props) => {
     const [postsDetail, setPostsDetail] = React.useState();
     const [userFollowing, setUserFollowing] = React.useState();
     const [userFollowers, setUserFollowers] = React.useState();
+    const [likedPost, setLikedPosts] = React.useState();
 
     const { search } = useLocation()
 
-    const { id, profPic, fullname, username, bio } = useSelector((state) => {
+    const { idUser, profPic, fullname, username, bio, status } = useSelector((state) => {
         return {
-            id: state.usersReducer.id,
+            idUser: state.usersReducer.idUser,
             profPic: state.usersReducer.profilePicture,
             fullname: state.usersReducer.fullName,
             username: state.usersReducer.username,
-            bio: state.usersReducer.bio
+            bio: state.usersReducer.bio,
+            // status: state.usersReducer.status
         }
     })
 
-    const { posts } = useUserPosts(id);
+    const { posts } = useUserPosts(idUser);
     const userData = useUserData();
     const navigate = useNavigate();
 
     React.useEffect(() => {
         getUserDetail();
         getPostsDetail();
-        getFollowing();
+
     }, [])
 
     const getUserDetail = () => {
-        Axios.get(`${API_URL}/users${search}`)
+        Axios.get(`${API_URL}/user${search}`)
             .then((response) => {
                 setUserDetail(response.data[0])
                 setUserUsername(response.data[0].username)
-                console.log('user data:', response.data[0])
+
+                Axios.get(`${API_URL}/post?likes=${response.data[0].idUser}`)
+                    .then((res) => {
+                        setLikedPosts(res.data.length)
+                    }).catch((error) => {
+                        console.log(error)
+                    })
+
             }).catch((error) => {
                 console.log(error);
             })
     }
 
     const getPostsDetail = () => {
-        Axios.get(`${API_URL}/posts${search}`)
+        Axios.get(`${API_URL}/post${search}`)
             .then((response) => {
                 setPostsDetail(response.data)
                 console.log('posts data:', response.data)
@@ -69,7 +79,7 @@ const ProfileInfo = (props) => {
     }
 
     const getFollowing = () => {
-        Axios.get(`${API_URL}/users${search}`)
+        Axios.get(`${API_URL}/user${search}`)
             .then((response) => {
                 setUserFollowing(response.data[0].userFollowed.length)
                 Axios.get(`${API_URL}/users?userFollowed_like=${response.data[0].username}`)
@@ -87,6 +97,21 @@ const ProfileInfo = (props) => {
 
     }
 
+    const handleResend = () => {
+        let token = localStorage.getItem("tokenIdUser")
+
+        Axios.get(`${API_URL}/user/resend`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then((res) => {
+            alert(`Verification email has been sent. Please check your email!`)
+        }).catch((error) => {
+            console.log(error)
+        })
+
+    }
+
 
     return <Container>
         <Box >
@@ -96,14 +121,24 @@ const ProfileInfo = (props) => {
                     sx={{ width: 120, height: 120 }}
                 />
             </Box>
+            <Grid container direction="row" justifyContent="center" alignItems="center">
+                <Typography
+                    variant="h5"
+                    component="div"
+                    sx={{ display: 'flex', justifyContent: 'center' }}
+                >
+                    {userDetail ? userDetail.fullName : null}
+                </Typography>
+                {userDetail ? userDetail.status == "Verified" ?
+                    <VerifiedIcon sx={{ ml: 1 }} color='primary' />
+                    :
+                    null
+                    :
+                    null
+                }
 
-            <Typography
-                variant="h5"
-                component="div"
-                sx={{ display: 'flex', justifyContent: 'center' }}
-            >
-                {userDetail ? userDetail.fullName : null}
-            </Typography>
+            </Grid>
+
 
             <Typography
                 variant="subtitle1"
@@ -122,21 +157,23 @@ const ProfileInfo = (props) => {
                     color='grey.500'
                     sx={{ textAlign: 'center' }}
                 >
-                    {bio}
+                    {userDetail ? userDetail.bio : null}
                 </Typography>
 
             </Box>
             <Box
                 sx={{
                     display: 'flex',
-                    justifyContent: 'center',
+                    flexDirection: 'column',
+                    // justifyContent: 'center',
+                    alignItems: 'center'
                 }} >
                 {userUsername == username ?
                     <Button
                         type="button"
                         variant="outlined"
                         color="primary"
-                        sx={{ my: 3, width: 200 }}
+                        sx={{ mt: 3, mb: 2, width: 250 }}
                         startIcon={<SettingsIcon />}
                         onClick={() => navigate('/settings')}
                     >
@@ -154,11 +191,23 @@ const ProfileInfo = (props) => {
                     </Button>
 
                 }
+                {userDetail ? userDetail.username == username ? userDetail.status == "Unverified" ?
+                    <Button
+                        type="button"
+                        variant="contained"
+                        color="primary"
+                        sx={{ mb: 3, width: 250 }}
+                        onClick={handleResend}>
+                        Resend Verification Link
+                    </Button>
+                    :
+                    null : null : null
+                }
 
             </Box>
         </Box>
 
-        <Box sx={{ display: 'flex', justifyContent: 'space-evenly', py: 1, borderBottom: 1, borderTop: 1, borderColor: 'divider' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-around', py: 1, borderBottom: 1, borderTop: 1, borderColor: 'divider' }}>
             <Box>
                 <Typography
                     variant="body1"
@@ -183,6 +232,24 @@ const ProfileInfo = (props) => {
                     sx={{ textAlign: 'center' }}
                     onClick={handleFollowing}
                 >
+                    {likedPost ? likedPost : "0"}
+                </Typography>
+                <Typography
+                    variant="body2"
+                    component="div"
+                    color='grey.500'
+                    sx={{ textAlign: 'center' }}
+                >
+                    Liked post
+                </Typography>
+            </Link>
+            {/* <Link underline='none' color='inherit' component='button'>
+                <Typography
+                    variant="body1"
+                    component="h1"
+                    sx={{ textAlign: 'center' }}
+                    onClick={handleFollowing}
+                >
                     {userFollowing}
                 </Typography>
                 <Typography
@@ -193,8 +260,8 @@ const ProfileInfo = (props) => {
                 >
                     Following
                 </Typography>
-            </Link>
-            <Link underline='none' color='inherit' component='button'>
+            </Link> */}
+            {/* <Link underline='none' color='inherit' component='button'>
                 <Typography
                     variant="body1"
                     component="h1"
@@ -210,7 +277,7 @@ const ProfileInfo = (props) => {
                 >
                     Followers
                 </Typography>
-            </Link>
+            </Link> */}
         </Box>
     </Container>
 }

@@ -30,7 +30,7 @@ export default function UserPosts() {
     }, [])
 
     const getUserPosts = () => {
-        Axios.get(`${API_URL}/posts${search}`)
+        Axios.get(`${API_URL}/post${search}`)
             .then((response) => {
                 setUserPosts(response.data)
             }).catch((error) => {
@@ -48,7 +48,7 @@ export default function UserPosts() {
                                 src={`${item.image}`}
                                 srcSet={`${item.image}`}
                                 loading="lazy"
-                                onClick={() => navigate(`/post?id=${item.id}`)}
+                                onClick={() => navigate(`/post?idPost=${item.idPost}`)}
                             />
                         </ImageListItem>
                     ))}

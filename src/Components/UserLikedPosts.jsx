@@ -29,9 +29,9 @@ export default function UserLikedPosts() {
 
 
     const getLikedPosts = () => {
-        Axios.get(`${API_URL}/users${search}`)
+        Axios.get(`${API_URL}/user${search}`)
             .then((response) => {
-                Axios.get(`${API_URL}/posts?userLiked_like=${response.data[0].username}`)
+                Axios.get(`${API_URL}/post?likes=${response.data[0].idUser}`)
                     .then((response) => {
                         setLikedPosts(response.data)
                     }).catch((error) => {
@@ -51,7 +51,7 @@ export default function UserLikedPosts() {
                             <img
                                 src={`${item.image}`}
                                 srcSet={`${item.image}`}
-                                onClick={() => navigate(`/post?id=${item.id}`)}
+                                onClick={() => navigate(`/post?idPost=${item.idPost}`)}
                                 // src={`${item.image}?w=248&fit=crop&auto=format`}
                                 // srcSet={`${item.image}?w=248&fit=crop&auto=format&dpr=2 2x`}
                                 //   alt={item.title}

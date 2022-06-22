@@ -16,6 +16,7 @@ import { VisibilityOff, Visibility, IndeterminateCheckBox } from '@mui/icons-mat
 import Axios from "axios";
 import { API_URL } from '../helper';
 import SignUpPopup from '../Components/SignUpPopup';
+import ModalForgotPassword from '../Components/ModalForgotPassword';
 import CameraIcon from '@mui/icons-material/Camera';
 import { useDispatch } from 'react-redux';
 import { loginAction } from '../Redux/Actions/usersAction';
@@ -33,6 +34,7 @@ const SignInPage = () => {
     const [usernameLogin, setUsernameLogin] = React.useState("")
     const [passwordLogin, setPasswordLogin] = React.useState("")
     const [openRegister, setOpenRegister] = React.useState(false)
+    const [openForgotPassword, setOpenForgotPassword] = React.useState(false)
 
     const [showPassword, setShowPassword] = React.useState(false)
     const [passwordValidity, setPasswordValidity] = React.useState("null")
@@ -199,7 +201,8 @@ const SignInPage = () => {
                             </FormControl>
                             <Grid container>
                                 <Grid item xs>
-                                    <Link href="#" variant="body2" underline="hover" color="inherit">
+                                    <Link href="#" variant="body2" underline="hover" color="inherit"
+                                        onClick={() => setOpenForgotPassword(!openForgotPassword)}>
                                         Forgot password?
                                     </Link>
                                 </Grid>
@@ -242,6 +245,11 @@ const SignInPage = () => {
                 isOpen={openRegister}
                 setOpen={setOpenRegister}
                 toggle={() => setOpenRegister(!openRegister)}
+            />
+            <ModalForgotPassword
+                isOpen={openForgotPassword}
+                setOpen={setOpenForgotPassword}
+                toggle={() => setOpenForgotPassword(!openForgotPassword)}
             />
         </>
     );

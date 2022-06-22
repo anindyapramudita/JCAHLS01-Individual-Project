@@ -16,6 +16,7 @@ import { API_URL } from '../helper';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { updateProfile } from '../Redux/Actions/usersAction';
+import ModalForgotPassword from './ModalForgotPassword';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -59,9 +60,9 @@ export default function SettingsTab() {
         setValue(newValue);
     };
 
-    const { id, profPic, fullname, username, bio, email, password, userFollowed, status } = useSelector((state) => {
+    const { idUser, profPic, fullname, username, bio, email, password, userFollowed, status } = useSelector((state) => {
         return {
-            id: state.usersReducer.id,
+            idUser: state.usersReducer.idUser,
             profPic: state.usersReducer.profilePicture,
             fullname: state.usersReducer.fullName,
             username: state.usersReducer.username,
@@ -69,7 +70,7 @@ export default function SettingsTab() {
             email: state.usersReducer.email,
             password: state.usersReducer.password,
             userFollowed: state.usersReducer.userFollowed,
-            status: state.usersReducer.status
+            status: state.usersReducer.status,
         }
     })
 
@@ -93,13 +94,16 @@ export default function SettingsTab() {
     const [newPasswordErrorInfo, setNewPasswordErrorInfo] = React.useState()
     const [newPasswordConfirmError, setNewPasswordConfirmError] = React.useState(false)
 
+    const [openForgotPassword, setOpenForgotPassword] = React.useState(false)
+
 
     React.useEffect(() => {
         getDatabase();
+        console.log(status)
     }, [])
 
     const getDatabase = () => {
-        Axios.get((`${API_URL}/users`))
+        Axios.get((`${API_URL}/user`))
             .then((response) => {
                 setDatabase(response.data)
             }).catch((error) => {
@@ -152,19 +156,19 @@ export default function SettingsTab() {
     }
 
     const handleSaveChanges = () => {
-        axios.patch(`${API_URL}/users/${id}`, { fullName: newFullname, username: newUsername, bio: newBio })
+        axios.patch(`${API_URL}/user/edit?idUser=${idUser}`, { fullName: newFullname, username: newUsername, bio: newBio })
             .then((response) => {
                 getDatabase();
                 dispatch(updateProfile({
-                    id,
+                    idUser,
                     fullName: newFullname,
                     username: newUsername,
                     email,
                     password,
                     status,
                     bio: newBio,
-                    profilePicture: profPic,
-                    userFollowed,
+                    profilePicture: profPic
+                    // userFollowed,
                 }))
             }).catch((error) => {
                 console.log(error)
@@ -255,39 +259,37 @@ export default function SettingsTab() {
     }
 
     const handleSavePassword = () => {
-        if (oldPassword == password) {
-            setOldPasswordError(false)
-            if (newPasswordError == false) {
-                if (newPassword == newPasswordConfirm) {
+        if (newPassword == newPasswordConfirm) {
+            Axios.patch(`${API_URL}/user/editPassword?idUser=${idUser}`, { password: oldPassword, newPassword })
+                .then((response) => {
+                    console.log("passwords: ", oldPassword, newPassword, newPasswordConfirm)
+                    dispatch(updateProfile({
+                        idUser,
+                        fullName: fullname,
+                        username,
+                        email,
+                        password: newPassword,
+                        status,
+                        bio,
+                        profilePicture: profPic
+                        // userFollowed,
+
+                    }))
+                    setOldPassword("")
+                    setNewPassword("")
+                    setNewPasswordConfirm("")
+                    setOldPasswordError(false)
+                    setNewPasswordError(false)
                     setNewPasswordConfirmError(false)
-                    Axios.patch(`${API_URL}/users/${id}`, { password: newPassword })
-                        .then((response) => {
-                            dispatch(updateProfile({
-                                id,
-                                fullName: fullname,
-                                username,
-                                email,
-                                password: newPassword,
-                                status,
-                                bio,
-                                profilePicture: profPic,
-                                userFollowed,
-                            }))
-                            setOldPassword("")
-                            setNewPassword("")
-                            setNewPasswordConfirm("")
-                        }).catch((error) => {
-                            console.log(error)
-                        })
-                } else {
-                    setNewPasswordConfirmError(true)
-                }
-            }
+                }).catch((error) => {
+                    console.log(error)
+                    setOldPasswordError(true)
+                    setNewPasswordError(false)
+                    setNewPasswordConfirmError(false)
+                })
+
         } else {
-            setOldPasswordError(true)
-            setNewPasswordError(false)
-            setNewPasswordConfirmError(false)
-            console.log("password is incorrect")
+            setNewPasswordConfirmError(true)
         }
     }
 
@@ -300,6 +302,10 @@ export default function SettingsTab() {
                         <Tab icon={<AccountCircleIcon />} iconPosition="top" label="Account Info" {...a11yProps(0)} sx={{ minWidth: "33%" }} />
                         <Tab icon={<LocalSeeIcon />} iconPosition="top" label="Profile Picture" {...a11yProps(1)} sx={{ minWidth: "33%" }} />
                         <Tab icon={<LockIcon />} iconPosition="top" label="Password and Security" {...a11yProps(1)} sx={{ minWidth: "33%" }} />
+                        {status == "Unverified" ?
+                            <Tab icon={<LockIcon />} iconPosition="top" label="Verify Account" {...a11yProps(1)} sx={{ minWidth: "33%" }} />
+                            : null
+                        }
                     </Tabs>
                 </Box>
                 <TabPanel value={value} index={0}>
@@ -434,12 +440,80 @@ export default function SettingsTab() {
                             >
                                 Change Password
                             </Button>
-                            <Link href="#" variant="body2" underline="hover" color="inherit">
+                            <Link href="#" variant="body2" underline="hover" color="inherit"
+                                onClick={() => setOpenForgotPassword(!openForgotPassword)}
+                            >
                                 Forgot password?
                             </Link>
                         </Box>
                     </Box>
                 </TabPanel>
+                {status == "Unverified" ?
+                    <TabPanel value={value} index={3}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
+
+                            <Box sx={{ maxWidth: 500 }}>
+                                <Typography id="transition-modal-title" variant="h6" component="h1" textAlign="center" sx={{ my: 3 }}>
+                                    Edit Password
+                                </Typography>
+
+                                <TextField id="outlined-basic"
+                                    label="Old Password"
+                                    variant="outlined"
+                                    type="password"
+                                    fullWidth
+                                    sx={{ my: 3 }}
+                                    value={oldPassword}
+                                    onChange={(e) => { setOldPassword(e.target.value) }}
+                                    error={oldPasswordError}
+                                    helperText={oldPasswordError ? "your password is incorrect" : null}
+                                />
+                                <TextField id="outlined-basic"
+                                    label="New Password"
+                                    variant="outlined"
+                                    type="password"
+                                    fullWidth sx={{ mb: 3 }}
+                                    value={newPassword}
+                                    onChange={(e) => {
+                                        setNewPassword(e.target.value)
+                                        handleCheckPassword(e.target.value)
+                                    }}
+                                    error={newPasswordError}
+                                    helperText={newPasswordError ? newPasswordErrorInfo : null}
+
+                                />
+                                <TextField id="outlined-basic" label="New Password Confirmation" variant="outlined" fullWidth sx={{ mb: 3 }}
+                                    type="password"
+                                    value={newPasswordConfirm}
+                                    onChange={(e) => { setNewPasswordConfirm(e.target.value) }}
+                                    error={newPasswordConfirmError}
+                                    helperText={newPasswordConfirmError ? "your password doesn't match" : null}
+                                />
+                                <Button
+                                    type="button"
+                                    fullWidth
+                                    variant="contained"
+                                    sx={{ mb: 1 }}
+                                    color="primary"
+                                    onClick={handleSavePassword}
+                                    disabled={oldPassword && newPassword && newPasswordConfirm ? false : true}
+                                >
+                                    Change Password
+                                </Button>
+                                <Link href="#" variant="body2" underline="hover" color="inherit">
+                                    Forgot password?
+                                </Link>
+                            </Box>
+                        </Box>
+                    </TabPanel>
+                    : null
+                }
+                <ModalForgotPassword
+                    isOpen={openForgotPassword}
+                    setOpen={setOpenForgotPassword}
+                    toggle={() => setOpenForgotPassword(!openForgotPassword)}
+                />
             </Box>
         </Container>
     );

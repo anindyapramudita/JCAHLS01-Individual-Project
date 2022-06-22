@@ -13,9 +13,11 @@ import ModalEditPost from './ModalEditPost';
 
 const CardComponent = (props) => {
 
+    const [allAccount, setAllAccount] = React.useState()
     const [database, setDatabase] = React.useState()
     const [usersProfPic, setUsersProfPic] = React.useState()
     const [usersFullName, setUsersFullName] = React.useState()
+    const [usersUsername, setUsersUsername] = React.useState()
     const [comment, setComment] = React.useState()
     const [postUsername, setPostUsername] = React.useState()
     const [postId, setPostId] = React.useState()
@@ -34,11 +36,12 @@ const CardComponent = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
 
-    const { userFollowed, profPic, username } = useSelector((state) => {
+    const { userFollowed, profPic, username, idUser } = useSelector((state) => {
         return {
             userFollowed: state.usersReducer.userFollowed,
             profPic: state.usersReducer.profilePicture,
-            username: state.usersReducer.username
+            username: state.usersReducer.username,
+            idUser: state.usersReducer.idUser
         }
     })
 
@@ -47,104 +50,104 @@ const CardComponent = (props) => {
     }, [])
 
     const getDatabase = () => {
-        let tempUsers = [username, ...userFollowed]
+        // let tempUsers = [username, ...userFollowed]
+        let tempUsers = [username]
         let query = '?'
 
         let tempProfPic = {}
         let tempFullName = {}
+        let tempUsername = {}
 
-        for (let i = 0; i < tempUsers.length; i++) {
-            query += `username=${tempUsers[i]}&`
-            Axios.get(`${API_URL}/users?username=${tempUsers[i]}`)
-                .then((response) => {
-                    tempProfPic[`${tempUsers[i]}`] = response.data[0].profilePicture
-                    tempFullName[`${tempUsers[i]}`] = response.data[0].fullName
-                }).catch((error) => {
-                    console.log(error)
-                })
-        }
+        // for (let i = 0; i < tempUsers.length; i++) {
+        //     query += `username=${tempUsers[i]}&`
+        //     // Axios.get(`${API_URL}/users?username=${tempUsers[i]}`)
+        //     Axios.get(`${API_URL}/user`)
+        //         .then((response) => {
+        //             tempProfPic[`${tempUsers[i]}`] = response.data[0].profilePicture
+        //             tempFullName[`${tempUsers[i]}`] = response.data[0].fullName
+        //         }).catch((error) => {
+        //             console.log(error)
+        //         })
+        //     }
+
+        Axios.get(`${API_URL}/user`)
+            .then((response) => {
+                setAllAccount(response.data)
+                for (let i = 0; i < response.data.length; i++) {
+                    tempProfPic[`${response.data[i].idUser}`] = response.data[i].profilePicture
+                    tempFullName[`${response.data[i].idUser}`] = response.data[i].fullName
+                    tempUsername[`${response.data[i].idUser}`] = response.data[i].username
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
 
         setUsersProfPic(tempProfPic)
         setUsersFullName(tempFullName)
+        setUsersUsername(tempUsername)
 
-        Axios.get(`${API_URL}/posts${query}&_sort=id&_order=desc`)
+        Axios.get(`${API_URL}/post${query}order=desc`)
+            // Axios.get(`${API_URL}/posts${query}&_sort=id&_order=desc`)
             .then((response) => {
                 setDatabase(response.data)
+                console.log("data posts: ", response.data)
             }).catch((error) => {
                 console.log(error)
             })
     }
 
+
     const handleComment = (comment, id) => {
-        let tempComment = [];
-        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        const d = new Date();
-        let day = d.getDate();
-        let month = months[d.getMonth()];
-        let year = d.getFullYear();
-        let dateCreated = `${month} ${day}, ${year}`
+        // let tempComment = [];
 
-
-        Axios.get(`${API_URL}/posts/${id}`)
+        Axios.post(`${API_URL}/post/addComment?idPost=${id}`, { idCommenter: idUser, comment })
             .then((response) => {
-                tempComment = [...response.data.comments]
-                if (tempComment[0].username) {
-                    tempComment.push({ username, comment, dateCreated })
-                    // setComments(tempComment)
-                    Axios.patch(`${API_URL}/posts/${id}`, { comments: tempComment })
-                        .then((response) => {
-                            setComment("")
-                            getDatabase();
-                        }).catch((error) => {
-                            console.log(error)
-                        })
-                } else {
-                    tempComment[0] = { username, comment, dateCreated }
-                    // setComments(tempComment)
-                    Axios.patch(`${API_URL}/posts/${id}`, { comments: tempComment })
-                        .then((response) => {
-                            setComment("")
-                            getDatabase();
-                        }).catch((error) => {
-                            console.log(error)
-                        })
-                }
-                // console.log(tempComment)
+                getDatabase();
+                setComment("")
+
+                // Axios.get(`${API_URL}/posts/${id}`)
+                //     .then((response) => {
+                //         tempComment = [...response.data.comments]
+                //         if (tempComment[0].username) {
+                //             tempComment.push({ username, comment, dateCreated })
+                //             // setComments(tempComment)
+                //             Axios.patch(`${API_URL}/posts/${id}`, { comments: tempComment })
+                //                 .then((response) => {
+                //                     setComment("")
+                //                     getDatabase();
+                //                 }).catch((error) => {
+                //                     console.log(error)
+                //                 })
+                //         } else {
+                //             tempComment[0] = { username, comment, dateCreated }
+                //             // setComments(tempComment)
+                //             Axios.patch(`${API_URL}/posts/${id}`, { comments: tempComment })
+                //                 .then((response) => {
+                //                     setComment("")
+                //                     getDatabase();
+                //                 }).catch((error) => {
+                //                     console.log(error)
+                //                 })
+                //         }
+
             }).catch((error) => {
                 console.log(error)
             })
     }
 
     const handleLike = (id) => {
-        let tempLike = [];
-        Axios.get(`${API_URL}/posts/${id}`)
+        Axios.post(`${API_URL}/post/like`, { idPost: id, idLiker: idUser })
             .then((response) => {
-                tempLike = [...response.data.userLiked]
-                tempLike.push(username)
-                Axios.patch(`${API_URL}/posts/${id}`, { userLiked: tempLike })
-                    .then((response) => {
-                        getDatabase();
-                    }).catch((error) => {
-                        console.log(error)
-                    })
+                getDatabase();
             }).catch((error) => {
                 console.log(error)
             })
     }
 
     const handleUnlike = (id) => {
-        let tempUnlike = [];
-        Axios.get(`${API_URL}/posts/${id}`)
+        Axios.patch(`${API_URL}/post/unlike`, { idPost: id, idLiker: idUser })
             .then((response) => {
-                tempUnlike = [...response.data.userLiked]
-                let index = tempUnlike.findIndex((value) => value == username)
-                tempUnlike.splice(index, 1)
-                Axios.patch(`${API_URL}/posts/${id}`, { userLiked: tempUnlike })
-                    .then((response) => {
-                        getDatabase();
-                    }).catch((error) => {
-                        console.log(error)
-                    })
+                getDatabase();
             }).catch((error) => {
                 console.log(error)
             })
@@ -167,13 +170,13 @@ const CardComponent = (props) => {
     }
 
     const handleEditPost = (postId) => {
-        Axios.get(`${API_URL}/posts/${postId}`)
+        console.log(postId)
+        Axios.get(`${API_URL}/post?idPost=${postId}`)
             .then((response) => {
+                setDatabaseEdit(response.data[0])
+                setCaption(response.data[0].caption)
                 setOpenModalEdit(true)
                 setAnchorEl(null)
-                setDatabaseEdit(response.data)
-                setCaption(response.data.caption)
-                console.log(response.data)
             }).catch((error) => {
                 console.log(error)
             })
@@ -216,7 +219,7 @@ const CardComponent = (props) => {
                                 <Box>
                                     <IconButton onClick={() => navigate(`/profile?username=${item.username}`)}>
                                         <Avatar
-                                            src={usersProfPic[`${item.username}`]}
+                                            src={usersProfPic[`${item.idUser}`]}
                                             sx={{ width: 40, height: 40 }}
                                         />
                                     </IconButton>
@@ -229,7 +232,8 @@ const CardComponent = (props) => {
                                         color='inherit'
                                         onClick={() => navigate(`/profile?username=${item.username}`)}
                                     >
-                                        {usersFullName[`${item.username}`]}
+                                        {item.fullName}
+                                        {/* {usersFullName[`${item.username}`]} */}
                                     </Link>
                                     <Typography variant='body2' component='h1' sx={{ color: 'grey.600' }}>
                                         {item.dateCreated}
@@ -237,30 +241,24 @@ const CardComponent = (props) => {
 
                                 </Box>
                                 <Box sx={{ mt: 1 }}>
-                                    <IconButton aria-label="settings" onClick={(event) => handleOpenMenu(item.username, item.id, event)}>
+                                    <IconButton aria-label="settings" onClick={(event) => handleOpenMenu(item.username, item.idPost, event)}>
                                         <MoreVert />
                                     </IconButton>
                                 </Box>
                             </Box>
-                            <img src={item.image[0]} style={{ width: "100%" }} />
-                            {/* <CardMedia
-                                component="img"
-                                // height="500"
-                                image={item.image[0]}
-                                alt={item.username}
-                            /> */}
+                            <img src={item.image} style={{ width: "100%" }} />
 
                             <CardActions sx={{ mb: 0 }} disableSpacing>
                                 <IconButton>
-                                    {item.userLiked.includes(username) ? <Favorite sx={{ color: 'secondary.main' }} onClick={() => handleUnlike(item.id)} /> : <FavoriteBorderOutlined onClick={() => handleLike(item.id)} />}
+                                    {item.likes.includes(idUser) ? <Favorite sx={{ color: 'secondary.main' }} onClick={() => handleUnlike(item.idPost)} /> : <FavoriteBorderOutlined onClick={() => handleLike(item.idPost)} />}
                                 </IconButton>
                                 <Typography variant='body2'>
-                                    {item.userLiked.length > 2 && item.userLiked.includes(username) ? `You and ${item.userLiked.length - 1} others like this post`
-                                        : item.userLiked.length == 2 && item.userLiked.includes(username) ? `You and ${item.userLiked.length - 1} other like this post`
-                                            : item.userLiked.length == 1 && item.userLiked.includes(username) ? `You like this post`
-                                                : item.userLiked.length > 2 ? `${item.userLiked[0]} and ${item.userLiked.length - 1} others like this post`
-                                                    : item.userLiked.length == 2 ? `${item.userLiked[0]} and ${item.userLiked.length - 1} other like this post`
-                                                        : item.userLiked.length == 1 ? `${item.userLiked[0]} likes this post`
+                                    {item.likes.length > 2 && item.likes.includes(idUser) ? `You and ${item.likes.length - 1} others like this post`
+                                        : item.likes.length == 2 && item.likes.includes(idUser) ? `You and ${item.likes.length - 1} other like this post`
+                                            : item.likes.length == 1 && item.likes.includes(idUser) ? `You like this post`
+                                                : item.likes.length > 2 ? `${usersUsername[`${item.likes[0]}`]} and ${item.likes.length - 1} others like this post`
+                                                    : item.likes.length == 2 ? `${usersUsername[`${item.likes[0]}`]} and ${item.likes.length - 1} other like this post`
+                                                        : item.likes.length == 1 ? `${usersUsername[`${item.likes[0]}`]} likes this post`
                                                             : null}
                                 </Typography>
                             </CardActions>
@@ -276,11 +274,11 @@ const CardComponent = (props) => {
                                             </Typography>
                                         </Link>
                                         <Typography variant='body2'>
-                                            {item.comments[0].username ? item.comments.map((value, index) => {
+                                            {item.comment[0] ? item.comment.map((value, index) => {
                                                 return <Typography key={`k-${index}`}>
-                                                    <Link underline='none' color='inherit' component='button' onClick={() => navigate(`/profile?username=${value.username}`)}>
+                                                    <Link underline='none' color='inherit' component='button' onClick={() => navigate(`/profile?username=${usersUsername[`${value.idUser}`]}`)}>
                                                         <Typography variant='subtitle2' component='span' sx={{ mr: 1 }}>
-                                                            {value.username}
+                                                            {usersUsername[`${value.idUser}`]}
                                                         </Typography>
                                                         <Typography variant='body2' component='span'>
                                                             {value.comment}
@@ -301,7 +299,7 @@ const CardComponent = (props) => {
                                                 sx={{ mr: 2, width: 30, height: 30 }}
                                             />
                                             <TextField fullWidth id="input-with-sx" label="say something!" variant="standard" value={comment} onChange={(e) => setComment(e.target.value)} />
-                                            <IconButton onClick={() => handleComment(comment, item.id)}>
+                                            <IconButton onClick={() => handleComment(comment, item.idPost)}>
                                                 <SendOutlined sx={{ ml: 2, color: 'grey.700' }} />
                                             </IconButton>
                                         </Box>

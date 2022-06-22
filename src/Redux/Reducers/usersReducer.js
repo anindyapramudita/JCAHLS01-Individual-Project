@@ -4,26 +4,26 @@ const INITIAL_STATE = {
     username: "",
     email: "",
     password: "",
-    status: "loggedIn",
+    status: "",
     bio: "",
     profilePicture: "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",
-    userFollowed: [],
-    posts: [
-        {
-            id: null,
-            image: [],
-            caption: "",
-            usedLiked: [],
-            userCommented: [
-                {
-                    username: "",
-                    comment: "",
-                    dateCreated: ""
-                }
-            ],
-            dateCreated: ""
-        }
-    ]
+    // userFollowed: [],
+    // posts: [
+    //     {
+    //         id: null,
+    //         image: [],
+    //         caption: "",
+    //         usedLiked: [],
+    //         userCommented: [
+    //             {
+    //                 username: "",
+    //                 comment: "",
+    //                 dateCreated: ""
+    //             }
+    //         ],
+    //         dateCreated: ""
+    //     }
+    // ]
 }
 
 export const usersReducer = (state = INITIAL_STATE, action) => {
