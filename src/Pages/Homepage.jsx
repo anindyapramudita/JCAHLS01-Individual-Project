@@ -6,18 +6,31 @@ import { useUserPosts } from '../api/use-user-posts';
 import CreateButton from '../Components/CreateButton';
 import SideDrawer from '../Components/SideDrawer';
 import { Box } from '@mui/material';
+import { useSelector } from 'react-redux';
+import VerificationInfo from '../Components/VerificationInfo';
 
 const Homepage = (props) => {
 
-    const userData = useUserData();
-    const { posts } = useUserPosts(6);
-
-    // console.log(posts, 'POSTS');
+    const { status } = useSelector((state) => {
+        return {
+            status: state.usersReducer.status
+        }
+    })
 
     return <div>
-        <NavigationBar />
-        <CardComponent />
-        <CreateButton />
+        {status ? status == "Verified" ?
+            <>
+                <NavigationBar />
+                <CardComponent />
+                <CreateButton />
+            </>
+            :
+            <>
+                <NavigationBar />
+                <VerificationInfo />
+            </>
+            : null
+        }
     </div >
 }
 

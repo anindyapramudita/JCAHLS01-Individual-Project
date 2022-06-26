@@ -39,6 +39,7 @@ const VerificationPage = () => {
             localStorage.setItem("tokenIdUser", response.data.token)
             dispatch(loginAction(response.data))
             navigate('/', { replace: true })
+            navigate(0)
         }).catch((error) => {
             console.log(error)
         })

@@ -22,6 +22,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { Grid } from '@mui/material';
 import { Paper, InputBase } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { API_URL } from '../helper';
 
 
 const pages = ['Products', 'Pricing', 'Blog'];
@@ -102,7 +103,7 @@ export const NavigationBar = () => {
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt={fullname} src={profPic} />
+                                    <Avatar alt={fullname} src={`${API_URL}${profPic}`} />
                                 </IconButton>
                             </Tooltip>
                             <Menu

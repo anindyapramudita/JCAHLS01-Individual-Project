@@ -12,6 +12,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginAction } from '../Redux/Actions/usersAction';
 import { API_URL } from '../helper';
+import { useNavigate } from 'react-router-dom';
 
 const style = {
     position: 'absolute',
@@ -27,6 +28,7 @@ const style = {
 
 export default function SignUpPopup(props) {
     const { isOpen, setOpen, toggle } = props;
+    const navigate = useNavigate()
 
     const dispatch = useDispatch();
 
@@ -46,6 +48,8 @@ export default function SignUpPopup(props) {
     const [emailValue, setEmailValue] = React.useState()
     const [passValue, setPassValue] = React.useState()
     const [passConfValue, setPassConfValue] = React.useState()
+
+    const [disableButton, setDisableButton] = React.useState(false)
 
     const userData = useUserData();
 
@@ -176,20 +180,44 @@ export default function SignUpPopup(props) {
         }
     }
 
-    const handleRegister = async () => {
+
+    const handleRegister = () => {
         if (userValidity && emailValidity && passwordValidity && passwordConfValidity && fullnameValue) {
-            let res = await axios.post(`${API_URL}/user/register`, {
+            setDisableButton(true)
+            axios.post(`${API_URL}/user/register`, {
                 fullName: fullnameValue,
                 username: usernameValue,
                 email: emailValue,
                 password: passValue
-            })
+            }).then((response) => {
 
-            dispatch(loginAction(res.data))
-            localStorage.setItem("tokenIdUser", res.data.token)
+                dispatch(loginAction(response.data))
+                localStorage.setItem("tokenIdUser", response.data.token)
+                navigate(0)
+            }).catch((error) => {
+                setDisableButton(false)
+                console.log(error)
+            })
 
         }
     }
+
+    // const handleRegister = async () => {
+    //     if (userValidity && emailValidity && passwordValidity && passwordConfValidity && fullnameValue) {
+    //         let res = await axios.post(`${API_URL}/user/register`, {
+    //             fullName: fullnameValue,
+    //             username: usernameValue,
+    //             email: emailValue,
+    //             password: passValue
+    //         })
+    //         setDisableButton(true)
+
+    //         dispatch(loginAction(res.data))
+    //         localStorage.setItem("tokenIdUser", res.data.token)
+    //         navigate(0)
+
+    //     }
+    // }
 
     return (
         <div>
@@ -311,6 +339,7 @@ export default function SignUpPopup(props) {
                             sx={{ mt: 2, mb: 2 }}
                             color="primary"
                             onClick={handleRegister}
+                            disabled={disableButton}
                         >
                             Sign Up!
                         </Button>

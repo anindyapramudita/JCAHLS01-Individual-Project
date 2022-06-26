@@ -31,9 +31,10 @@ export default function UserLikedPosts() {
     const getLikedPosts = () => {
         Axios.get(`${API_URL}/user${search}`)
             .then((response) => {
-                Axios.get(`${API_URL}/post?likes=${response.data[0].idUser}`)
+                Axios.get(`${API_URL}/posting?likes=${response.data[0].idUser}`)
                     .then((response) => {
                         setLikedPosts(response.data)
+                        // console.log(response.data[1].image)
                     }).catch((error) => {
                         console.log(error)
                     })
@@ -45,12 +46,13 @@ export default function UserLikedPosts() {
     return (
         <Box fullwidth sx={{ overflowY: 'auto' }}>
             {likedPosts ?
+
                 <ImageList variant="masonry" cols={3} gap={8}>
                     {likedPosts.map((item) => (
                         <ImageListItem key={item.image}>
                             <img
-                                src={`${item.image}`}
-                                srcSet={`${item.image}`}
+                                src={`${API_URL}${item.image}`}
+                                srcSet={`${API_URL}${item.image}`}
                                 onClick={() => navigate(`/post?idPost=${item.idPost}`)}
                                 // src={`${item.image}?w=248&fit=crop&auto=format`}
                                 // srcSet={`${item.image}?w=248&fit=crop&auto=format&dpr=2 2x`}

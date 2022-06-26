@@ -10,15 +10,15 @@ import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 export default function UserPosts() {
-    const { id, username } = useSelector((state) => {
+    const { idUser, username } = useSelector((state) => {
         return {
-            id: state.usersReducer.id,
+            idUser: state.usersReducer.idUser,
             username: state.usersReducer.username
         }
     })
 
 
-    const { posts } = useUserPosts(id);
+    // const { posts } = useUserPosts(id);
     const { search } = useLocation()
 
     const navigate = useNavigate()
@@ -30,7 +30,7 @@ export default function UserPosts() {
     }, [])
 
     const getUserPosts = () => {
-        Axios.get(`${API_URL}/post${search}`)
+        Axios.get(`${API_URL}/posting${search}`)
             .then((response) => {
                 setUserPosts(response.data)
             }).catch((error) => {
@@ -45,8 +45,8 @@ export default function UserPosts() {
                     {userPosts.map((item) => (
                         <ImageListItem key={item.image}>
                             <img
-                                src={`${item.image}`}
-                                srcSet={`${item.image}`}
+                                src={`${API_URL}${item.image}`}
+                                srcSet={`${API_URL}${item.image}`}
                                 loading="lazy"
                                 onClick={() => navigate(`/post?idPost=${item.idPost}`)}
                             />

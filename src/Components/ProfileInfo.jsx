@@ -32,8 +32,8 @@ const ProfileInfo = (props) => {
         }
     })
 
-    const { posts } = useUserPosts(idUser);
-    const userData = useUserData();
+    // const { posts } = useUserPosts(idUser);
+    // const userData = useUserData();
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -48,7 +48,7 @@ const ProfileInfo = (props) => {
                 setUserDetail(response.data[0])
                 setUserUsername(response.data[0].username)
 
-                Axios.get(`${API_URL}/post?likes=${response.data[0].idUser}`)
+                Axios.get(`${API_URL}/posting?likes=${response.data[0].idUser}`)
                     .then((res) => {
                         setLikedPosts(res.data.length)
                     }).catch((error) => {
@@ -61,10 +61,10 @@ const ProfileInfo = (props) => {
     }
 
     const getPostsDetail = () => {
-        Axios.get(`${API_URL}/post${search}`)
+        Axios.get(`${API_URL}/posting${search}`)
             .then((response) => {
                 setPostsDetail(response.data)
-                console.log('posts data:', response.data)
+                // console.log('posts data:', response.data)
             }).catch((error) => {
                 console.log(error);
             })
@@ -117,7 +117,7 @@ const ProfileInfo = (props) => {
         <Box >
             <Box sx={{ mt: 5, mb: 3, display: 'flex', justifyContent: 'center' }}>
                 <Avatar
-                    src={userDetail ? userDetail.profilePicture : null}
+                    src={userDetail ? `${API_URL}${userDetail.profilePicture}` : null}
                     sx={{ width: 120, height: 120 }}
                 />
             </Box>
@@ -214,7 +214,7 @@ const ProfileInfo = (props) => {
                     component="h1"
                     sx={{ textAlign: 'center' }}
                 >
-                    {postsDetail ? getPosts() : null}
+                    {postsDetail ? getPosts() : "0"}
                 </Typography>
                 <Typography
                     variant="body2"
@@ -243,41 +243,6 @@ const ProfileInfo = (props) => {
                     Liked post
                 </Typography>
             </Link>
-            {/* <Link underline='none' color='inherit' component='button'>
-                <Typography
-                    variant="body1"
-                    component="h1"
-                    sx={{ textAlign: 'center' }}
-                    onClick={handleFollowing}
-                >
-                    {userFollowing}
-                </Typography>
-                <Typography
-                    variant="body2"
-                    component="div"
-                    color='grey.500'
-                    sx={{ textAlign: 'center' }}
-                >
-                    Following
-                </Typography>
-            </Link> */}
-            {/* <Link underline='none' color='inherit' component='button'>
-                <Typography
-                    variant="body1"
-                    component="h1"
-                    sx={{ textAlign: 'center' }}
-                >
-                    {userFollowers}
-                </Typography>
-                <Typography
-                    variant="body2"
-                    component="div"
-                    color='grey.500'
-                    sx={{ textAlign: 'center' }}
-                >
-                    Followers
-                </Typography>
-            </Link> */}
         </Box>
     </Container>
 }

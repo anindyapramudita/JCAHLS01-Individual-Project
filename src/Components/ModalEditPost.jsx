@@ -39,7 +39,7 @@ const ModalEditPost = (props) => {
         try {
 
             // let res = await axios.patch(`${API_URL}/post?idPost=${postId}`, { caption: newCaption })
-            await axios.patch(`${API_URL}/post/editPost?idPost=${postId}`, { caption: newCaption })
+            await axios.patch(`${API_URL}/posting/editPost?idPost=${postId}`, { caption: newCaption })
             toggle();
 
         } catch (error) {
@@ -75,7 +75,7 @@ const ModalEditPost = (props) => {
                             justifyContent: 'center',
                             flexDirection: 'column',
                         }}>
-                            <img src={data.image} style={{ width: "100%" }} />
+                            <img src={`${API_URL}${data.image}`} style={{ width: "100%" }} />
                         </Box>
                         <Box sx={{ minWidth: 250, display: 'flex', flexDirection: 'column' }}>
                             <Box sx={{ pt: 2, px: 1, display: 'flex', alignItems: 'center' }}>

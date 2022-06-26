@@ -25,18 +25,22 @@ const ModalNewPost = (props) => {
     const { isOpen, toggle } = props;
 
     const [newImage, setNewImage] = React.useState()
+    const [newDataImage, setNewDataImage] = React.useState()
     const [caption, setCaption] = React.useState()
 
     const navigate = useNavigate();
 
-    const { profPic, username } = useSelector((state) => {
+    const { profPic, username, idUser } = useSelector((state) => {
         return {
             profPic: state.usersReducer.profilePicture,
-            username: state.usersReducer.username
+            username: state.usersReducer.username,
+            idUser: state.usersReducer.idUser
         }
     })
 
     const handleUpload = (e) => {
+        setNewDataImage(e.target.files[0])
+        console.log(e.target.files[0])
         let files = e.target.files;
         let reader = new FileReader();
         reader.readAsDataURL(files[0])
@@ -47,27 +51,45 @@ const ModalNewPost = (props) => {
 
     const handlePost = async () => {
         try {
-            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-            const d = new Date();
-            let day = d.getDate();
-            let month = months[d.getMonth()];
-            let year = d.getFullYear();
-            let dateCreated = `${month} ${day}, ${year}`
 
-            let res = await axios.post(`${API_URL}/posts`, {
-                username,
-                image: [newImage],
-                caption,
-                userLiked: [],
-                comments: [
-                    {
-                        "username": "",
-                        "comment": "",
-                        "dateCreated": ""
-                    }
-                ],
-                dateCreated
-            })
+            let token = localStorage.getItem("TokenIdUser")
+            let formData = new FormData();
+            let data = {
+                idUser,
+                // image: newDataImage,
+                caption
+            }
+            formData.append('data', JSON.stringify(data))
+            formData.append('image', newDataImage)
+            console.log(newDataImage)
+
+            let res = await axios.post(`${API_URL}/posting/addPost`, formData);
+            // let res = await axios.post(`${API_URL}/post/addPost`, formData, {
+            //     header: {
+            //         'Authorization': `Bearer ${token}`
+            //     }
+            // });
+            // const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+            // const d = new Date();
+            // let day = d.getDate();
+            // let month = months[d.getMonth()];
+            // let year = d.getFullYear();
+            // let dateCreated = `${month} ${day}, ${year}`
+
+            // let res = await axios.post(`${API_URL}/posts`, {
+            //     username,
+            //     image: [newImage],
+            //     caption,
+            //     userLiked: [],
+            //     comments: [
+            //         {
+            //             "username": "",
+            //             "comment": "",
+            //             "dateCreated": ""
+            //         }
+            //     ],
+            //     dateCreated
+            // })
 
             toggle();
             navigate(0)

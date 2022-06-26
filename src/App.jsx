@@ -33,27 +33,21 @@ function App() {
     try {
       let token = localStorage.getItem("tokenIdUser")
 
-      let res = await Axios.get(`${API_URL}/user/keep`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
+      if (token) {
+        let res = await Axios.get(`${API_URL}/user/keep`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        if (res.data.idUser) {
+          localStorage.setItem("tokenIdUser", res.data.token)
+          dispatch(loginAction(res.data))
         }
-      })
-      if (res.data.idUser) {
-        localStorage.setItem("tokenIdUser", res.data.token)
-        dispatch(loginAction(res.data))
       }
+
     } catch (error) {
       console.log(error)
     }
-    // if (token) {
-    //   Axios.get(`${API_URL}/users?id=${token}`)
-    //     .then((response) => {
-    //       localStorage.setItem("tokenIdUser", response.data[0].id)
-    //       dispatch(loginAction(response.data[0]))
-    //     }).catch((error) => {
-    //       console.log(error)
-    //     })
-    // }
   }
 
 

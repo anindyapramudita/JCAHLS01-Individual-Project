@@ -75,7 +75,7 @@ const SinglePostPage = (props) => {
         setUsersFullName(tempFullName)
         setUsersUsername(tempUsername)
 
-        Axios.get(`${API_URL}/post${search}`)
+        Axios.get(`${API_URL}/posting${search}`)
             // Axios.get(`${API_URL}/posts${query}&_sort=id&_order=desc`)
             .then((response) => {
                 setDatabase(response.data)
@@ -214,7 +214,7 @@ const SinglePostPage = (props) => {
                                 <Box>
                                     <IconButton onClick={() => navigate(`/profile?username=${item.username}`)}>
                                         <Avatar
-                                            src={usersProfPic[`${item.idUser}`]}
+                                            src={`${API_URL}${usersProfPic[item.idUser]}`}
                                             sx={{ width: 40, height: 40 }}
                                         />
                                     </IconButton>
@@ -241,7 +241,7 @@ const SinglePostPage = (props) => {
                                     </IconButton>
                                 </Box>
                             </Box>
-                            <img src={item.image} style={{ width: "100%" }} />
+                            <img src={`${API_URL}${item.image}`} style={{ width: "100%" }} />
 
                             <CardActions sx={{ mb: 0 }} disableSpacing>
                                 <IconButton>
@@ -290,7 +290,7 @@ const SinglePostPage = (props) => {
                                     <CardContent>
                                         <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                                             <Avatar
-                                                src={profPic}
+                                                src={`${API_URL}${profPic}`}
                                                 sx={{ mr: 2, width: 30, height: 30 }}
                                             />
                                             <TextField fullWidth id="input-with-sx" label="say something!" variant="standard" value={comment} onChange={(e) => setComment(e.target.value)} />

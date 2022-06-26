@@ -75,17 +75,13 @@ const SignInPage = () => {
         } else {
             let index = userDatabase.findIndex((value) => value.username == usernameLogin)
             if (index >= 0) {
-                // if (passwordLogin === userDatabase[index].password) {
                 setPasswordValidity(true)
                 setValidityInfo("")
-                // console.log(`login success! username / email : ${[usernameLogin]}, password: ${passwordLogin}`)
-                // Axios.get(`${API_URL}/users?username=${usernameLogin}&password=${passwordLogin}`)
                 Axios.post(`${API_URL}/user/login`, {
                     username: usernameLogin,
                     password: passwordLogin
                 })
                     .then((response) => {
-                        // localStorage.setItem("tokenIdUser", response.data[0].id)
                         localStorage.setItem("tokenIdUser", response.data.token)
                         dispatch(loginAction(response.data));
                         navigate('/');

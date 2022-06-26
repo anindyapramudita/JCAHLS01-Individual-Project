@@ -5,7 +5,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useSelector } from 'react-redux';
-import { Grid, Button, Container } from '@mui/material';
+import { Grid, Button, Container, FormControl } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LocalSeeIcon from '@mui/icons-material/LocalSee';
 import LockIcon from '@mui/icons-material/Lock';
@@ -17,6 +17,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { updateProfile } from '../Redux/Actions/usersAction';
 import ModalForgotPassword from './ModalForgotPassword';
+import { useNavigate } from 'react-router-dom';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -55,6 +56,7 @@ function a11yProps(index) {
 export default function SettingsTab() {
     const [value, setValue] = React.useState(0);
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -94,12 +96,15 @@ export default function SettingsTab() {
     const [newPasswordErrorInfo, setNewPasswordErrorInfo] = React.useState()
     const [newPasswordConfirmError, setNewPasswordConfirmError] = React.useState(false)
 
+    const [newProfilePicture, setNewProfilePicture] = React.useState()
+    const [newImage, setNewImage] = React.useState()
+
     const [openForgotPassword, setOpenForgotPassword] = React.useState(false)
 
 
     React.useEffect(() => {
         getDatabase();
-        console.log(status)
+        console.log("profPic: ", profPic)
     }, [])
 
     const getDatabase = () => {
@@ -293,45 +298,78 @@ export default function SettingsTab() {
         }
     }
 
+    const handleUpload = (e) => {
+        setNewProfilePicture(e.target.files[0])
+        // console.log(e.target.files[0])
+        let files = e.target.files;
+        let reader = new FileReader();
+        reader.readAsDataURL(files[0])
+        reader.onload = (e) => {
+            setNewImage(e.target.result)
+        }
+    }
+
+    const handleSavePicture = () => {
+        // try {
+        setNewImage()
+        let token = localStorage.getItem("tokenIdUser")
+        let formData = new FormData();
+        formData.append('image', newProfilePicture)
+        // console.log(newDataImage)
+
+        axios.patch(`${API_URL}/user/editPicture`, formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then((response) => {
+            dispatch(updateProfile(response.data))
+        }).catch((error) => {
+            console.log(error)
+        })
+
+    }
+
 
     return (
         <Container >
             <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                        <Tab icon={<AccountCircleIcon />} iconPosition="top" label="Account Info" {...a11yProps(0)} sx={{ minWidth: "33%" }} />
-                        <Tab icon={<LocalSeeIcon />} iconPosition="top" label="Profile Picture" {...a11yProps(1)} sx={{ minWidth: "33%" }} />
-                        <Tab icon={<LockIcon />} iconPosition="top" label="Password and Security" {...a11yProps(1)} sx={{ minWidth: "33%" }} />
+                        <Tab icon={<AccountCircleIcon />} iconPosition="top" label="Account Info" {...a11yProps(0)} sx={{ minWidth: "25%" }} />
+                        <Tab icon={<LocalSeeIcon />} iconPosition="top" label="Profile Picture" {...a11yProps(1)} sx={{ minWidth: "25%" }} />
+                        <Tab icon={<LockIcon />} iconPosition="top" label="Password and Security" {...a11yProps(2)} sx={{ minWidth: "25%" }} />
                         {status == "Unverified" ?
-                            <Tab icon={<LockIcon />} iconPosition="top" label="Verify Account" {...a11yProps(1)} sx={{ minWidth: "33%" }} />
+                            <Tab icon={<LockIcon />} iconPosition="top" label="Verify Account" {...a11yProps(3)} sx={{ minWidth: "25%" }} />
                             : null
                         }
                     </Tabs>
                 </Box>
                 <TabPanel value={value} index={0}>
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <Box sx={{ maxWidth: 500 }}>
+                        <Box>
                             <Typography id="transition-modal-title" variant="h6" component="h1" textAlign="center" sx={{ my: 3 }}>
                                 Edit Profile
                             </Typography>
 
-                            <TextField id="outlined-basic" label="Username" defaultValue={username} variant="outlined" fullWidth sx={{ my: 3 }}
-                                onChange={(e) => { handleCheckUsername(e.target.value) }}
-                                error={!usernameValidity}
-                                color={usernameInfo ? "success" : null}
-                                helperText={usernameInfo} />
-                            <TextField id="outlined-basic" label="Full Name" defaultValue={fullname} variant="outlined" fullWidth sx={{ mb: 3 }}
-                                onChange={(e) => {
-                                    setNewFullname(e.target.value)
-                                    if (usernameValidity !== false) {
-                                        setButtonValidity(false)
-                                    };
-                                }}
-                            />
-                            <TextField id="outlined-basic" label="Email" defaultValue={email} variant="outlined" fullWidth disabled sx={{ mb: 3 }} />
-                            <TextField id="outlined-basic" label="Bio" defaultValue={bio} variant="outlined" fullWidth multiline maxRows={3} inputProps={{ maxLength: 140 }} sx={{ mb: 3 }} error={maxBio}
-                                onChange={(e) => handleBio(e.target.value)} helperText={bioInfo}
-                            />
+                            <FormControl fullWidth >
+                                <TextField label="Username" defaultValue={username} variant="outlined" fullWidth sx={{ my: 3 }}
+                                    onChange={(e) => { handleCheckUsername(e.target.value) }}
+                                    error={!usernameValidity}
+                                    color={usernameInfo ? "success" : null}
+                                    helperText={usernameInfo} />
+                                <TextField label="Full Name" defaultValue={fullname} variant="outlined" fullWidth sx={{ mb: 3 }}
+                                    onChange={(e) => {
+                                        setNewFullname(e.target.value)
+                                        if (usernameValidity !== false) {
+                                            setButtonValidity(false)
+                                        };
+                                    }}
+                                />
+                                <TextField label="Email" defaultValue={email} variant="outlined" fullWidth disabled sx={{ mb: 3 }} />
+                                <TextField label="Bio" defaultValue={bio} variant="outlined" fullWidth multiline maxRows={3} inputProps={{ maxLength: 140 }} sx={{ mb: 3 }} error={maxBio}
+                                    onChange={(e) => handleBio(e.target.value)} helperText={bioInfo}
+                                />
+                            </FormControl>
                             <Button
                                 type="button"
                                 fullWidth
@@ -349,7 +387,7 @@ export default function SettingsTab() {
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
 
-                        <Box sx={{ maxWidth: 500 }}>
+                        <Box sx={{ maxWidth: 500 }} >
                             <Typography id="transition-modal-title" variant="h6" component="h1" textAlign="center" sx={{ my: 3 }}>
                                 Edit Profile Picture
                             </Typography>
@@ -360,7 +398,7 @@ export default function SettingsTab() {
                                 alignItems="center"
                                 justifyContent="center"
                             >
-                                <Badge
+                                {/* <Badge
                                     overlap="circular"
                                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                                     badgeContent={
@@ -368,23 +406,45 @@ export default function SettingsTab() {
                                             <EditIcon sx={{ backgroundColor: 'primary.main', color: 'white', borderRadius: '50%', width: 20, height: 20 }} />
                                         </IconButton>
                                     }
-                                >
-                                    <Avatar
-                                        flexItem
-                                        src={profPic}
-                                        sx={{ width: 100, height: 100 }}
-                                    />
-                                </Badge>
+                                > */}
+
+                                <Avatar
+                                    // flexItem
+                                    src={newImage ? newImage : `${API_URL}${profPic}`}
+                                    // src={`${API_URL}${newImage}`}
+                                    sx={{ width: 100, height: 100 }}
+                                />
+                                {/* </Badge> */}
                             </Grid>
-                            <Button
-                                type="button"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                sx={{ mt: 3 }}
-                            >
-                                Save changes
-                            </Button>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    // justifyContent: 'center',
+                                    alignItems: 'center'
+                                }} >
+                                <Button
+                                    variant="contained"
+                                    component="label"
+                                    sx={{ mt: 2 }}
+                                >
+                                    Select New Picture
+                                    <input
+                                        type="file"
+                                        hidden
+                                        onChange={(e) => handleUpload(e)}
+                                    />
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    component="label"
+                                    sx={{ mt: 2 }}
+                                    onClick={handleSavePicture}
+                                    disabled={newImage ? false : true}
+                                >
+                                    Save new picture
+                                </Button>
+                            </Box>
                         </Box>
                     </Box>
                 </TabPanel>
@@ -392,43 +452,44 @@ export default function SettingsTab() {
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
 
-                        <Box sx={{ maxWidth: 500 }}>
+                        <Box>
                             <Typography id="transition-modal-title" variant="h6" component="h1" textAlign="center" sx={{ my: 3 }}>
                                 Edit Password
                             </Typography>
+                            <FormControl fullWidth>
+                                <TextField
+                                    label="Old Password"
+                                    variant="outlined"
+                                    type="password"
+                                    fullWidth
+                                    sx={{ my: 3 }}
+                                    value={oldPassword}
+                                    onChange={(e) => { setOldPassword(e.target.value) }}
+                                    error={oldPasswordError}
+                                    helperText={oldPasswordError ? "your password is incorrect" : null}
+                                />
+                                <TextField
+                                    label="New Password"
+                                    variant="outlined"
+                                    type="password"
+                                    fullWidth sx={{ mb: 3 }}
+                                    value={newPassword}
+                                    onChange={(e) => {
+                                        setNewPassword(e.target.value)
+                                        handleCheckPassword(e.target.value)
+                                    }}
+                                    error={newPasswordError}
+                                    helperText={newPasswordError ? newPasswordErrorInfo : null}
 
-                            <TextField id="outlined-basic"
-                                label="Old Password"
-                                variant="outlined"
-                                type="password"
-                                fullWidth
-                                sx={{ my: 3 }}
-                                value={oldPassword}
-                                onChange={(e) => { setOldPassword(e.target.value) }}
-                                error={oldPasswordError}
-                                helperText={oldPasswordError ? "your password is incorrect" : null}
-                            />
-                            <TextField id="outlined-basic"
-                                label="New Password"
-                                variant="outlined"
-                                type="password"
-                                fullWidth sx={{ mb: 3 }}
-                                value={newPassword}
-                                onChange={(e) => {
-                                    setNewPassword(e.target.value)
-                                    handleCheckPassword(e.target.value)
-                                }}
-                                error={newPasswordError}
-                                helperText={newPasswordError ? newPasswordErrorInfo : null}
-
-                            />
-                            <TextField id="outlined-basic" label="New Password Confirmation" variant="outlined" fullWidth sx={{ mb: 3 }}
-                                type="password"
-                                value={newPasswordConfirm}
-                                onChange={(e) => { setNewPasswordConfirm(e.target.value) }}
-                                error={newPasswordConfirmError}
-                                helperText={newPasswordConfirmError ? "your password doesn't match" : null}
-                            />
+                                />
+                                <TextField label="New Password Confirmation" variant="outlined" fullWidth sx={{ mb: 3 }}
+                                    type="password"
+                                    value={newPasswordConfirm}
+                                    onChange={(e) => { setNewPasswordConfirm(e.target.value) }}
+                                    error={newPasswordConfirmError}
+                                    helperText={newPasswordConfirmError ? "your password doesn't match" : null}
+                                />
+                            </FormControl>
                             <Button
                                 type="button"
                                 fullWidth
@@ -458,7 +519,7 @@ export default function SettingsTab() {
                                     Edit Password
                                 </Typography>
 
-                                <TextField id="outlined-basic"
+                                <TextField
                                     label="Old Password"
                                     variant="outlined"
                                     type="password"
@@ -469,7 +530,7 @@ export default function SettingsTab() {
                                     error={oldPasswordError}
                                     helperText={oldPasswordError ? "your password is incorrect" : null}
                                 />
-                                <TextField id="outlined-basic"
+                                <TextField
                                     label="New Password"
                                     variant="outlined"
                                     type="password"
@@ -483,7 +544,7 @@ export default function SettingsTab() {
                                     helperText={newPasswordError ? newPasswordErrorInfo : null}
 
                                 />
-                                <TextField id="outlined-basic" label="New Password Confirmation" variant="outlined" fullWidth sx={{ mb: 3 }}
+                                <TextField label="New Password Confirmation" variant="outlined" fullWidth sx={{ mb: 3 }}
                                     type="password"
                                     value={newPasswordConfirm}
                                     onChange={(e) => { setNewPasswordConfirm(e.target.value) }}
