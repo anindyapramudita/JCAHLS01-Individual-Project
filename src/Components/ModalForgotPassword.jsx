@@ -32,6 +32,8 @@ export default function ModalForgotPassword(props) {
     const [emailSent, setEmailSent] = React.useState(false)
     const [emailError, setEmailError] = React.useState(false)
 
+    const [statusDisabled, setStatusDisabled] = React.useState(false)
+
 
     const handleCloseModal = () => {
         toggle();
@@ -40,6 +42,7 @@ export default function ModalForgotPassword(props) {
 
     const handleSendLink = () => {
         let token = localStorage.getItem("tokenIdUser")
+        setStatusDisabled(true)
 
         axios.patch(`${API_URL}/user/resetLink`, { email }
         ).then((res) => {
@@ -48,6 +51,7 @@ export default function ModalForgotPassword(props) {
             setHelperText()
         }).catch((error) => {
             console.log(error);
+            setStatusDisabled(false)
             setEmailError(true)
             setHelperText("Email not found")
         })
@@ -131,6 +135,7 @@ export default function ModalForgotPassword(props) {
                                 sx={{ mt: 2, mb: 2 }}
                                 color="primary"
                                 onClick={handleSendLink}
+                                disabled={statusDisabled}
                             >
                                 Send reset link!
                             </Button>
