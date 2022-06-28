@@ -64,32 +64,6 @@ const ModalNewPost = (props) => {
             console.log(newDataImage)
 
             let res = await axios.post(`${API_URL}/posting/addPost`, formData);
-            // let res = await axios.post(`${API_URL}/post/addPost`, formData, {
-            //     header: {
-            //         'Authorization': `Bearer ${token}`
-            //     }
-            // });
-            // const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-            // const d = new Date();
-            // let day = d.getDate();
-            // let month = months[d.getMonth()];
-            // let year = d.getFullYear();
-            // let dateCreated = `${month} ${day}, ${year}`
-
-            // let res = await axios.post(`${API_URL}/posts`, {
-            //     username,
-            //     image: [newImage],
-            //     caption,
-            //     userLiked: [],
-            //     comments: [
-            //         {
-            //             "username": "",
-            //             "comment": "",
-            //             "dateCreated": ""
-            //         }
-            //     ],
-            //     dateCreated
-            // })
 
             toggle();
             navigate(0)
@@ -152,7 +126,7 @@ const ModalNewPost = (props) => {
                     <Box sx={{ minWidth: 250, display: 'flex', flexDirection: 'column' }}>
                         <Box sx={{ pt: 2, px: 1, display: 'flex', alignItems: 'center' }}>
                             <Avatar
-                                src={profPic}
+                                src={`${API_URL}${profPic}`}
                                 sx={{ width: 25, height: 25, mr: 1 }}
                             />
                             <Typography variant='body2'>{username}</Typography>

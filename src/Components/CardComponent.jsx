@@ -10,7 +10,7 @@ import Favorite from '@mui/icons-material/Favorite';
 import Share from '@mui/icons-material/Share';
 import { useNavigate } from 'react-router-dom';
 import ModalEditPost from './ModalEditPost';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import InfiniteScroll from 'react-infinite-scroller';
 
 const CardComponent = (props) => {
 
@@ -23,6 +23,10 @@ const CardComponent = (props) => {
     const [postUsername, setPostUsername] = React.useState()
     const [postId, setPostId] = React.useState()
     const [moreComment, setMoreComment] = React.useState({})
+
+    const [hasMore, setHasMore] = React.useState()
+    const [postLimit, setPostLimit] = React.useState(5)
+    const [postPage, setPostPage] = React.useState(1)
 
     const [databaseEdit, setDatabaseEdit] = React.useState({
         username: "",
@@ -54,7 +58,7 @@ const CardComponent = (props) => {
     const getDatabase = () => {
         // let tempUsers = [username, ...userFollowed]
         let tempUsers = [username]
-        let query = '?'
+        let query = `?limit=${postLimit}&page=${postPage}&order=desc`
 
         let tempProfPic = {}
         let tempFullName = {}
@@ -88,9 +92,11 @@ const CardComponent = (props) => {
         setUsersFullName(tempFullName)
         setUsersUsername(tempUsername)
 
-        Axios.get(`${API_URL}/posting${query}order=desc`)
+        Axios.get(`${API_URL}/posting/getCopy${query}`)
             .then((response) => {
-                setDatabase(response.data)
+                setDatabase(response.data.post)
+                setHasMore(response.data.nextData)
+                console.log(response.data)
             }).catch((error) => {
                 console.log(error)
             })
@@ -156,22 +162,6 @@ const CardComponent = (props) => {
             })
     }
 
-    // const handleGetComment = (comment, length = 5) => {
-    //     console.log('comment: ', comment)
-    //     for (let i = 0; i < length - length; i--) {
-    //         return <Box key={`k-${i}`}>
-    //             <Link underline='none' color='inherit' component='button' onClick={() => navigate(`/profile?username=${usersUsername[`${comment[i].idUser}`]}`)}>
-    //                 <Typography variant='subtitle2' component='span' sx={{ mr: 1 }}>
-    //                     {usersUsername[`${comment[i].idUser}`]}
-    //                 </Typography>
-    //                 <Typography variant='body2' component='span'>
-    //                     {comment[i].comment}
-    //                 </Typography>
-    //             </Link>
-    //         </Box>
-    //     }
-    // }
-
     const handleSeeMore = (idPost) => {
         console.log(idPost);
         console.log("moreComment: ", moreComment[`${idPost}`])
@@ -189,6 +179,24 @@ const CardComponent = (props) => {
             console.log(moreComment)
             getDatabase();
         }
+    }
+
+    const getMoreData = () => {
+        let temp = postPage + 1
+
+        let query = `?limit=${postLimit}&page=${temp}&order=desc`
+
+        Axios.get(`${API_URL}/posting/getCopy${query}`)
+            .then((response) => {
+                let combinePost = [...database, ...response.data.post]
+                setDatabase(combinePost)
+                setHasMore(response.data.nextData)
+                setPostPage(temp)
+                // console.log(response.data)
+            }).catch((error) => {
+                console.log(error)
+            })
+
     }
 
     return <div>
@@ -221,120 +229,138 @@ const CardComponent = (props) => {
                         <MenuItem onClick={() => setAnchorEl(null)}>Share Post</MenuItem>
                     </Menu>
                 }
-                {database.map((item, idIndex) => {
-                    return <Box fullwidth sx={{ display: 'flex', my: 4, mx: { xs: 3, md: 0 }, justifyContent: 'center' }} key={`card-${idIndex}`}>
-                        <Card sx={{ width: { xs: '100%', md: '80%' }, maxWidth: '600px' }}>
-                            <Box sx={{ display: 'flex', mx: 2, my: 2 }}>
-                                <Box>
-                                    <IconButton onClick={() => navigate(`/profile?username=${item.username}`)}>
-                                        <Avatar
-                                            src={`${API_URL}${usersProfPic[item.idUser]}`}
-                                            sx={{ width: 40, height: 40 }}
-                                        />
-                                    </IconButton>
-                                </Box>
-                                <Box sx={{ flexGrow: 1, mt: 0.5, ml: 1 }}>
-                                    <Link
-                                        variant='body2'
-                                        component='button'
-                                        underline='none'
-                                        color='inherit'
-                                        onClick={() => navigate(`/profile?username=${item.username}`)}
-                                    >
-                                        {item.fullName}
-                                        {/* {usersFullName[`${item.username}`]} */}
-                                    </Link>
-                                    <Typography variant='body2' component='h1' sx={{ color: 'grey.600' }}>
-                                        {item.dateCreated}
-                                    </Typography>
 
-                                </Box>
-                                <Box sx={{ mt: 1 }}>
-                                    <IconButton aria-label="settings" onClick={(event) => handleOpenMenu(item.username, item.idPost, event)}>
-                                        <MoreVert />
-                                    </IconButton>
-                                </Box>
-                            </Box>
-                            <img src={`${API_URL}${item.image}`} style={{ width: "100%" }} />
 
-                            <CardActions sx={{ mb: 0 }} disableSpacing>
-                                <IconButton>
-                                    {item.likes.includes(idUser) ? <Favorite sx={{ color: 'secondary.main' }} onClick={() => handleUnlike(item.idPost)} /> : <FavoriteBorderOutlined onClick={() => handleLike(item.idPost)} />}
-                                </IconButton>
-                                <Typography variant='body2'>
-                                    {item.likes.length > 2 && item.likes.includes(idUser) ? `You and ${item.likes.length - 1} others like this post`
-                                        : item.likes.length == 2 && item.likes.includes(idUser) ? `You and ${item.likes.length - 1} other like this post`
-                                            : item.likes.length == 1 && item.likes.includes(idUser) ? `You like this post`
-                                                : item.likes.length > 2 ? `${usersUsername[`${item.likes[0]}`]} and ${item.likes.length - 1} others like this post`
-                                                    : item.likes.length == 2 ? `${usersUsername[`${item.likes[0]}`]} and ${item.likes.length - 1} other like this post`
-                                                        : item.likes.length == 1 ? `${usersUsername[`${item.likes[0]}`]} likes this post`
-                                                            : null}
-                                </Typography>
-                            </CardActions>
-                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                <Box sx={{ width: '100%', flexGrow: 1 }}>
-                                    {/* <Typography sx={{ ml: 2 }}> */}
-                                    <Box sx={{ ml: 2, mb: 2 }}>
-                                        <Link underline='none' color='inherit' component='button' onClick={() => navigate(`/profile?username=${item.username}`)}>
-                                            <Typography variant='subtitle2' component='span' sx={{ mr: 1 }} >
-                                                {item.username}
-                                            </Typography>
-                                            <Typography variant='body2' component='span'>
-                                                {item.caption}
-                                            </Typography>
-                                        </Link>
-                                    </Box>
-                                    <Divider />
-                                    <Box sx={{ ml: 2, mt: 2 }}>
-                                        {item.comment[0] ?
-                                            // handleGetComment(item.comment) : null
-                                            item.comment.map((value, index) => {
-                                                if (moreComment[`${value.idPost}`] || index < 5) {
-                                                    return <Box key={`k-${index}`}>
-                                                        <Link underline='none' color='inherit' component='button' onClick={() => navigate(`/profile?username=${usersUsername[`${value.idUser}`]}`)}>
-                                                            <Typography variant='subtitle2' component='span' sx={{ mr: 1 }}>
-                                                                {usersUsername[`${value.idUser}`]}
-                                                            </Typography>
-                                                            <Typography variant='body2' component='span'>
-                                                                {value.comment}
-                                                            </Typography>
-                                                        </Link>
-                                                    </Box>
-                                                }
-                                            })
-                                            : null
-                                        }
-                                    </Box>
-                                    {item.comment[0] ? item.comment.length > 5 || item.comment.length < moreComment[`${item.comment[0].idPost}`] ?
-                                        <Button startIcon={<AddCircleOutlineIcon />} size="small" sx={{ ml: 1 }} onClick={() => handleSeeMore(item.comment[0].idPost)}>
-                                            See More
-                                        </Button>
-                                        : null : null}
-                                </Box>
-                                <Box sx={{ flexGrow: 0 }}>
-                                    <CardContent>
-                                        <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+
+
+                <InfiniteScroll
+                    pageStart={0}
+                    loadMore={getMoreData}
+                    hasMore={hasMore ? hasMore : false}
+                    loader={<div className="loader" key={0}>Loading ...</div>}
+                >
+                    {database.map((item, idIndex) => {
+                        return <Box fullwidth sx={{ display: 'flex', my: 4, mx: { xs: 3, md: 0 }, justifyContent: 'center' }} key={`card-${idIndex}`}>
+                            <Card sx={{ width: { xs: '100%', md: '80%' }, maxWidth: '600px' }}>
+                                <Box sx={{ display: 'flex', mx: 2, my: 2 }}>
+                                    <Box>
+                                        <IconButton onClick={() => navigate(`/profile?username=${item.username}`)}>
                                             <Avatar
-                                                src={`${API_URL}${profPic}`}
-                                                sx={{ mr: 2, width: 30, height: 30 }}
+                                                src={`${API_URL}${usersProfPic[item.idUser]}`}
+                                                sx={{ width: 40, height: 40 }}
                                             />
-                                            <TextField fullWidth id="input-with-sx" label="say something!" variant="standard" value={comment} onChange={(e) => setComment(e.target.value)} />
-                                            <IconButton onClick={() => handleComment(comment, item.idPost)}>
-                                                <SendOutlined sx={{ ml: 2, color: 'grey.700' }} />
-                                            </IconButton>
-                                        </Box>
-                                    </CardContent>
+                                        </IconButton>
+                                    </Box>
+                                    <Box sx={{ flexGrow: 1, mt: 0.5, ml: 1 }}>
+                                        <Link
+                                            variant='body2'
+                                            component='button'
+                                            underline='none'
+                                            color='inherit'
+                                            onClick={() => navigate(`/profile?username=${item.username}`)}
+                                        >
+                                            {item.fullName}
+                                            {/* {usersFullName[`${item.username}`]} */}
+                                        </Link>
+                                        <Typography variant='body2' component='h1' sx={{ color: 'grey.600' }}>
+                                            {item.dateCreated}
+                                        </Typography>
+
+                                    </Box>
+                                    <Box sx={{ mt: 1 }}>
+                                        <IconButton aria-label="settings" onClick={(event) => handleOpenMenu(item.username, item.idPost, event)}>
+                                            <MoreVert />
+                                        </IconButton>
+                                    </Box>
                                 </Box>
-                            </Box>
-                        </Card>
-                    </Box>
-                })}
+                                <img src={`${API_URL}${item.image}`} style={{ width: "100%" }} />
+
+                                <CardActions sx={{ mb: 0 }} disableSpacing>
+                                    <IconButton>
+                                        {item.likes.includes(idUser) ? <Favorite sx={{ color: 'secondary.main' }} onClick={() => handleUnlike(item.idPost)} /> : <FavoriteBorderOutlined onClick={() => handleLike(item.idPost)} />}
+                                    </IconButton>
+                                    <Typography variant='body2'>
+                                        {item.likes.length > 2 && item.likes.includes(idUser) ? `You and ${item.likes.length - 1} others like this post`
+                                            : item.likes.length == 2 && item.likes.includes(idUser) ? `You and ${item.likes.length - 1} other like this post`
+                                                : item.likes.length == 1 && item.likes.includes(idUser) ? `You like this post`
+                                                    : item.likes.length > 2 ? `${usersUsername[`${item.likes[0]}`]} and ${item.likes.length - 1} others like this post`
+                                                        : item.likes.length == 2 ? `${usersUsername[`${item.likes[0]}`]} and ${item.likes.length - 1} other like this post`
+                                                            : item.likes.length == 1 ? `${usersUsername[`${item.likes[0]}`]} likes this post`
+                                                                : null}
+                                    </Typography>
+                                </CardActions>
+                                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                    <Box sx={{ width: '100%', flexGrow: 1 }}>
+                                        <Box sx={{ ml: 2, mb: 2 }}>
+                                            <Link underline='none' color='inherit' component='button' onClick={() => navigate(`/profile?username=${item.username}`)}>
+                                                <Typography variant='subtitle2' component='span' sx={{ mr: 1 }} >
+                                                    {item.username}
+                                                </Typography>
+                                                <Typography variant='body2' component='span'>
+                                                    {item.caption}
+                                                </Typography>
+                                            </Link>
+                                        </Box>
+                                        <Divider />
+                                        <Box sx={{ ml: 2, mt: 2 }}>
+                                            {item.comment[0] ?
+                                                // handleGetComment(item.comment) : null
+                                                item.comment.map((value, index) => {
+                                                    if (moreComment[`${value.idPost}`] || index < 2) {
+                                                        return <Box key={`k-${index}`}>
+                                                            <Link underline='none' color='inherit' component='button' onClick={() => navigate(`/profile?username=${usersUsername[`${value.idUser}`]}`)}>
+                                                                <Typography variant='subtitle2' component='span' sx={{ mr: 1 }}>
+                                                                    {usersUsername[`${value.idUser}`]}
+                                                                </Typography>
+                                                                <Typography variant='body2' component='span'>
+                                                                    {value.comment}
+                                                                </Typography>
+                                                            </Link>
+                                                        </Box>
+                                                    }
+                                                })
+                                                : null
+                                            }
+                                            {item.comment.length > 2 ?
+
+                                                <Link href="#" underline="none" component="button"
+                                                    variant="body2"
+                                                    onClick={() => navigate(`/post?idPost=${item.idPost}`)
+                                                    }>
+                                                    See all {item.comment.length} comments
+                                                </Link>
+                                                : null}
+                                        </Box>
+                                    </Box>
+                                    <Box sx={{ flexGrow: 0 }}>
+                                        <CardContent>
+                                            <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                                                <Avatar
+                                                    src={`${API_URL}${profPic}`}
+                                                    sx={{ mr: 2, width: 30, height: 30 }}
+                                                />
+                                                <TextField fullWidth id="input-with-sx" label="say something!" variant="standard" value={comment} onChange={(e) => setComment(e.target.value)} />
+                                                <IconButton onClick={() => handleComment(comment, item.idPost)}>
+                                                    <SendOutlined sx={{ ml: 2, color: 'grey.700' }} />
+                                                </IconButton>
+                                            </Box>
+                                        </CardContent>
+                                    </Box>
+                                </Box>
+                            </Card>
+                        </Box>
+                    })}
+                </InfiniteScroll>
+
+
+
+
                 <ModalEditPost
                     postId={postId}
                     isOpen={openModalEdit}
                     toggle={() => {
-                        setOpenModalEdit(!openModalEdit)
                         getDatabase();
+                        setOpenModalEdit(!openModalEdit)
                     }}
                     data={databaseEdit}
                     caption={caption}

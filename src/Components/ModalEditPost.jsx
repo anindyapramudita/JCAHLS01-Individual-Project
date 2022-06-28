@@ -41,6 +41,7 @@ const ModalEditPost = (props) => {
             // let res = await axios.patch(`${API_URL}/post?idPost=${postId}`, { caption: newCaption })
             await axios.patch(`${API_URL}/posting/editPost?idPost=${postId}`, { caption: newCaption })
             toggle();
+            console.log(profPic)
 
         } catch (error) {
             console.log(error)
@@ -80,7 +81,7 @@ const ModalEditPost = (props) => {
                         <Box sx={{ minWidth: 250, display: 'flex', flexDirection: 'column' }}>
                             <Box sx={{ pt: 2, px: 1, display: 'flex', alignItems: 'center' }}>
                                 <Avatar
-                                    src={profPic}
+                                    src={`${API_URL}${profPic}`}
                                     sx={{ width: 25, height: 25, mr: 1 }}
                                 />
                                 <Typography variant='body2'>{username}</Typography>

@@ -25,6 +25,8 @@ const SinglePostPage = (props) => {
     const [postUsername, setPostUsername] = React.useState()
     const [postId, setPostId] = React.useState()
 
+    const [seeMoreStatus, setSeeMoreStatus] = React.useState(false)
+
     const [dataComment, setDataComment] = React.useState([])
     const [commentLimit, setCommentLimit] = React.useState(5)
     const [commentPage, setCommentPage] = React.useState(1)
@@ -97,12 +99,12 @@ const SinglePostPage = (props) => {
     const handleGetComment = (limit, page) => {
         axios.get(`${API_URL}/posting/getComment${search}&limit=${limit}&page=${page}`)
             .then((response) => {
-                let temp = [...dataComment, ...response.data]
+                let temp = [...dataComment, ...response.data.comment]
                 // console.log("temp :", temp)
                 // temp[page - 1] = (response.data)
                 setDataComment(temp)
-                setNextData(response.data[response.data.length - 1].nextData)
-                console.log(response.data[response.data.length - 1].nextData)
+                setNextData(response.data.nextData)
+                // console.log(response.data[response.data.length - 1].nextData)
             }).catch((error) => {
                 console.log(error)
             })
@@ -111,7 +113,14 @@ const SinglePostPage = (props) => {
     const handleComment = (comment, id) => {
         Axios.post(`${API_URL}/posting/addComment?idPost=${id}`, { idCommenter: idUser, comment })
             .then((response) => {
-                getDatabase();
+                axios.get(`${API_URL}/posting/getComment${search}&limit=${commentLimit * commentPage}&page=1`)
+                    .then((response) => {
+                        let temp = [...response.data.comment]
+                        setDataComment(temp)
+                        setNextData(response.data.nextData)
+                    }).catch((error) => {
+                        console.log(error)
+                    })
                 setComment("")
             }).catch((error) => {
                 console.log(error)
@@ -143,10 +152,10 @@ const SinglePostPage = (props) => {
     }
 
     const handleDeletePost = (postId) => {
-        Axios.delete(`${API_URL}/posts/${postId}`)
+        Axios.delete(`${API_URL}/posting/delete?idPost=${postId}`)
             .then((response) => {
                 setAnchorEl(null)
-                navigate(0)
+                navigate('/')
             }).catch((error) => {
                 console.log(error)
             })
@@ -154,7 +163,7 @@ const SinglePostPage = (props) => {
 
     const handleEditPost = (postId) => {
         console.log(postId)
-        Axios.get(`${API_URL}/post?idPost=${postId}`)
+        Axios.get(`${API_URL}/posting?idPost=${postId}`)
             .then((response) => {
                 setDatabaseEdit(response.data[0])
                 setCaption(response.data[0].caption)
@@ -165,99 +174,24 @@ const SinglePostPage = (props) => {
             })
     }
 
-    // const handleSeeMore = (page) => {
-    //     let newPage = page + 1
-    //     setCommentPage(newPage)
-    //     handleGetComment(commentLimit, commentPage)
-    // }
+    const handleSeeMore = () => {
+        let newPage = commentPage + 1
+        setCommentPage(newPage)
+        setSeeMoreStatus(true)
 
-    const handleSeeMore = (page) => {
-        console.log("newPage :", page)
-        setCommentPage(page)
-        handleGetComment(commentLimit, page)
+        axios.get(`${API_URL}/posting/getComment${search}&limit=${commentLimit}&page=${newPage}`)
+            .then((response) => {
+                let temp = [...dataComment, ...response.data.comment]
+                setDataComment(temp)
+                setNextData(response.data.nextData)
+                setSeeMoreStatus(false)
+            }).catch((error) => {
+                console.log(error)
+                setSeeMoreStatus(false)
+            })
+
+        // handleGetComment(commentLimit, commentPage)
     }
-
-    const handlePrintComment = (page) => {
-        return dataComment.map((value, index) => {
-            if (index === 4) {
-                return <Box >
-                    <Box key={`k-${index}`}>
-                        <Link underline='none' color='inherit' component='button' onClick={() => navigate(`/profile?username=${usersUsername[`${value.idUser}`]}`)}>
-                            <Typography variant='subtitle2' component='span' sx={{ mr: 1 }}>
-                                {usersUsername[`${value.idUser}`]}
-                            </Typography>
-                            <Typography variant='body2' component='span'>
-                                {value.comment}
-                            </Typography>
-                        </Link>
-                    </Box>
-                    <Box>
-                        <Button startIcon={<AddCircleOutlineIcon />} size="small" onClick={() => handleSeeMore(commentPage + 1)}>
-                            See More
-                        </Button>
-                    </Box>
-                </Box>
-
-
-            } else {
-                return <Box key={`k-${index}`}>
-                    <Link underline='none' color='inherit' component='button' onClick={() => navigate(`/profile?username=${usersUsername[`${value.idUser}`]}`)}>
-                        <Typography variant='subtitle2' component='span' sx={{ mr: 1 }}>
-                            {usersUsername[`${value.idUser}`]}
-                        </Typography>
-                        <Typography variant='body2' component='span'>
-                            {value.comment}
-                        </Typography>
-                    </Link>
-                </Box>
-
-            }
-
-        })
-    }
-
-    // const handlePrintComment = (page) => {
-    //     console.log(dataComment[page])
-    //     return dataComment[page].map((value, index) => {
-    //         if (index === 4) {
-    //             return <Box >
-    //                 <Box key={`k-${index}`}>
-    //                     <Link underline='none' color='inherit' component='button' onClick={() => navigate(`/profile?username=${usersUsername[`${value.idUser}`]}`)}>
-    //                         <Typography variant='subtitle2' component='span' sx={{ mr: 1 }}>
-    //                             {usersUsername[`${value.idUser}`]}
-    //                         </Typography>
-    //                         <Typography variant='body2' component='span'>
-    //                             {value.comment}
-    //                         </Typography>
-    //                     </Link>
-    //                 </Box>
-    //                 {dataComment[page + 1] ? handlePrintComment(page + 1) : null}
-    //                 <Box>
-    //                     <Button startIcon={<AddCircleOutlineIcon />} size="small" onClick={() => handleSeeMore(page + 1)}>
-    //                         See More
-    //                     </Button>
-    //                 </Box>
-    //             </Box>
-
-
-    //         } else {
-    //             return <Box key={`k-${index}`}>
-    //                 <Link underline='none' color='inherit' component='button' onClick={() => navigate(`/profile?username=${usersUsername[`${value.idUser}`]}`)}>
-    //                     <Typography variant='subtitle2' component='span' sx={{ mr: 1 }}>
-    //                         {usersUsername[`${value.idUser}`]}
-    //                     </Typography>
-    //                     <Typography variant='body2' component='span'>
-    //                         {value.comment}
-    //                     </Typography>
-    //                 </Link>
-    //             </Box>
-
-    //         }
-
-    //     })
-
-    //     // }
-    // }
 
     return <div>
         <NavigationBar />
@@ -353,31 +287,36 @@ const SinglePostPage = (props) => {
                                 </Box>
                                 <Divider />
                                 <Box sx={{ ml: 2, mt: 2 }}>
-                                    {dataComment[0] ? handlePrintComment(1) : null}
-                                    {/* {item.comment[0] ?
-                                            // handleGetComment(item.comment) : null
-                                            item.comment.map((value, index) => {
-                                                if (moreComment[`${value.idPost}`] || index < 5) {
-                                                    return <Box key={`k-${index}`}>
-                                                        <Link underline='none' color='inherit' component='button' onClick={() => navigate(`/profile?username=${usersUsername[`${value.idUser}`]}`)}>
-                                                            <Typography variant='subtitle2' component='span' sx={{ mr: 1 }}>
-                                                                {usersUsername[`${value.idUser}`]}
-                                                            </Typography>
-                                                            <Typography variant='body2' component='span'>
-                                                                {value.comment}
-                                                            </Typography>
-                                                        </Link>
-                                                    </Box>
-                                                }
-                                            })
-                                            : null
-                                        } */}
+                                    {/* {dataComment[0] ? handlePrintComment(1) : null} */}
+
+                                    {dataComment[0] ?
+                                        dataComment.map((value, index) => {
+                                            return <Box >
+                                                <Box key={`k-${index}`}>
+                                                    <Link underline='none' color='inherit' component='button' onClick={() => navigate(`/profile?username=${usersUsername[`${value.idUser}`]}`)}>
+                                                        <Typography variant='subtitle2' component='span' sx={{ mr: 1 }}>
+                                                            {usersUsername[`${value.idUser}`]}
+                                                        </Typography>
+                                                        <Typography variant='body2' component='span'>
+                                                            {value.comment}
+                                                        </Typography>
+                                                    </Link>
+                                                </Box>
+                                            </Box>
+                                        })
+                                        : null}
+
                                 </Box>
-                                {/* {item.comment[0] ? item.comment.length > 5 || item.comment.length < moreComment[`${item.comment[0].idPost}`] ?
-                                        <Button startIcon={<AddCircleOutlineIcon />} size="small" sx={{ ml: 1 }} onClick={() => handleSeeMore(item.comment[0].idPost)}>
+
+                                {nextData ?
+                                    <Box sx={{ ml: 1, mt: 2, display: "flex", justifyContent: 'center' }} fullWidth >
+                                        <Button startIcon={<AddCircleOutlineIcon />} size="small" onClick={() => handleSeeMore()} variant="outlined" fullWidth disabled={seeMoreStatus}>
                                             See More
                                         </Button>
-                                        : null : null} */}
+                                    </Box>
+                                    : null
+                                }
+
                             </Box>
                             <Box sx={{ flexGrow: 0 }}>
                                 <CardContent>
