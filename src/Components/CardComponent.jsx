@@ -11,6 +11,7 @@ import Share from '@mui/icons-material/Share';
 import { useNavigate } from 'react-router-dom';
 import ModalEditPost from './ModalEditPost';
 import InfiniteScroll from 'react-infinite-scroller';
+import ModalShare from './ModalShare';
 
 const CardComponent = (props) => {
 
@@ -36,6 +37,7 @@ const CardComponent = (props) => {
     const [caption, setCaption] = React.useState()
 
     const [openModalEdit, setOpenModalEdit] = React.useState(false)
+    const [openModalShare, setOpenModalShare] = React.useState(false)
 
     const navigate = useNavigate();
 
@@ -56,25 +58,12 @@ const CardComponent = (props) => {
     }, [])
 
     const getDatabase = () => {
-        // let tempUsers = [username, ...userFollowed]
         let tempUsers = [username]
         let query = `?limit=${postLimit}&page=${postPage}&order=desc`
 
         let tempProfPic = {}
         let tempFullName = {}
         let tempUsername = {}
-
-        // for (let i = 0; i < tempUsers.length; i++) {
-        //     query += `username=${tempUsers[i]}&`
-        //     // Axios.get(`${API_URL}/users?username=${tempUsers[i]}`)
-        //     Axios.get(`${API_URL}/user`)
-        //         .then((response) => {
-        //             tempProfPic[`${tempUsers[i]}`] = response.data[0].profilePicture
-        //             tempFullName[`${tempUsers[i]}`] = response.data[0].fullName
-        //         }).catch((error) => {
-        //             console.log(error)
-        //         })
-        //     }
 
         Axios.get(`${API_URL}/user`)
             .then((response) => {
@@ -92,7 +81,7 @@ const CardComponent = (props) => {
         setUsersFullName(tempFullName)
         setUsersUsername(tempUsername)
 
-        Axios.get(`${API_URL}/posting/getCopy${query}`)
+        Axios.get(`${API_URL}/posting/${query}`)
             .then((response) => {
                 setDatabase(response.data.post)
                 setHasMore(response.data.nextData)
@@ -186,7 +175,8 @@ const CardComponent = (props) => {
 
         let query = `?limit=${postLimit}&page=${temp}&order=desc`
 
-        Axios.get(`${API_URL}/posting/getCopy${query}`)
+        // Axios.get(`${API_URL}/posting/getCopy${query}`)
+        Axios.get(`${API_URL}/posting/${query}`)
             .then((response) => {
                 let combinePost = [...database, ...response.data.post]
                 setDatabase(combinePost)
@@ -197,6 +187,11 @@ const CardComponent = (props) => {
                 console.log(error)
             })
 
+    }
+
+    const handleShare = () => {
+        setOpenModalShare(!openModalShare)
+        setAnchorEl(null)
     }
 
     return <div>
@@ -214,7 +209,7 @@ const CardComponent = (props) => {
                     >
                         <MenuItem onClick={() => handleEditPost(postId)}>Edit Post</MenuItem>
                         <MenuItem onClick={() => handleDeletePost(postId)}>Delete Post</MenuItem>
-                        <MenuItem onClick={() => setAnchorEl(null)}>Share Post</MenuItem>
+                        <MenuItem onClick={handleShare}>Share Post</MenuItem>
                     </Menu>
                     :
                     <Menu
@@ -260,7 +255,6 @@ const CardComponent = (props) => {
                                             onClick={() => navigate(`/profile?username=${item.username}`)}
                                         >
                                             {item.fullName}
-                                            {/* {usersFullName[`${item.username}`]} */}
                                         </Link>
                                         <Typography variant='body2' component='h1' sx={{ color: 'grey.600' }}>
                                             {item.dateCreated}
@@ -304,7 +298,6 @@ const CardComponent = (props) => {
                                         <Divider />
                                         <Box sx={{ ml: 2, mt: 2 }}>
                                             {item.comment[0] ?
-                                                // handleGetComment(item.comment) : null
                                                 item.comment.map((value, index) => {
                                                     if (moreComment[`${value.idPost}`] || index < 2) {
                                                         return <Box key={`k-${index}`}>
@@ -354,7 +347,6 @@ const CardComponent = (props) => {
 
 
 
-
                 <ModalEditPost
                     postId={postId}
                     isOpen={openModalEdit}
@@ -365,6 +357,19 @@ const CardComponent = (props) => {
                     data={databaseEdit}
                     caption={caption}
                 />
+                <ModalShare
+                    postId={postId}
+                    isOpen={openModalShare}
+                    toggle={() => {
+                        setOpenModalShare(!openModalShare)
+                    }}
+                    data={databaseEdit}
+                />
+
+
+
+
+
             </Box>
             : null
         }

@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux';
 import ModalEditPost from "../Components/ModalEditPost";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import axios from "axios";
+import ModalShare from "../Components/ModalShare";
+import { Helmet } from "react-helmet";
 
 
 
@@ -43,6 +45,7 @@ const SinglePostPage = (props) => {
     const [caption, setCaption] = React.useState()
 
     const [openModalEdit, setOpenModalEdit] = React.useState(false)
+    const [openModalShare, setOpenModalShare] = React.useState(false)
 
     const navigate = useNavigate();
 
@@ -91,6 +94,7 @@ const SinglePostPage = (props) => {
         Axios.get(`${API_URL}/posting${search}`)
             .then((response) => {
                 setDatabase(response.data)
+                console.log(response.data)
             }).catch((error) => {
                 console.log(error)
             })
@@ -193,10 +197,32 @@ const SinglePostPage = (props) => {
         // handleGetComment(commentLimit, commentPage)
     }
 
+    const handleShare = () => {
+        setOpenModalShare(!openModalShare)
+        setAnchorEl(null)
+    }
+
     return <div>
         <NavigationBar />
         {database ?
             <Box>
+                <Helmet>
+                    <meta
+                        property="title"
+                        key="title"
+                        content={`@${database[0].username}`}
+                    />
+                    <meta
+                        property="og:description"
+                        key="og:description"
+                        content={`Hey! Check out this image by ${database[0].fullName}`}
+                    />
+                    <meta
+                        property="og:image"
+                        key="og:image"
+                        content={`${API_URL}/${database[0].image}`}
+                    />
+                </Helmet>
                 {postUsername == username ?
                     <Menu
                         id="basic-menu"
@@ -209,7 +235,7 @@ const SinglePostPage = (props) => {
                     >
                         <MenuItem onClick={() => { handleEditPost(postId) }}>Edit Post</MenuItem>
                         <MenuItem onClick={() => handleDeletePost(postId)}>Delete Post</MenuItem>
-                        <MenuItem onClick={() => setAnchorEl(null)}>Share Post</MenuItem>
+                        <MenuItem onClick={handleShare}>Share Post</MenuItem>
                     </Menu>
                     :
                     <Menu
@@ -221,7 +247,7 @@ const SinglePostPage = (props) => {
                             'aria-labelledby': 'basic-button',
                         }}
                     >
-                        <MenuItem onClick={() => setAnchorEl(null)}>Share Post</MenuItem>
+                        <MenuItem onClick={handleShare}>Share Post</MenuItem>
                     </Menu>
                 }
                 <Box fullwidth sx={{ display: 'flex', my: 4, mx: { xs: 3, md: 0 }, justifyContent: 'center' }}>
@@ -291,17 +317,15 @@ const SinglePostPage = (props) => {
 
                                     {dataComment[0] ?
                                         dataComment.map((value, index) => {
-                                            return <Box >
-                                                <Box key={`k-${index}`}>
-                                                    <Link underline='none' color='inherit' component='button' onClick={() => navigate(`/profile?username=${usersUsername[`${value.idUser}`]}`)}>
-                                                        <Typography variant='subtitle2' component='span' sx={{ mr: 1 }}>
-                                                            {usersUsername[`${value.idUser}`]}
-                                                        </Typography>
-                                                        <Typography variant='body2' component='span'>
-                                                            {value.comment}
-                                                        </Typography>
-                                                    </Link>
-                                                </Box>
+                                            return <Box key={`k-${index}`}>
+                                                <Link underline='none' color='inherit' component='button' onClick={() => navigate(`/profile?username=${usersUsername[`${value.idUser}`]}`)}>
+                                                    <Typography variant='subtitle2' component='span' sx={{ mr: 1 }}>
+                                                        {usersUsername[`${value.idUser}`]}
+                                                    </Typography>
+                                                    <Typography variant='body2' component='span'>
+                                                        {value.comment}
+                                                    </Typography>
+                                                </Link>
                                             </Box>
                                         })
                                         : null}
@@ -344,6 +368,14 @@ const SinglePostPage = (props) => {
                     }}
                     data={databaseEdit}
                     caption={caption}
+                />
+                <ModalShare
+                    postId={postId}
+                    isOpen={openModalShare}
+                    toggle={() => {
+                        setOpenModalShare(!openModalShare)
+                    }}
+                    data={databaseEdit}
                 />
             </Box>
             : null

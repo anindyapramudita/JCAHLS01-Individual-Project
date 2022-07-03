@@ -149,6 +149,15 @@ const ProfileInfo = (props) => {
                 @{userDetail ? userDetail.username : null}
             </Typography>
 
+            <Typography
+                variant="body2"
+                component="div"
+                color='grey.500'
+                sx={{ display: 'flex', justifyContent: 'center' }}
+            >
+                ({userDetail ? userDetail.email : null})
+            </Typography>
+
             <Box
                 sx={{ mx: { xs: 8, md: 15, xl: 20 }, mt: 3, justifyContent: 'center' }}>
                 <Typography

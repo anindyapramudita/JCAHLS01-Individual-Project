@@ -34,7 +34,6 @@ export default function UserLikedPosts() {
                 Axios.get(`${API_URL}/posting?likes=${response.data[0].idUser}`)
                     .then((response) => {
                         setLikedPosts(response.data)
-                        // console.log(response.data[1].image)
                     }).catch((error) => {
                         console.log(error)
                     })
