@@ -238,6 +238,7 @@ const ResetPasswordPage = () => {
                                 sx={{ mt: 3, mb: 2 }}
                                 onClick={handleReset}
                                 color="primary"
+                                disabled={passwordValidity == true && passwordConfValidity == true ? false : true}
                             >
                                 Reset password
                             </Button>

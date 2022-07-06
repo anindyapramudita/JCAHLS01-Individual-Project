@@ -332,7 +332,7 @@ const CardComponent = (props) => {
                                                     src={`${API_URL}${profPic}`}
                                                     sx={{ mr: 2, width: 30, height: 30 }}
                                                 />
-                                                <TextField fullWidth id="input-with-sx" label="say something!" variant="standard" value={comment} onChange={(e) => setComment(e.target.value)} />
+                                                <TextField fullWidth id="input-with-sx" label="say something!" variant="standard" value={comment} inputProps={{ maxLength: 300 }} multiline onChange={(e) => setComment(e.target.value)} />
                                                 <IconButton onClick={() => handleComment(comment, item.idPost)}>
                                                     <SendOutlined sx={{ ml: 2, color: 'grey.700' }} />
                                                 </IconButton>

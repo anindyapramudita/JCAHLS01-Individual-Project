@@ -49,7 +49,7 @@ export default function SignUpPopup(props) {
     const [passValue, setPassValue] = React.useState()
     const [passConfValue, setPassConfValue] = React.useState()
 
-    const [disableButton, setDisableButton] = React.useState(false)
+    const [disableButton, setDisableButton] = React.useState(true)
 
     const userData = useUserData();
 
@@ -76,17 +76,18 @@ export default function SignUpPopup(props) {
         if (newEmail == "") {
             setEmailValidity("null")
             setEmailInfo()
-        } else if (newEmail.includes("@")) {
+        } else if (newEmail.includes("@") && newEmail.includes(".com")) {
             let index = userDatabase.findIndex((value) => value.email === newEmail)
             console.log(index)
             if (index < 0) {
                 setEmailValidity(true)
                 setEmailValue(newEmail)
+                setEmailInfo()
             } else if (index >= 0) {
                 setEmailValidity(false)
                 setEmailInfo("That email is already registered")
             }
-        } else if (!newEmail.includes("@")) {
+        } else if (!newEmail.includes("@") && !newEmail.includes(".com")) {
             setEmailValidity(false)
             setEmailInfo("Please fill in a valid email address")
         }
@@ -339,7 +340,7 @@ export default function SignUpPopup(props) {
                             sx={{ mt: 2, mb: 2 }}
                             color="primary"
                             onClick={handleRegister}
-                            disabled={disableButton}
+                            disabled={userValidity == true && emailValidity == true && passwordValidity == true && passwordConfValidity == true && fullnameValue ? false : true}
                         >
                             Sign Up!
                         </Button>

@@ -159,7 +159,7 @@ const ProfileInfo = (props) => {
             </Typography>
 
             <Box
-                sx={{ mx: { xs: 8, md: 15, xl: 20 }, mt: 3, justifyContent: 'center' }}>
+                sx={{ mx: { xs: 8, md: 15, xl: 20 }, mt: 3, mb: 3, justifyContent: 'center' }}>
                 <Typography
                     variant="body2"
                     component="div"
@@ -182,22 +182,23 @@ const ProfileInfo = (props) => {
                         type="button"
                         variant="outlined"
                         color="primary"
-                        sx={{ mt: 3, mb: 2, width: 250 }}
+                        sx={{ mb: 2, width: 250 }}
                         startIcon={<SettingsIcon />}
                         onClick={() => navigate('/settings')}
                     >
                         Edit Profile
                     </Button>
                     :
-                    <Button
-                        type="button"
-                        variant="contained"
-                        color="primary"
-                        sx={{ my: 3, width: 200 }}
-                        startIcon={<PersonAdd />}
-                    >
-                        Follow
-                    </Button>
+                    null
+                    // <Button
+                    //     type="button"
+                    //     variant="contained"
+                    //     color="primary"
+                    //     sx={{ my: 3, width: 200 }}
+                    //     startIcon={<PersonAdd />}
+                    // >
+                    //     Follow
+                    // </Button>
 
                 }
                 {userDetail ? userDetail.username == username ? userDetail.status == "Unverified" ?

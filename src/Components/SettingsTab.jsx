@@ -376,7 +376,7 @@ export default function SettingsTab() {
                                 variant="contained"
                                 color="primary"
                                 onClick={handleSaveChanges}
-                                disabled={newUsername !== username || newFullname !== fullname || newBio !== bio ? false : true}
+                                disabled={newUsername !== username || newFullname !== fullname || newBio !== bio ? buttonValidity == false ? false : true : true}
                             >
                                 Save changes
                             </Button>
