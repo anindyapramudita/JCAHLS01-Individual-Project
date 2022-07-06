@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { InputAdornment, IconButton, FormControl, InputLabel, OutlinedInput, FormHelperText } from '@mui/material';
+import { InputAdornment, IconButton, FormControl, InputLabel, OutlinedInput, FormHelperText, Container } from '@mui/material';
 import { VisibilityOff, Visibility, IndeterminateCheckBox } from '@mui/icons-material';
 import Axios from "axios";
 import { API_URL } from '../helper';
@@ -32,6 +32,8 @@ const ResetPasswordPage = () => {
     const navigate = useNavigate();
     let { token } = useParams()
 
+    const [userData, setUserData] = React.useState()
+
     const [newPassword, setNewPassword] = React.useState()
     const [newPasswordConfirmation, setNewPasswordConfirmation] = React.useState()
 
@@ -44,7 +46,20 @@ const ResetPasswordPage = () => {
 
 
     React.useEffect(() => {
+        getData();
     }, [])
+
+    const getData = () => {
+        axios.get(`${API_URL}/user/verificationData`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then((response) => {
+            setUserData(response.data)
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
 
     const handleCheckPassword = (password) => {
         let temp = password.split("")
@@ -149,105 +164,125 @@ const ResetPasswordPage = () => {
     }
 
 
-    return (
-        <>
-            <Grid container component="main" sx={{ height: '100vh' }}>
-                <CssBaseline />
-                <Grid
-                    item
-                    xs={false}
-                    sm={4}
-                    md={7}
-                    sx={{
-                        backgroundImage: 'url(https://source.unsplash.com/random)',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundColor: (t) =>
-                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                    }}
-                />
-                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-                    <Box
+    return <div>
+        {userData ? userData.lastToken == token ?
+            <>
+                <Grid container component="main" sx={{ height: '100vh' }}>
+                    <CssBaseline />
+                    <Grid
+                        item
+                        xs={false}
+                        sm={4}
+                        md={7}
                         sx={{
-                            my: 8,
-                            mx: 4,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
+                            backgroundImage: 'url(https://source.unsplash.com/random)',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundColor: (t) =>
+                                t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
                         }}
-                    >
-                        <Avatar sx={{ my: 5, bgcolor: 'secondary.main' }}>
-                            <CameraIcon />
-                        </Avatar>
-                        <Typography component="h1" variant="h4">
-                            One more thing!
-                        </Typography>
-                        <Typography component="body2" variant="body2" sx={{ mt: 3 }} color="grey.600">
-                            Let's create your new password
-                        </Typography>
-                        <Box component="form" noValidate sx={{ mt: 3 }}>
+                    />
+                    <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                        <Box
+                            sx={{
+                                my: 8,
+                                mx: 4,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <Avatar sx={{ my: 5, bgcolor: 'secondary.main' }}>
+                                <CameraIcon />
+                            </Avatar>
+                            <Typography component="h1" variant="h4">
+                                One more thing!
+                            </Typography>
+                            <Typography component="body2" variant="body2" sx={{ mt: 3 }} color="grey.600">
+                                Let's create your new password
+                            </Typography>
+                            <Box component="form" noValidate sx={{ mt: 3 }}>
 
-                            <FormControl fullWidth variant="outlined" margin="normal">
-                                <InputLabel
-                                    htmlFor="outlined-adornment-password"
+                                <FormControl fullWidth variant="outlined" margin="normal">
+                                    <InputLabel
+                                        htmlFor="outlined-adornment-password"
+                                        required
+                                        error={passwordValidity == "null" ? null : !passwordValidity}
+                                        color={passwordInfo ? "success" : null}
+                                    >New Password</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-password"
+                                        type={showPassword ? 'text' : 'password'}
+                                        onChange={(e) => handleCheckPassword(e.target.value)}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                    // onMouseDown={handleMouseDownPassword}
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                        error={passwordValidity == "null" ? null : !passwordValidity}
+                                        color={passwordInfo ? "success" : null}
+                                        label="Password"
+                                    />
+                                    <FormHelperText>{passwordInfo}</FormHelperText>
+                                </FormControl>
+                                <TextField
+                                    margin="normal"
                                     required
-                                    error={passwordValidity == "null" ? null : !passwordValidity}
-                                    color={passwordInfo ? "success" : null}
-                                >New Password</InputLabel>
-                                <OutlinedInput
-                                    id="outlined-adornment-password"
-                                    type={showPassword ? 'text' : 'password'}
-                                    onChange={(e) => handleCheckPassword(e.target.value)}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={() => setShowPassword(!showPassword)}
-                                                // onMouseDown={handleMouseDownPassword}
-                                                edge="end"
-                                            >
-                                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                    error={passwordValidity == "null" ? null : !passwordValidity}
-                                    color={passwordInfo ? "success" : null}
-                                    label="Password"
+                                    fullWidth
+                                    id="passConf"
+                                    label="New Password Confirmation"
+                                    name="passConf"
+                                    autoComplete="passConf"
+                                    type="password"
+                                    autoFocus
+                                    onChange={(e) => handleRecheckPassword(e.target.value)}
+                                    error={passwordConfValidity == "null" ? null : !passwordConfValidity}
+                                    color={passwordConfValidity ? "success" : null}
                                 />
-                                <FormHelperText>{passwordInfo}</FormHelperText>
-                            </FormControl>
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="passConf"
-                                label="New Password Confirmation"
-                                name="passConf"
-                                autoComplete="passConf"
-                                type="password"
-                                autoFocus
-                                onChange={(e) => handleRecheckPassword(e.target.value)}
-                                error={passwordConfValidity == "null" ? null : !passwordConfValidity}
-                                color={passwordConfValidity ? "success" : null}
-                            />
-                            <Button
-                                type="button"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                                onClick={handleReset}
-                                color="primary"
-                                disabled={passwordValidity == true && passwordConfValidity == true ? false : true}
-                            >
-                                Reset password
-                            </Button>
+                                <Button
+                                    type="button"
+                                    fullWidth
+                                    variant="contained"
+                                    sx={{ mt: 3, mb: 2 }}
+                                    onClick={handleReset}
+                                    color="primary"
+                                    disabled={passwordValidity == true && passwordConfValidity == true ? false : true}
+                                >
+                                    Reset password
+                                </Button>
+                            </Box>
                         </Box>
-                    </Box>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </>
-    );
+            </>
+            : <Container sx={{ py: 15, px: 5 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'primary' }}>
+
+                    <Avatar
+                        flexItem
+                        src="https://i.kym-cdn.com/entries/icons/original/000/024/027/blog_image_3822_4926_Webcomic_Name_April_Fools_Day_201703231756.jpg"
+                        sx={{ width: 100, height: 100, mb: 2 }}
+                    />
+                    <Typography variant="h5" component="h1" align="center">
+                        We're sorry, your token has expired!
+                    </Typography>
+                    <Typography variant="body2" sx={{ mt: 2, mb: 4 }} align="center">
+                        Please check your inbox for the updated verification link or log in to your account and get a new verification link!
+                    </Typography>
+                    <Button variant="outlined" onClick={() => navigate('/')}>Login</Button>
+                </Box>
+            </Container>
+            : null}
+    </div>
+        ;
 }
 
 export default ResetPasswordPage;

@@ -49,6 +49,7 @@ export default function ModalForgotPassword(props) {
             setEmailError(false)
             setEmailSent(true)
             setHelperText()
+            setStatusDisabled(false)
         }).catch((error) => {
             console.log(error);
             setStatusDisabled(false)
