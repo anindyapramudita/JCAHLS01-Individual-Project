@@ -49,7 +49,7 @@ export default function SignUpPopup(props) {
     const [passValue, setPassValue] = React.useState()
     const [passConfValue, setPassConfValue] = React.useState()
 
-    const [disableButton, setDisableButton] = React.useState(true)
+    const [disableButton, setDisableButton] = React.useState(false)
 
     const userData = useUserData();
 
@@ -179,6 +179,8 @@ export default function SignUpPopup(props) {
         } else if (passwordConfirmation !== passwordConf) {
             setPasswordConfValidity(false)
         }
+
+        console.log(fullnameValue, userValidity, emailValidity, passwordValidity, passwordConfValidity)
     }
 
 
@@ -203,21 +205,8 @@ export default function SignUpPopup(props) {
         }
     }
 
-    // const handleRegister = async () => {
-    //     if (userValidity && emailValidity && passwordValidity && passwordConfValidity && fullnameValue) {
-    //         let res = await axios.post(`${API_URL}/user/register`, {
-    //             fullName: fullnameValue,
-    //             username: usernameValue,
-    //             email: emailValue,
-    //             password: passValue
-    //         })
-    //         setDisableButton(true)
-
-    //         dispatch(loginAction(res.data))
-    //         localStorage.setItem("tokenIdUser", res.data.token)
-    //         navigate(0)
-
-    //     }
+    // const buttonStatus = () => {
+    //     if (userValidity == true && emailValidity == true && passwordValidity == true && passwordConfValidity == true && fullnameValue)
     // }
 
     return (
@@ -340,8 +329,9 @@ export default function SignUpPopup(props) {
                             sx={{ mt: 2, mb: 2 }}
                             color="primary"
                             onClick={handleRegister}
-                            disabled={userValidity == true && emailValidity == true && passwordValidity == true && passwordConfValidity == true && fullnameValue ? false : true}
+                            disabled={userValidity == true && emailValidity == true && passwordValidity == true && passwordConfValidity == true && fullnameValue ? disableButton : true}
                         >
+
                             Sign Up!
                         </Button>
                     </Box>

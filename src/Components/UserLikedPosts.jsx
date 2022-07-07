@@ -9,6 +9,7 @@ import { API_URL } from '../helper';
 import { useUserData } from '../api/use-user-data';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import NoPost from './NoPost';
 
 export default function UserLikedPosts() {
     const { id, username } = useSelector((state) => {
@@ -44,8 +45,7 @@ export default function UserLikedPosts() {
 
     return (
         <Box fullwidth sx={{ overflowY: 'auto' }}>
-            {likedPosts ?
-
+            {likedPosts ? likedPosts.length > 0 ?
                 <ImageList variant="masonry" cols={3} gap={8}>
                     {likedPosts.map((item) => (
                         <ImageListItem key={item.image}>
@@ -61,7 +61,7 @@ export default function UserLikedPosts() {
                         </ImageListItem>
                     ))}
                 </ImageList>
-                : null}
+                : <NoPost /> : null}
         </Box>
     );
 }

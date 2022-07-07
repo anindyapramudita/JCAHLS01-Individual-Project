@@ -8,6 +8,7 @@ import { API_URL } from '../helper';
 import Axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import NoPost from './NoPost';
 
 export default function UserPosts() {
     const { idUser, username } = useSelector((state) => {
@@ -40,7 +41,7 @@ export default function UserPosts() {
 
     return (
         <Box fullwidth sx={{ overflowY: 'auto' }}>
-            {userPosts ?
+            {userPosts ? userPosts.length > 0 ?
                 <ImageList variant="masonry" cols={3} gap={8}>
                     {userPosts.map((item) => (
                         <ImageListItem key={item.image}>
@@ -53,7 +54,7 @@ export default function UserPosts() {
                         </ImageListItem>
                     ))}
                 </ImageList>
-                : null}
+                : <NoPost /> : null}
         </Box>
     );
 }

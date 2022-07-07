@@ -48,7 +48,8 @@ const VerificationInfo = () => {
         {sendStatus ?
             <Container sx={{ py: 15, px: 5 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'primary' }}>
-                    <Avatar alt="Email Verification" src="https://media.istockphoto.com/vectors/confirmed-letter-vector-id1357207733?k=20&m=1357207733&s=612x612&w=0&h=wAx-f6hQ6-BJQNJsHQcSP32paK8g36qQ8TCdBAvYha4=" sx={{ width: 150, height: 150 }} />
+                    {/* <Avatar alt="Email Verification" src="https://cdni.iconscout.com/illustration/premium/thumb/sent-mail-4841220-4042050.png" sx={{ width: 150, height: 150 }} /> */}
+                    <Avatar alt="Email Verification" src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/35b7ec96617943.5eb28bcd2594b.png" sx={{ width: 150, height: 150 }} />
                     <Typography variant="h5" component="h1" align="center">
                         It's sent!
                     </Typography>
@@ -60,7 +61,8 @@ const VerificationInfo = () => {
             :
             <Container sx={{ py: 15, px: 5 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'primary' }}>
-                    <Avatar alt="Email Verification" src="https://socialprofiletools.com//assets/images/email-verify.png" sx={{ width: 150, height: 150 }} />
+                    {/* <Avatar alt="Email Verification" src="https://cdni.iconscout.com/illustration/premium/thumb/mail-envelope-4841227-4042057.png" sx={{ width: 150, height: 150 }} /> */}
+                    <Avatar alt="Email Verification" src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/0fbca396617943.5eb28bcd262d9.png" sx={{ width: 150, height: 150 }} />
                     <Typography variant="h5" component="h1" align="center">
                         Thanks for joining us, {userData ? userData.fullName : null}!
                     </Typography>

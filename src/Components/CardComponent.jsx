@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { API_URL } from "../helper";
 import Axios from "axios";
-import { Box, Card, CardHeader, Avatar, CardMedia, CardContent, Typography, CardActions, IconButton, useRadioGroup, Divider, TextField, InputAdornment, ListItemSecondaryAction, Link, Menu, MenuItem, Button } from '@mui/material';
+import { Box, Card, CardHeader, Avatar, CardMedia, CardContent, Typography, CardActions, IconButton, useRadioGroup, Divider, TextField, InputAdornment, ListItemSecondaryAction, Link, Menu, MenuItem, Button, Container } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import { FavoriteBorder, FavoriteBorderOutlined, IosShareOutlined, MoreVert, SendOutlined, SendToMobile, SendToMobileOutlined } from '@mui/icons-material';
@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import ModalEditPost from './ModalEditPost';
 import InfiniteScroll from 'react-infinite-scroller';
 import ModalShare from './ModalShare';
+import NoPost from './NoPost';
 
 const CardComponent = (props) => {
 
@@ -44,7 +45,7 @@ const CardComponent = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
 
-    const { userFollowed, profPic, username, idUser } = useSelector((state) => {
+    const { profPic, username, idUser } = useSelector((state) => {
         return {
             userFollowed: state.usersReducer.userFollowed,
             profPic: state.usersReducer.profilePicture,
@@ -149,25 +150,6 @@ const CardComponent = (props) => {
             }).catch((error) => {
                 console.log(error)
             })
-    }
-
-    const handleSeeMore = (idPost) => {
-        console.log(idPost);
-        console.log("moreComment: ", moreComment[`${idPost}`])
-
-        if (moreComment[`${idPost}`]) {
-            let temp = moreComment[`${idPost}`] + 5
-            setMoreComment(temp)
-            console.log(moreComment[`${idPost}`])
-            getDatabase();
-        } else {
-            let temp = { idPost: 10 }
-            setMoreComment(temp)
-            console.log("moreComment: ", moreComment[`${idPost}`])
-            console.log(moreComment.idPost)
-            console.log(moreComment)
-            getDatabase();
-        }
     }
 
     const getMoreData = () => {
@@ -371,7 +353,8 @@ const CardComponent = (props) => {
 
 
             </Box>
-            : null
+            :
+            <NoPost />
         }
     </div>
 }
