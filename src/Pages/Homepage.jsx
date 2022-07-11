@@ -22,7 +22,7 @@ const Homepage = (props) => {
             <>
                 <NavigationBar />
                 <CardComponent />
-                <CreateButton />
+                {/* <CreateButton /> */}
             </>
             :
             <>

@@ -154,7 +154,7 @@ const ResetPasswordPage = () => {
                 }
             }).then((res) => {
                 alert(`Password has been successfully changed`)
-                navigate('/login', { replace: true })
+                navigate('/login')
             }).catch((error) => {
                 console.log(error)
             })
@@ -280,7 +280,23 @@ const ResetPasswordPage = () => {
                     <Button variant="outlined" onClick={() => navigate('/')}>Login</Button>
                 </Box>
             </Container>
-            : null}
+            : <Container sx={{ py: 15, px: 5 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'primary' }}>
+
+                    <Avatar
+                        // flexItem
+                        src="https://i.kym-cdn.com/entries/icons/original/000/024/027/blog_image_3822_4926_Webcomic_Name_April_Fools_Day_201703231756.jpg"
+                        sx={{ width: 100, height: 100, mb: 2 }}
+                    />
+                    <Typography variant="h5" component="h1" align="center">
+                        We're sorry, your token has expired!
+                    </Typography>
+                    <Typography variant="body2" sx={{ mt: 2, mb: 4 }} align="center">
+                        Please check your inbox for the updated verification link or log in to your account and get a new verification link!
+                    </Typography>
+                    <Button variant="outlined" onClick={() => navigate('/')}>Login</Button>
+                </Box>
+            </Container>}
     </div>
         ;
 }

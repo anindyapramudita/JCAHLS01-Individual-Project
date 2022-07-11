@@ -4,8 +4,9 @@ import AddIcon from '@mui/icons-material/Add';
 import { Menu, MenuItem } from '@mui/material';
 import ModalNewPost from './ModalNewPost';
 
-export default function CreateButton() {
+const CreateButton = (props) => {
     const [openModal, setOpenModal] = React.useState(false)
+    const { refresh } = props
     // const [anchorEl, setAnchorEl] = React.useState(null);
     // const open = Boolean(anchorEl);
     // const handleClick = (event) => {
@@ -17,6 +18,7 @@ export default function CreateButton() {
 
     const handleNewPost = () => {
         setOpenModal(!openModal)
+        refresh();
     }
 
     return (
@@ -33,3 +35,5 @@ export default function CreateButton() {
         </div>
     );
 }
+
+export default CreateButton;

@@ -49,30 +49,52 @@ const ModalNewPost = (props) => {
         }
     }
 
-    const handlePost = async () => {
-        try {
-
-            let token = localStorage.getItem("TokenIdUser")
-            let formData = new FormData();
-            let data = {
-                idUser,
-                // image: newDataImage,
-                caption
-            }
-            formData.append('data', JSON.stringify(data))
-            formData.append('image', newDataImage)
-            console.log(newDataImage)
-
-            let res = await axios.post(`${API_URL}/posting/addPost`, formData);
-
-            toggle();
-            navigate(0)
-
-        } catch (error) {
-            console.log(error)
+    const handlePost = () => {
+        let token = localStorage.getItem("TokenIdUser")
+        let formData = new FormData();
+        let data = {
+            idUser,
+            // image: newDataImage,
+            caption
         }
+        formData.append('data', JSON.stringify(data))
+        formData.append('image', newDataImage)
+        console.log(newDataImage)
+
+        axios.post(`${API_URL}/posting/addPost`, formData)
+            .then((response) => {
+                toggle();
+                // window.location.reload();
+            }).catch((error) => {
+                console.log(error)
+            })
 
     }
+
+    // const handlePost = async () => {
+    //     try {
+
+    //         let token = localStorage.getItem("TokenIdUser")
+    //         let formData = new FormData();
+    //         let data = {
+    //             idUser,
+    //             // image: newDataImage,
+    //             caption
+    //         }
+    //         formData.append('data', JSON.stringify(data))
+    //         formData.append('image', newDataImage)
+    //         console.log(newDataImage)
+
+    //         let res = await axios.post(`${API_URL}/posting/addPost`, formData);
+
+    //         toggle();
+    //         // navigate(0)
+
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+
+    // }
 
     return <Modal
         aria-labelledby="transition-modal-title"

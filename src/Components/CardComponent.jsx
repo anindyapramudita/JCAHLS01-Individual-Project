@@ -13,6 +13,7 @@ import ModalEditPost from './ModalEditPost';
 import InfiniteScroll from 'react-infinite-scroller';
 import ModalShare from './ModalShare';
 import NoPost from './NoPost';
+import CreateButton from './CreateButton';
 
 const CardComponent = (props) => {
 
@@ -133,7 +134,8 @@ const CardComponent = (props) => {
         Axios.delete(`${API_URL}/posting/delete?idPost=${postId}`)
             .then((response) => {
                 setAnchorEl(null)
-                navigate(0)
+                getDatabase();
+                // navigate(0)
             }).catch((error) => {
                 console.log(error)
             })
@@ -356,6 +358,9 @@ const CardComponent = (props) => {
             :
             <NoPost />
         }
+        <CreateButton
+            refresh={() => { getDatabase(); }}
+        />
     </div>
 }
 
