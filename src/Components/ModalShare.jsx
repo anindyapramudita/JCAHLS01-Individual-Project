@@ -5,6 +5,8 @@ import { FacebookIcon, FacebookShareButton, FacebookShareCount, TwitterIcon, Twi
 import { API_URL, FE_URL } from "../helper";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { Helmet } from "react-helmet";
+import HelmetMetaData from "../Helmet/HelmetMetaData";
+import { useSelector } from "react-redux";
 
 const style = {
     position: 'absolute',
@@ -22,6 +24,11 @@ const style = {
 
 const ModalShare = (props) => {
     const { isOpen, setOpen, toggle, postId, data } = props;
+    const { username } = useSelector((state) => {
+        return {
+            username: state.usersReducer.username
+        }
+    })
 
     const handleCopyLink = () => {
         navigator.clipboard.writeText(`${FE_URL}/post?idPost=${postId}`)
@@ -29,6 +36,28 @@ const ModalShare = (props) => {
     }
 
     return <div>
+        {/* <Helmet>
+            <title>Lente - Share your best memories</title>
+            <meta
+                property="title"
+                key="title"
+                content={`@${data.username}`}
+            />
+            <meta
+                property="og:description"
+                key="og:description"
+                content={`Hey! Check out this image by ${data.fullName}`}
+            />
+            <meta
+                property="og:image"
+                key="og:image"
+                content={`${API_URL}/${data.image}`}
+            />
+        </Helmet> */}
+        <HelmetMetaData
+            description={`Look at this picture by ${data.username}`}
+            image={`${API_URL}/${data.image}`}
+        ></HelmetMetaData>
         <Modal
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"

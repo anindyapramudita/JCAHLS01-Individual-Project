@@ -197,9 +197,15 @@ const SinglePostPage = (props) => {
         // handleGetComment(commentLimit, commentPage)
     }
 
-    const handleShare = () => {
-        setOpenModalShare(!openModalShare)
-        setAnchorEl(null)
+    const handleShare = (postId) => {
+        Axios.get(`${API_URL}/posting?idPost=${postId}`)
+            .then((response) => {
+                setDatabaseEdit(response.data[0])
+                setOpenModalShare(!openModalShare)
+                setAnchorEl(null)
+            }).catch((error) => {
+                console.log(error)
+            })
     }
 
     return <div>
@@ -235,7 +241,7 @@ const SinglePostPage = (props) => {
                     >
                         <MenuItem onClick={() => { handleEditPost(postId) }}>Edit Post</MenuItem>
                         <MenuItem onClick={() => handleDeletePost(postId)}>Delete Post</MenuItem>
-                        <MenuItem onClick={handleShare}>Share Post</MenuItem>
+                        <MenuItem onClick={() => handleShare(postId)}>Share Post</MenuItem>
                     </Menu>
                     :
                     <Menu
@@ -247,7 +253,7 @@ const SinglePostPage = (props) => {
                             'aria-labelledby': 'basic-button',
                         }}
                     >
-                        <MenuItem onClick={handleShare}>Share Post</MenuItem>
+                        <MenuItem onClick={() => handleShare(postId)}>Share Post</MenuItem>
                     </Menu>
                 }
                 <Box fullwidth sx={{ display: 'flex', my: 4, mx: { xs: 3, md: 0 }, justifyContent: 'center' }}>

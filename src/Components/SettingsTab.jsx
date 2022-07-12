@@ -346,7 +346,7 @@ export default function SettingsTab() {
                 </Box>
                 <TabPanel value={value} index={0}>
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <Box>
+                        <Box container>
                             <Typography id="transition-modal-title" variant="h6" component="h1" textAlign="center" sx={{ my: 3 }}>
                                 Edit Profile
                             </Typography>

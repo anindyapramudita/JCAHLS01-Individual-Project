@@ -287,7 +287,7 @@ const SinglePostPageLogout = (props) => {
                         <img src={`${API_URL}${database[0].image}`} style={{ width: "100%" }} />
 
                         <CardActions sx={{ mb: 0 }} disableSpacing>
-                            <IconButton>
+                            <IconButton disabled>
                                 {database[0].likes.includes(idUser) ? <Favorite sx={{ color: 'secondary.main' }} onClick={() => handleUnlike(database[0].idPost)} /> : <FavoriteBorderOutlined onClick={() => handleLike(database[0].idPost)} />}
                             </IconButton>
                             <Typography variant='body2'>
@@ -350,8 +350,8 @@ const SinglePostPageLogout = (props) => {
                                             src={`${API_URL}${profPic}`}
                                             sx={{ mr: 2, width: 30, height: 30 }}
                                         />
-                                        <TextField fullWidth id="input-with-sx" label="say something!" variant="standard" value={comment} inputProps={{ maxLength: 300 }} multiline onChange={(e) => setComment(e.target.value)} />
-                                        <IconButton onClick={() => handleComment(comment, database[0].idPost)}>
+                                        <TextField disabled fullWidth id="input-with-sx" label="Log in to say something!" variant="standard" value={comment} inputProps={{ maxLength: 300 }} multiline onChange={(e) => setComment(e.target.value)} />
+                                        <IconButton disabled onClick={() => handleComment(comment, database[0].idPost)}>
                                             <SendOutlined sx={{ ml: 2, color: 'grey.700' }} />
                                         </IconButton>
                                     </Box>

@@ -173,9 +173,20 @@ const CardComponent = (props) => {
 
     }
 
-    const handleShare = () => {
-        setOpenModalShare(!openModalShare)
-        setAnchorEl(null)
+    // const handleShare = () => {
+    //     setOpenModalShare(!openModalShare)
+    //     setAnchorEl(null)
+    // }
+
+    const handleShare = (postId) => {
+        Axios.get(`${API_URL}/posting?idPost=${postId}`)
+            .then((response) => {
+                setDatabaseEdit(response.data[0])
+                setOpenModalShare(!openModalShare)
+                setAnchorEl(null)
+            }).catch((error) => {
+                console.log(error)
+            })
     }
 
     return <div>
@@ -193,7 +204,7 @@ const CardComponent = (props) => {
                     >
                         <MenuItem onClick={() => handleEditPost(postId)}>Edit Post</MenuItem>
                         <MenuItem onClick={() => handleDeletePost(postId)}>Delete Post</MenuItem>
-                        <MenuItem onClick={handleShare}>Share Post</MenuItem>
+                        <MenuItem onClick={() => handleShare(postId)}>Share Post</MenuItem>
                     </Menu>
                     :
                     <Menu
@@ -205,7 +216,7 @@ const CardComponent = (props) => {
                             'aria-labelledby': 'basic-button',
                         }}
                     >
-                        <MenuItem onClick={() => setAnchorEl(null)}>Share Post</MenuItem>
+                        <MenuItem onClick={() => handleShare(postId)}>Share Post</MenuItem>
                     </Menu>
                 }
 
