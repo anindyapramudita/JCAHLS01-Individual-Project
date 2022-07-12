@@ -12,6 +12,7 @@ import SettingsPage from './Pages/SettingsPage';
 import SinglePostPage from './Pages/SinglePostPage';
 import VerificationPage from './Pages/VerificationPage';
 import ResetPasswordPage from './Pages/ResetPasswordPage';
+import SinglePostPageLogout from './Pages/SinglePostPageLogout';
 
 function App() {
 
@@ -80,6 +81,7 @@ function App() {
           </>
           :
           <>
+            <Route path='/post' element={<SinglePostPageLogout />} />
             <Route path='/login' element={<SigninPage />} />
             <Route path='/' element={<Navigate replace to='/login' />} />
             <Route path='/profile' element={<Navigate replace to='/login' />} />
