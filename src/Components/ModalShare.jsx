@@ -24,7 +24,7 @@ const ModalShare = (props) => {
     const { isOpen, setOpen, toggle, postId, data } = props;
 
     const handleCopyLink = () => {
-        navigator.clipboard.writeText(`${FE_URL}/post/idPost=${postId}`)
+        navigator.clipboard.writeText(`${FE_URL}/post?idPost=${postId}`)
         alert(`Link copied!`)
     }
 
@@ -43,13 +43,13 @@ const ModalShare = (props) => {
 
             <Fade in={isOpen}>
                 <Box sx={style}>
-                    <FacebookShareButton url={`${FE_URL}/post/idPost=${postId}`}>
+                    <FacebookShareButton url={`${FE_URL}/post?idPost=${postId}`}>
                         <FacebookIcon size={40} round="true" />
                     </FacebookShareButton>
-                    <TwitterShareButton url={`${FE_URL}/post/idPost=${postId}`}>
+                    <TwitterShareButton url={`${FE_URL}/post?idPost=${postId}`}>
                         <TwitterIcon size={40} round="true" />
                     </TwitterShareButton>
-                    <WhatsappShareButton url={`${FE_URL}/post/idPost=${postId}`}>
+                    <WhatsappShareButton url={`${FE_URL}/post?idPost=${postId}`}>
                         <WhatsappIcon size={40} round="true" />
                     </WhatsappShareButton>
                     <IconButton component="span" sx={{ m: 0, p: 0, width: 40, height: 40 }} onClick={handleCopyLink}>
